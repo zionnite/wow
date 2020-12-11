@@ -6,7 +6,7 @@ import 'package:wow/model/Quote.dart';
 
 class AppApi {
   Future<Quote> fetchQuote() async {
-    final response = await http.get('http://192.168.64.2/codeigniter/');
+    final response = await http.get('http://localhost/wow_php/Api/get_quote/');
     if (response.statusCode == 200) {
       print(response.body);
       return Quote.fromJson(json.decode(response.body));
