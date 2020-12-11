@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wow/bottom_navigation.dart';
-import 'package:wow/logic/bloc_provider.dart';
-import 'package:wow/logic/forum_bloc.dart';
-import 'package:wow/logic/home_bloc.dart';
-import 'package:wow/logic/quote_bloc.dart';
+import 'package:wow/blocs/bloc_provider.dart';
+import 'package:wow/blocs/forum_bloc.dart';
+import 'package:wow/blocs/home_bloc.dart';
+import 'package:wow/blocs/quote_bloc.dart';
 
 Future<void> main() async {
   runApp(BlocProvider(
