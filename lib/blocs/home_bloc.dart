@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 import 'package:wow/model/Quote.dart';
-import 'package:wow/services/api.dart';
+import 'package:wow/repository/quote_repository.dart';
 import 'bloc_provider.dart';
 
 class HomescreenBloc implements BlocBase {
-  AppApi api = AppApi();
+  QuoteRepository api = QuoteRepository();
   List<Quote> quoteList = [];
 
   //final StreamController _quoteListStreamController = StreamController<List<Quote>>();
