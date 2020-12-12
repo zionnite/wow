@@ -1,22 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:wow/bottom_navigation.dart';
-import 'package:wow/blocs/bloc_provider.dart';
-import 'package:wow/blocs/forum_bloc.dart';
-import 'package:wow/blocs/home_bloc.dart';
-import 'package:wow/blocs/quote_bloc.dart';
+
 
 Future<void> main() async {
-  runApp(BlocProvider(
-    bloc: HomescreenBloc(),
-    child: MaterialApp(
-      home: BlocProvider(
-        bloc: QuteBloc(),
-        child: BlocProvider(
-          bloc: ForumBloc(),
-          child: MyApp(),
-        ),
-      ),
-    ),
+  runApp(MaterialApp(
+    home: MyApp(),
   ));
 }
 
