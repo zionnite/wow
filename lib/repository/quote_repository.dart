@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:wow/model/Quote.dart';
+import 'package:wow/model/model_response/forum_response.dart';
 import 'package:wow/model/model_response/quote_response.dart';
 
 class QuoteRepository {
@@ -16,13 +17,13 @@ class QuoteRepository {
   var get_forum_by_id  = '$mainUrl/get_forum_by_id';
   var get_forum_comment_by_id  = '$mainUrl/get_forum_comment_by_id';
 
-  Future<QuoteResponse> getQuote() async {
+  Future<QuoteResponse> getQuotePost() async {
     var params  ={
       "api_key": apiKey,
       "page":1,
     };
     try{
-      Response response = await dio.get(get_forum_post, queryParameters: params);
+      Response response = await dio.get(get_quote_post, queryParameters: params);
       return QuoteResponse.fromJson(response.data);
     }catch(error, stackTrace){
       print('Exception Occured: $error stacktrace: $stackTrace');
@@ -30,17 +31,59 @@ class QuoteRepository {
     }
   }
 
-  Future<QuoteResponse> getQuoteById() async {
+  Future<QuoteResponse> getQuotePostById() async {
+    var params  ={
+      "api_key": apiKey,
+      "page":1,
+    };
+    try{
+      Response response = await dio.get(get_quote_by_id, queryParameters: params);
+      return QuoteResponse.fromJson(response.data);
+    }catch(error, stackTrace){
+      print('Exception Occured: $error stacktrace: $stackTrace');
+      return QuoteResponse.withError("$error");
+    }
+  }
+
+  Future<ForumResponse> getForumPost() async {
+    var params  ={
+      "api_key": apiKey,
+      "page":1,
+    };
+    try{
+      Response response = await dio.get(get_forum_post, queryParameters: params);
+      return ForumResponse.fromJson(response.data);
+    }catch(error, stackTrace){
+      print('Exception Occured: $error stacktrace: $stackTrace');
+      return ForumResponse.withError("$error");
+    }
+  }
+
+  Future<ForumResponse> getForumPostById() async {
     var params  ={
       "api_key": apiKey,
       "page":1,
     };
     try{
       Response response = await dio.get(get_forum_by_id, queryParameters: params);
-      return QuoteResponse.fromJson(response.data);
+      return ForumResponse.fromJson(response.data);
     }catch(error, stackTrace){
       print('Exception Occured: $error stacktrace: $stackTrace');
-      return QuoteResponse.withError("$error");
+      return ForumResponse.withError("$error");
+    }
+  }
+
+  Future<ForumResponse> getForumCommentById() async {
+    var params  ={
+      "api_key": apiKey,
+      "page":1,
+    };
+    try{
+      Response response = await dio.get(get_forum_comment_by_id, queryParameters: params);
+      return ForumResponse.fromJson(response.data);
+    }catch(error, stackTrace){
+      print('Exception Occured: $error stacktrace: $stackTrace');
+      return ForumResponse.withError("$error");
     }
   }
 }
