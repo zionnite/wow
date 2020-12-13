@@ -46,4 +46,6 @@ class QuoteList_Bloc {
   void dispose() {
     _quoteListStreamController.close();
   }
+
+  //new way
 }
