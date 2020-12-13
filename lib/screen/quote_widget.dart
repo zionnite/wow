@@ -9,7 +9,6 @@ class QuoteWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(imageName);
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(
@@ -33,7 +32,7 @@ class QuoteWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(
-                      imageName,
+                      '${imageName}',
                     ),
                     fit: BoxFit.cover,
                   ),
@@ -47,7 +46,7 @@ class QuoteWidget extends StatelessWidget {
                 bottom: 10.0,
               ),
               child: Text(
-                quoteTitle,
+                '${quoteTitle}',
                 style: TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.w600,
@@ -68,7 +67,7 @@ class QuoteWidget extends StatelessWidget {
                 bottom: 5.0,
               ),
               child: Text(
-                quoteDesc,
+                '${quoteDesc}',
                 style: TextStyle(
                   fontSize: 17.0,
                   fontStyle: FontStyle.normal,

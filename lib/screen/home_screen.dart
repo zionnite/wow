@@ -22,6 +22,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
 
   @override
   void dispose() {
+    super.dispose();
     quoteBloc..dispose();
   }
 
@@ -214,17 +215,18 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                   StreamBuilder<QuoteResponse>(
                     stream: quoteBloc.subject.stream,
                     builder: (context, AsyncSnapshot<QuoteResponse> snapshot) {
-                      if (snapshot.hasData) {
-                        if (snapshot.data.error != null &&
-                            snapshot.data.error.length > 0) {
-                          return _buildErrorWidget(snapshot.data.error);
-                        }
-                        return _QuoteWidget(snapshot.data);
-                      } else if (snapshot.hasError) {
-                        return _buildErrorWidget(snapshot.error);
-                      } else {
-                        return _buildLoadingWidget();
-                      }
+                      print('SNAP' + snapshot.data.toString());
+                      // if (snapshot.hasData) {
+                      //   if (snapshot.data.error != null &&
+                      //       snapshot.data.error.length > 0) {
+                      //     return _buildErrorWidget(snapshot.data.error);
+                      //   }
+                      //   return _QuoteWidget(snapshot.data);
+                      // } else if (snapshot.hasError) {
+                      //   return _buildErrorWidget(snapshot.error);
+                      // } else {
+                      //   return _buildLoadingWidget();
+                      // }
                     },
                   ),
                 ],

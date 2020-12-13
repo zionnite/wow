@@ -31,6 +31,7 @@ class QuoteResponse {
     quotes = List<Quote>.from(parsedJson.map((i) => Quote.fromJson(i)));
     String error = '';
 
+    print('QOUTE RESPONSE LOG' + parsedJson.toString());
     return new QuoteResponse(quotes, error);
   }
   QuoteResponse.withError(String errorValue)
