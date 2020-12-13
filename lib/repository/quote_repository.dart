@@ -23,8 +23,7 @@ class QuoteRepository {
       "page": 1,
     };
     try {
-      Response response =
-          await dio.get(get_quote_post, queryParameters: params);
+      Response response = await dio.get(get_quote_post);
 
       //print('REPOSOTORY LOG: ' + response.data);
       // return QuoteResponse.fromJson(response.data);

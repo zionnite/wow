@@ -14,18 +14,18 @@ class HomeScreenTopPart extends StatefulWidget {
 }
 
 class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
-  final QuoteList_Bloc quoteList_Bloc = QuoteList_Bloc();
+  //final QuoteList_Bloc quoteList_Bloc = QuoteList_Bloc();
   @override
   void initState() {
     super.initState();
-    //quoteBloc..getQuotes();
+    quoteBloc..getQuotes();
   }
 
   @override
   void dispose() {
-    quoteList_Bloc.dispose();
+    //quoteList_Bloc.dispose();
     super.dispose();
-    //quoteBloc..dispose();
+    quoteBloc..dispose();
   }
 
   @override
@@ -215,10 +215,12 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
               Column(
                 children: [
                   StreamBuilder<QuoteResponse>(
-                    stream: quoteList_Bloc.quoteStream,
+                    // stream: quoteList_Bloc.quoteStream,
+                    stream: quoteBloc.subject.stream,
                     builder: (context, AsyncSnapshot<QuoteResponse> snapshot) {
-                      print(snapshot.data);
+                      //print(snapshot.data);
                       if (snapshot.hasData) {
+                        //print(snapshot.data.quotes);
                         if (snapshot.data.error != null &&
                             snapshot.data.error.length > 0) {
                           return _buildErrorWidget(snapshot.data.error);
@@ -286,7 +288,6 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
         shrinkWrap: true,
         itemCount: quotes.length,
         itemBuilder: (context, index) {
-          print(quotes[index].title);
           return QuoteWidget(
             imageName: quotes[index].image_name,
             quoteTitle: quotes[index].title,
