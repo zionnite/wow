@@ -6,8 +6,8 @@ class QuoteListByIdBloc{
   final QuoteRepository _quoteRepository  = QuoteRepository();
   final BehaviorSubject<QuoteResponse> _subject = BehaviorSubject<QuoteResponse>();
 
-  getForum() async{
-    QuoteResponse response = await  _quoteRepository.getQuotePostById();
+  getQuoteById(int id) async{
+    QuoteResponse response = await  _quoteRepository.getQuotePostById(id);
     _subject.sink.add(response);
   }
 
@@ -16,4 +16,4 @@ class QuoteListByIdBloc{
   }
   BehaviorSubject<QuoteResponse> get subject => _subject;
 }
-final forumBloc = QuoteListByIdBloc();
+final quoteByIdBloc = QuoteListByIdBloc();

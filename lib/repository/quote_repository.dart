@@ -31,13 +31,13 @@ class QuoteRepository {
     }
   }
 
-  Future<QuoteResponse> getQuotePostById() async {
+  Future<QuoteResponse> getQuotePostById(int id) async {
     var params  ={
       "api_key": apiKey,
       "page":1,
     };
     try{
-      Response response = await dio.get(get_quote_by_id, queryParameters: params);
+      Response response = await dio.get("$get_quote_by_id/$id", queryParameters: params);
       return QuoteResponse.fromJson(response.data);
     }catch(error, stackTrace){
       print('Exception Occured: $error stacktrace: $stackTrace');
@@ -59,13 +59,13 @@ class QuoteRepository {
     }
   }
 
-  Future<ForumResponse> getForumPostById() async {
+  Future<ForumResponse> getForumPostById(int id) async {
     var params  ={
       "api_key": apiKey,
       "page":1,
     };
     try{
-      Response response = await dio.get(get_forum_by_id, queryParameters: params);
+      Response response = await dio.get("$get_forum_by_id/$id", queryParameters: params);
       return ForumResponse.fromJson(response.data);
     }catch(error, stackTrace){
       print('Exception Occured: $error stacktrace: $stackTrace');
@@ -73,13 +73,13 @@ class QuoteRepository {
     }
   }
 
-  Future<ForumResponse> getForumCommentById() async {
+  Future<ForumResponse> getForumCommentById(int id) async {
     var params  ={
       "api_key": apiKey,
       "page":1,
     };
     try{
-      Response response = await dio.get(get_forum_comment_by_id, queryParameters: params);
+      Response response = await dio.get("$get_forum_comment_by_id/$id", queryParameters: params);
       return ForumResponse.fromJson(response.data);
     }catch(error, stackTrace){
       print('Exception Occured: $error stacktrace: $stackTrace');

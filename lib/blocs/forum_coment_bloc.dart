@@ -2,12 +2,12 @@ import 'package:rxdart/subjects.dart';
 import 'package:wow/model/model_response/forum_response.dart';
 import 'package:wow/repository/quote_repository.dart';
 
-class QuoteCommentBloc{
+class ForumCommentBloc{
   final QuoteRepository _quoteRepository  = QuoteRepository();
   final BehaviorSubject<ForumResponse> _subject = BehaviorSubject<ForumResponse>();
 
-  getForum() async{
-    ForumResponse response = await  _quoteRepository.getForumCommentById();
+  getCommentById(int id) async{
+    ForumResponse response = await  _quoteRepository.getForumCommentById(id);
     _subject.sink.add(response);
   }
 
@@ -16,4 +16,4 @@ class QuoteCommentBloc{
   }
   BehaviorSubject<ForumResponse> get subject => _subject;
 }
-final forumBloc = QuoteCommentBloc();
+final quoteCommentByIdBloc = ForumCommentBloc();
