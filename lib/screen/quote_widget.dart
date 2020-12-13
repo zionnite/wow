@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:wow/utils.dart';
 
-
 class QuoteWidget extends StatelessWidget {
-  NetworkImage imageName;
+  String imageName;
   String quoteTitle;
   String quoteDesc;
   QuoteWidget({this.imageName, this.quoteTitle, this.quoteDesc});
 
   @override
   Widget build(BuildContext context) {
+    print(imageName);
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(
@@ -32,7 +32,9 @@ class QuoteWidget extends StatelessWidget {
                 height: 200.0,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: imageName,
+                    image: NetworkImage(
+                      imageName,
+                    ),
                     fit: BoxFit.cover,
                   ),
                 ),

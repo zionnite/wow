@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:wow/blocs/quote_bloc.dart';
+import 'package:wow/model/Quote.dart';
+import 'package:wow/model/model_response/quote_response.dart';
 
 import 'package:wow/utils.dart';
 import '../CustomShapeClipper.dart';
 import 'forum_list_widget.dart';
 import 'quote_widget.dart';
-
 
 class HomeScreenTopPart extends StatefulWidget {
   @override
@@ -12,16 +14,14 @@ class HomeScreenTopPart extends StatefulWidget {
 }
 
 class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
-
-
   @override
   void initState() {
     super.initState();
+    quoteBloc..getQuotes();
   }
 
   @override
-  void dispose() {
-  }
+  void dispose() {}
 
   @override
   Widget build(BuildContext context) {
@@ -209,34 +209,21 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
               ),
               Column(
                 children: [
-                  // StreamBuilder<List<Quote>>(
-                  //   stream: _homescreenBloc.quoteListStream,
-                  //   builder: (BuildContext context,
-                  //       AsyncSnapshot<List<Quote>> snapshot) {
-                  //     // print(snapshot);
-                  //     if (snapshot.hasData) {
-                  //       return ListView.builder(
-                  //         itemCount: snapshot.data.length,
-                  //         itemBuilder: (context, index) {
-                  //           return QuoteWidget(
-                  //             imageName:
-                  //                 NetworkImage(snapshot.data[index].image_name),
-                  //             quoteTitle: snapshot.data[index].title,
-                  //             quoteDesc: snapshot.data[index].desc,
-                  //           );
-                  //         },
-                  //       );
-                  //     }
-                  //     return Container();
-                  //   },
-                  // ),
-
-                  QuoteWidget(
-                    imageName: NetworkImage(
-                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXiHrNih0QXbPhdelcPvlCymWGI8M0JrEZlw&usqp=CAU'),
-                    quoteTitle: 'title',
-                    quoteDesc:
-                        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+                  StreamBuilder<QuoteResponse>(
+                    stream: quoteBloc.subject.stream,
+                    builder: (context, AsyncSnapshot<QuoteResponse> snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data.error != null &&
+                            snapshot.data.error.length > 0) {
+                          return _buildErrorWidget(snapshot.data.error);
+                        }
+                        return _QuoteWidget(snapshot.data);
+                      } else if (snapshot.hasError) {
+                        return _buildErrorWidget(snapshot.error);
+                      } else {
+                        return _buildLoadingWidget();
+                      }
+                    },
                   ),
                 ],
               ),
@@ -246,6 +233,68 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
       ),
     );
   }
+
+  Widget _buildErrorWidget(String error) {
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("Error occured: $error"),
+      ],
+    ));
+  }
+
+  Widget _buildLoadingWidget() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 25.0,
+            width: 25.0,
+            child: CircularProgressIndicator(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _QuoteWidget(QuoteResponse data) {
+    List<Quote> quotes = data.quotes;
+    if (quotes.length == 0) {
+      return Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'No Quotes is Available at the Moment',
+            ),
+          ],
+        ),
+      );
+    } else {
+      return ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: quotes.length,
+        itemBuilder: (context, index) {
+          print(quotes[index].title);
+          return QuoteWidget(
+            imageName: quotes[index].image_name,
+            quoteTitle: quotes[index].title,
+            quoteDesc: quotes[index].desc,
+          );
+        },
+      );
+    }
+  }
 }
 
-
+// QuoteWidget(
+// imageName: NetworkImage(quotes.),
+// quoteTitle: 'title',
+// quoteDesc:
+// 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+// )

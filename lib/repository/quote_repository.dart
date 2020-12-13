@@ -8,80 +8,89 @@ import 'package:wow/model/model_response/forum_response.dart';
 import 'package:wow/model/model_response/quote_response.dart';
 
 class QuoteRepository {
-  final String apiKey ='';
-  static String mainUrl  ='http://localhost/wow_php/Api';
+  final String apiKey = '';
+  static String mainUrl = 'http://wow.joons-me.com/Api';
   final Dio dio = Dio();
-  var get_quote_post  = '$mainUrl/get_quote';
-  var get_quote_by_id  = '$mainUrl/get_quote_by_id';
-  var get_forum_post  = '$mainUrl/get_forum';
-  var get_forum_by_id  = '$mainUrl/get_forum_by_id';
-  var get_forum_comment_by_id  = '$mainUrl/get_forum_comment_by_id';
+  var get_quote_post = '$mainUrl/get_quote';
+  var get_quote_by_id = '$mainUrl/get_quote_by_id';
+  var get_forum_post = '$mainUrl/get_forum';
+  var get_forum_by_id = '$mainUrl/get_forum_by_id';
+  var get_forum_comment_by_id = '$mainUrl/get_forum_comment_by_id';
 
   Future<QuoteResponse> getQuotePost() async {
-    var params  ={
+    var params = {
       "api_key": apiKey,
-      "page":1,
+      "page": 1,
     };
-    try{
-      Response response = await dio.get(get_quote_post, queryParameters: params);
-      return QuoteResponse.fromJson(response.data);
-    }catch(error, stackTrace){
+    try {
+      Response response =
+          await dio.get(get_quote_post, queryParameters: params);
+
+      // print(response.data);
+      // return QuoteResponse.fromJson(response.data);
+
+      return QuoteResponse.fromJson(json.decode(response.data));
+    } catch (error, stackTrace) {
       print('Exception Occured: $error stacktrace: $stackTrace');
       return QuoteResponse.withError("$error");
     }
   }
 
   Future<QuoteResponse> getQuotePostById(int id) async {
-    var params  ={
+    var params = {
       "api_key": apiKey,
-      "page":1,
+      "page": 1,
     };
-    try{
-      Response response = await dio.get("$get_quote_by_id/$id", queryParameters: params);
+    try {
+      Response response =
+          await dio.get("$get_quote_by_id/$id", queryParameters: params);
       return QuoteResponse.fromJson(response.data);
-    }catch(error, stackTrace){
+    } catch (error, stackTrace) {
       print('Exception Occured: $error stacktrace: $stackTrace');
       return QuoteResponse.withError("$error");
     }
   }
 
   Future<ForumResponse> getForumPost() async {
-    var params  ={
+    var params = {
       "api_key": apiKey,
-      "page":1,
+      "page": 1,
     };
-    try{
-      Response response = await dio.get(get_forum_post, queryParameters: params);
+    try {
+      Response response =
+          await dio.get(get_forum_post, queryParameters: params);
       return ForumResponse.fromJson(response.data);
-    }catch(error, stackTrace){
+    } catch (error, stackTrace) {
       print('Exception Occured: $error stacktrace: $stackTrace');
       return ForumResponse.withError("$error");
     }
   }
 
   Future<ForumResponse> getForumPostById(int id) async {
-    var params  ={
+    var params = {
       "api_key": apiKey,
-      "page":1,
+      "page": 1,
     };
-    try{
-      Response response = await dio.get("$get_forum_by_id/$id", queryParameters: params);
+    try {
+      Response response =
+          await dio.get("$get_forum_by_id/$id", queryParameters: params);
       return ForumResponse.fromJson(response.data);
-    }catch(error, stackTrace){
+    } catch (error, stackTrace) {
       print('Exception Occured: $error stacktrace: $stackTrace');
       return ForumResponse.withError("$error");
     }
   }
 
   Future<ForumResponse> getForumCommentById(int id) async {
-    var params  ={
+    var params = {
       "api_key": apiKey,
-      "page":1,
+      "page": 1,
     };
-    try{
-      Response response = await dio.get("$get_forum_comment_by_id/$id", queryParameters: params);
+    try {
+      Response response = await dio.get("$get_forum_comment_by_id/$id",
+          queryParameters: params);
       return ForumResponse.fromJson(response.data);
-    }catch(error, stackTrace){
+    } catch (error, stackTrace) {
       print('Exception Occured: $error stacktrace: $stackTrace');
       return ForumResponse.withError("$error");
     }
