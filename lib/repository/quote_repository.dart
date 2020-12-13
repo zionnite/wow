@@ -26,7 +26,7 @@ class QuoteRepository {
       Response response =
           await dio.get(get_quote_post, queryParameters: params);
 
-      print('REPOSOTORY LOG: ' + response.data);
+      //print('REPOSOTORY LOG: ' + response.data);
       // return QuoteResponse.fromJson(response.data);
 
       return QuoteResponse.fromJson(json.decode(response.data));

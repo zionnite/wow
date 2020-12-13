@@ -14,16 +14,18 @@ class HomeScreenTopPart extends StatefulWidget {
 }
 
 class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
+  final QuoteList_Bloc quoteList_Bloc = QuoteList_Bloc();
   @override
   void initState() {
     super.initState();
-    quoteBloc..getQuotes();
+    //quoteBloc..getQuotes();
   }
 
   @override
   void dispose() {
+    quoteList_Bloc.dispose();
     super.dispose();
-    quoteBloc..dispose();
+    //quoteBloc..dispose();
   }
 
   @override
@@ -213,20 +215,20 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
               Column(
                 children: [
                   StreamBuilder<QuoteResponse>(
-                    stream: quoteBloc.subject.stream,
+                    stream: quoteList_Bloc.quoteStream,
                     builder: (context, AsyncSnapshot<QuoteResponse> snapshot) {
-                      print('SNAP' + snapshot.data.toString());
-                      // if (snapshot.hasData) {
-                      //   if (snapshot.data.error != null &&
-                      //       snapshot.data.error.length > 0) {
-                      //     return _buildErrorWidget(snapshot.data.error);
-                      //   }
-                      //   return _QuoteWidget(snapshot.data);
-                      // } else if (snapshot.hasError) {
-                      //   return _buildErrorWidget(snapshot.error);
-                      // } else {
-                      //   return _buildLoadingWidget();
-                      // }
+                      print(snapshot.data);
+                      if (snapshot.hasData) {
+                        if (snapshot.data.error != null &&
+                            snapshot.data.error.length > 0) {
+                          return _buildErrorWidget(snapshot.data.error);
+                        }
+                        return _QuoteWidget(snapshot.data);
+                      } else if (snapshot.hasError) {
+                        return _buildErrorWidget(snapshot.error);
+                      } else {
+                        return _buildLoadingWidget();
+                      }
                     },
                   ),
                 ],

@@ -30,7 +30,7 @@ class Quote {
       author: json['author'],
       author_image: json['author_image'],
     );
-    print('QUOTE LOG' + json.toString());
+    //print('QUOTE LOG' + json.toString());
   }
 
   // Quote.fromJson(Map<String, dynamic> json)
