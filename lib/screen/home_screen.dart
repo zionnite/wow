@@ -21,7 +21,9 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
   }
 
   @override
-  void dispose() {}
+  void dispose() {
+    quoteBloc..dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
