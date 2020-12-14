@@ -8,7 +8,6 @@ class QuoteBloc {
   Stream<List<Quote>> get allQuoteStream => _allQuoteController.stream;
   StreamSink<List<Quote>> get allQuoteSink => _allQuoteController.sink;
 
-
   List<Quote> data;
   QuoteBloc() {
     quotes();
