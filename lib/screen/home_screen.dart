@@ -215,24 +215,60 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                   StreamBuilder(
                       stream: allQuoteBloc.allQuoteStream,
                       builder: (context, AsyncSnapshot<List<Quote>> snapshot) {
-                        return ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            physics: ClampingScrollPhysics(),
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (contex, index) {
-                              return QuoteWidget(
-                                imageName:
-                                    NetworkImage(snapshot.data[index].image),
-                                quoteTitle: snapshot.data[index].title,
-                                quoteDesc: snapshot.data[index].desc,
-                              );
-                            });
+                        if (snapshot.hasData) {
+                          if (snapshot.error != null &&
+                              snapshot.data.length > 0) {
+                            return _buildErrorWidget(snapshot.error);
+                          }
+                          return ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              physics: ClampingScrollPhysics(),
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (contex, index) {
+                                return QuoteWidget(
+                                  imageName:
+                                      NetworkImage(snapshot.data[index].image),
+                                  quoteTitle: snapshot.data[index].title,
+                                  quoteDesc: snapshot.data[index].desc,
+                                );
+                              });
+                        } else if (snapshot.hasError) {
+                          return _buildErrorWidget(snapshot.error);
+                        } else {
+                          return _buildLoadingWidget();
+                        }
                       }),
                 ],
               ),
             ],
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLoadingWidget() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 25.0,
+            height: 25.0,
+            child: CircularProgressIndicator(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildErrorWidget(String error) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Error occurred: $error"),
         ],
       ),
     );
