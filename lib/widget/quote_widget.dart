@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wow/utils.dart';
 
 class QuoteWidget extends StatelessWidget {
-  String imageName;
+  NetworkImage imageName;
   String quoteTitle;
   String quoteDesc;
   QuoteWidget({this.imageName, this.quoteTitle, this.quoteDesc});
@@ -28,12 +28,10 @@ class QuoteWidget extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                height: 200.0,
+                height: 100.0,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(
-                      '${imageName}',
-                    ),
+                    image: imageName,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -46,7 +44,7 @@ class QuoteWidget extends StatelessWidget {
                 bottom: 10.0,
               ),
               child: Text(
-                '${quoteTitle}',
+                quoteTitle,
                 style: TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.w600,
@@ -67,7 +65,7 @@ class QuoteWidget extends StatelessWidget {
                 bottom: 5.0,
               ),
               child: Text(
-                '${quoteDesc}',
+                this.quoteDesc,
                 style: TextStyle(
                   fontSize: 17.0,
                   fontStyle: FontStyle.normal,
