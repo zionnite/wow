@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:wow/blocs/QouteBloc.dart';
+import 'package:wow/blocs/app_bloc.dart';
+import 'package:wow/blocs/bloc_provider.dart';
 import 'package:wow/model/Quote.dart';
 
 import 'package:wow/utils.dart';
 import 'package:wow/widget/quote_widget.dart';
 import '../CustomShapeClipper.dart';
-import 'forum_list_widget.dart';
+import '../widget/forum_list_widget.dart';
 
 class HomeScreenTopPart extends StatefulWidget {
   @override
@@ -13,17 +15,23 @@ class HomeScreenTopPart extends StatefulWidget {
 }
 
 class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
-  final QuoteBloc allQuoteBloc = QuoteBloc();
+  AppBloc appBloc;
+  QuoteBloc quoteBloc;
+  //final QuoteBloc allQuoteBloc = QuoteBloc();
 
   @override
   void initState() {
+    appBloc = BlocProvider.of<AppBloc>(context);
+    quoteBloc = BlocProvider.of<QuoteBloc>(context);
     super.initState();
   }
 
   @override
   void dispose() {
     super.dispose();
-    allQuoteBloc.dispose();
+    //allQuoteBloc.dispose();
+    appBloc.dispose();
+    quoteBloc.dispose();
   }
 
   @override
@@ -213,7 +221,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
               Column(
                 children: [
                   StreamBuilder<List<Quote>>(
-                    stream: allQuoteBloc.allQuoteStream,
+                    stream: quoteBloc.allQuoteStream,
                     builder: (context, AsyncSnapshot<List<Quote>> snapshot) {
                       if (snapshot.hasData) {
                         if (snapshot.error != null &&

@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:wow/blocs/QouteBloc.dart';
+import 'package:wow/blocs/app_bloc.dart';
+import 'package:wow/blocs/bloc_provider.dart';
 import 'package:wow/bottom_navigation.dart';
 
-
 Future<void> main() async {
-  runApp(MaterialApp(
-    home: MyApp(),
+  runApp(BlocProvider(
+    bloc: AppBloc(),
+    child: MaterialApp(
+      home: BlocProvider(
+        bloc: QuoteBloc(),
+        child: MyApp(),
+      ),
+    ),
   ));
 }
 
