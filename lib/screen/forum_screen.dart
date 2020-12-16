@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wow/widget/app_title_widget.dart';
-import 'package:wow/widget/quote_widget.dart';
+import 'package:wow/widget/forum_widget.dart';
 
 import '../bottom_navigation.dart';
-import '../utils.dart';
 
 class ForumScreen extends StatefulWidget {
   static const String id = 'forum_screen';
@@ -28,19 +27,19 @@ class _ForumScreenState extends State<ForumScreen> {
               title: 'Forum',
               toNav: Nav.id,
             ),
-            QuoteWidget(
+            ForumWidget(
               imageName:
                   'https://miro.medium.com/max/2400/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg',
               quoteTitle: 'Forum Testing',
               quoteDesc: 'just another testing',
             ),
-            QuoteWidget(
+            ForumWidget(
               imageName:
                   'https://miro.medium.com/max/2400/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg',
               quoteTitle: 'Forum Testing',
               quoteDesc: 'just another testing',
             ),
-            QuoteWidget(
+            ForumWidget(
               imageName:
                   'https://miro.medium.com/max/2400/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg',
               quoteTitle: 'Forum Testing',
