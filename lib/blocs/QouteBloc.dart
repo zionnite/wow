@@ -17,6 +17,7 @@ class QuoteBloc implements BlocBase {
   quotes() async {
     data = await getAllQuotes();
     _allQuoteController.sink.add(data);
+    //
   }
 
   void dispose() {
