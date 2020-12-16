@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:wow/screen/forum_screen.dart';
+import 'package:wow/screen/quote_screen.dart';
 import 'package:wow/utils.dart';
 
 import 'screen/home_screen.dart';
 
 class Nav extends StatefulWidget {
+  static const String id = 'nav_screen';
   @override
   _NavState createState() => _NavState();
 }
@@ -12,8 +15,8 @@ class _NavState extends State<Nav> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
     HomeScreenTopPart(),
-    Text('Messgaes Screen'),
-    Text('Profile Screen'),
+    QuoteScreen(),
+    ForumScreen(),
   ];
 
   void _onItemTap(int index) {

@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:rxdart/rxdart.dart';
 import 'package:wow/blocs/bloc_provider.dart';
 import 'package:wow/model/Quote.dart';
 import 'package:wow/services/QuoteService.dart';
 
 class QuoteBloc implements BlocBase {
-  final _allQuoteController = StreamController<List<Quote>>();
+  final StreamController<List<Quote>> _allQuoteController =
+      BehaviorSubject<List<Quote>>();
   Stream<List<Quote>> get allQuoteStream => _allQuoteController.stream;
   List<Quote> data;
 

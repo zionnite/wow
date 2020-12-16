@@ -1,8 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:wow/utils.dart';
 
 class QuoteWidget extends StatelessWidget {
-  NetworkImage imageName;
+  String imageName;
   String quoteTitle;
   String quoteDesc;
   QuoteWidget({this.imageName, this.quoteTitle, this.quoteDesc});
@@ -29,10 +30,19 @@ class QuoteWidget extends StatelessWidget {
             Expanded(
               child: Container(
                 height: 100.0,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: imageName,
-                    fit: BoxFit.cover,
+                // decoration: BoxDecoration(
+                //   image: DecorationImage(
+                //     image: imageName,
+                //     fit: BoxFit.cover,
+                //   ),
+                // ),
+                child: CachedNetworkImage(
+                  imageUrl: imageName,
+                  fit: BoxFit.cover,
+                  fadeInDuration: Duration(milliseconds: 500),
+                  fadeInCurve: Curves.easeIn,
+                  placeholder: (context, progressText) => Center(
+                    child: CircularProgressIndicator(),
                   ),
                 ),
               ),

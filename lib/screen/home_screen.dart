@@ -3,6 +3,8 @@ import 'package:wow/blocs/QouteBloc.dart';
 import 'package:wow/blocs/app_bloc.dart';
 import 'package:wow/blocs/bloc_provider.dart';
 import 'package:wow/model/Quote.dart';
+import 'package:wow/screen/forum_screen.dart';
+import 'package:wow/screen/quote_screen.dart';
 
 import 'package:wow/utils.dart';
 import 'package:wow/widget/quote_widget.dart';
@@ -10,6 +12,7 @@ import '../CustomShapeClipper.dart';
 import '../widget/forum_list_widget.dart';
 
 class HomeScreenTopPart extends StatefulWidget {
+  static const String id = 'home_screen';
   @override
   _HomeScreenTopPartState createState() => _HomeScreenTopPartState();
 }
@@ -149,20 +152,25 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(5.0),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, ForumScreen.id);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(5.0),
+                          ),
+                          color: Colors.black12,
                         ),
-                        color: Colors.black12,
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 2.0, horizontal: 8.0),
-                        child: Text(
-                          'View All',
-                          style: TextStyle(
-                            fontSize: 15.0,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 2.0, horizontal: 8.0),
+                          child: Text(
+                            'View All',
+                            style: TextStyle(
+                              fontSize: 15.0,
+                            ),
                           ),
                         ),
                       ),
@@ -196,20 +204,25 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5.0),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, QuoteScreen.id);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(5.0),
+                            ),
+                            color: Colors.black12,
                           ),
-                          color: Colors.black12,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 2.0, horizontal: 8.0),
-                          child: Text(
-                            'View All',
-                            style: TextStyle(
-                              fontSize: 15.0,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 2.0, horizontal: 8.0),
+                            child: Text(
+                              'View All',
+                              style: TextStyle(
+                                fontSize: 15.0,
+                              ),
                             ),
                           ),
                         ),
@@ -235,8 +248,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, index) {
                               return QuoteWidget(
-                                imageName:
-                                    NetworkImage(snapshot.data[index].image),
+                                imageName: snapshot.data[index].image,
                                 quoteTitle: snapshot.data[index].title,
                                 quoteDesc: snapshot.data[index].desc,
                               );
