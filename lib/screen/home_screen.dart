@@ -4,12 +4,14 @@ import 'package:wow/blocs/app_bloc.dart';
 import 'package:wow/blocs/bloc_provider.dart';
 import 'package:wow/model/Quote.dart';
 import 'package:wow/screen/forum_screen.dart';
+import 'package:wow/screen/quote_detail_screen.dart';
 import 'package:wow/screen/quote_screen.dart';
 
 import 'package:wow/utils.dart';
 import 'package:wow/widget/quote_widget.dart';
 import '../CustomShapeClipper.dart';
 import '../widget/forum_list_widget.dart';
+import 'forum_detail_screen.dart';
 
 class HomeScreenTopPart extends StatefulWidget {
   static const String id = 'home_screen';
@@ -184,9 +186,18 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    forumList(),
-                    forumList(),
-                    forumList(),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, ForumDetailScreen.id);
+                      },
+                      child: forumList(
+                        imageName:
+                            'https://miro.medium.com/max/2400/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg',
+                        title: 'I love you',
+                        user_name: 'zionnite',
+                        time_ago: '2hrs ago',
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -247,10 +258,16 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                             shrinkWrap: true,
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, index) {
-                              return QuoteWidget(
-                                imageName: snapshot.data[index].image,
-                                quoteTitle: snapshot.data[index].title,
-                                quoteDesc: snapshot.data[index].desc,
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, QuoteDetailScreen.id);
+                                },
+                                child: QuoteWidget(
+                                  imageName: snapshot.data[index].image,
+                                  quoteTitle: snapshot.data[index].title,
+                                  quoteDesc: snapshot.data[index].desc,
+                                ),
                               );
                             });
                       } else if (snapshot.hasError) {

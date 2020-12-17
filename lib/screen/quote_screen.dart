@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wow/screen/quote_detail_screen.dart';
 import 'package:wow/widget/app_title_widget.dart';
 import 'package:wow/widget/quote_widget.dart';
 
@@ -23,7 +24,9 @@ class _QuoteScreenState extends State<QuoteScreen> {
               toNav: Nav.id,
             ),
             GestureDetector(
-              onTap: null,
+              onTap: () {
+                Navigator.pushNamed(context, QuoteDetailScreen.id);
+              },
               child: QuoteWidget(
                 imageName:
                     'https://miro.medium.com/max/2400/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg',

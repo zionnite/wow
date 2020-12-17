@@ -2,9 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class forumList extends StatelessWidget {
-  const forumList({
-    Key key,
-  }) : super(key: key);
+  String imageName, title, user_name, time_ago;
+  forumList({this.imageName, this.title, this.user_name, this.time_ago});
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +21,7 @@ class forumList extends StatelessWidget {
             //   fit: BoxFit.cover,
             // ),
             child: CachedNetworkImage(
-              imageUrl:
-                  'https://miro.medium.com/max/2400/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg',
+              imageUrl: imageName,
               fit: BoxFit.cover,
               fadeInDuration: Duration(milliseconds: 500),
               fadeInCurve: Curves.easeIn,
@@ -63,7 +61,7 @@ class forumList extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'I love the sound i see from this movie',
+                        title,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -72,7 +70,7 @@ class forumList extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        'User name',
+                        user_name,
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
                             color: Colors.white,
@@ -91,7 +89,7 @@ class forumList extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    '2 mins ago',
+                    time_ago,
                     style: TextStyle(fontSize: 14.0, color: Colors.black),
                   ),
                 ),

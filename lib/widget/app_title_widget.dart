@@ -28,7 +28,7 @@ class appTitleWidget extends StatelessWidget {
                         if (Navigator.canPop(context)) {
                           Navigator.pop(context);
                         } else {
-                          Navigator.popAndPushNamed(context, Nav.id);
+                          Navigator.popAndPushNamed(context, toNav);
                         }
                       },
                       child: Icon(
