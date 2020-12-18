@@ -66,42 +66,50 @@ class QuoteDetailWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     // mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      CircleAvatar(
-                        radius: 50.0,
-                        backgroundColor: firstColor,
+                      Container(
                         child: CircleAvatar(
-                          backgroundImage: NetworkImage(authorImg),
-                          radius: 48.0,
+                          radius: 50.0,
+                          backgroundColor: firstColor,
+                          child: CircleAvatar(
+                            backgroundImage: NetworkImage(authorImg),
+                            radius: 48.0,
+                          ),
                         ),
                       ),
                       SizedBox(
                         width: 15.0,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 12.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              author,
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.w800,
-                              ),
+                      Expanded(
+                        child: Container(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(top: 12.0, right: 3.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  author,
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontFamily: 'Raleway',
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5.0,
+                                ),
+                                Text(
+                                  time_ago,
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontFamily: 'Raleway',
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              height: 5.0,
-                            ),
-                            Text(
-                              time_ago,
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'Raleway',
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

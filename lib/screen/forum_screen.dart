@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wow/screen/forum_make_post.dart';
 import 'package:wow/widget/app_title_widget.dart';
 import 'package:wow/widget/forum_widget.dart';
 
@@ -27,6 +28,38 @@ class _ForumScreenState extends State<ForumScreen> {
             appTitleWidget(
               title: 'Forum',
               toNav: Nav.id,
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 15.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ForumMakePost();
+                      },
+                    ),
+                  );
+                },
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(250),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 18.0, horizontal: 50),
+                    child: Text(
+                      'Create Topic',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  elevation: 5.0,
+                ),
+              ),
             ),
             GestureDetector(
               onTap: () {

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:wow/utils.dart';
 
-class ForumMakeComment extends StatelessWidget {
-  final String pick_id;
+import '../utils.dart';
 
-  ForumMakeComment({this.pick_id});
+class ForumMakePost extends StatefulWidget {
+  @override
+  _ForumMakePostState createState() => _ForumMakePostState();
+}
 
+class _ForumMakePostState extends State<ForumMakePost> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +27,7 @@ class ForumMakeComment extends StatelessWidget {
           ),
         ),
       ),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -32,7 +35,7 @@ class ForumMakeComment extends StatelessWidget {
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10.0),
                 child: Text(
-                  'Make Comment',
+                  'Make Post',
                   style: TextStyle(
                     fontSize: 25.0,
                   ),
@@ -56,9 +59,30 @@ class ForumMakeComment extends StatelessWidget {
                 ),
               ),
               Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 28.0, vertical: 3.0),
+                child: Card(
+                  elevation: 4.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FlatButton(
+                        child: Text(
+                          'Upload Post Image',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.deepOrangeAccent,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
                 padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 10.0),
                 child: Container(
-                  height: 500,
+                  height: 400,
                   child: Material(
                     elevation: 5.0,
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -72,6 +96,27 @@ class ForumMakeComment extends StatelessWidget {
                         border: InputBorder.none,
                       ),
                     ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 28.0, vertical: 3.0),
+                child: Card(
+                  elevation: 4.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FlatButton(
+                        child: Text(
+                          'Upload Profile Image',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.deepOrangeAccent,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
