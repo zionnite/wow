@@ -51,6 +51,25 @@ class ForumMakeComment extends StatelessWidget {
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 32.0, vertical: 14.0),
                       border: InputBorder.none,
+                      hintText: 'Your Name',
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 12),
+                child: Material(
+                  elevation: 5.0,
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  child: TextField(
+                    onChanged: (text) {},
+                    style: dropDownMenuItemStyle,
+                    cursorColor: Colors.black,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 32.0, vertical: 14.0),
+                      border: InputBorder.none,
+                      hintText: 'Your Email',
                     ),
                   ),
                 ),
@@ -70,6 +89,7 @@ class ForumMakeComment extends StatelessWidget {
                         contentPadding: EdgeInsets.symmetric(
                             horizontal: 32.0, vertical: 14.0),
                         border: InputBorder.none,
+                        hintText: 'Enter Comment Details',
                       ),
                     ),
                   ),
