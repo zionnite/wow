@@ -119,6 +119,9 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                             print('search clicked');
                           },
                           child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(250),
+                            ),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 18.0, horizontal: 50),
@@ -133,7 +136,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                             elevation: 5.0,
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -188,7 +191,26 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, ForumDetailScreen.id);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ForumDetailScreen(
+                                pick_id: '1',
+                                imageName:
+                                    'https://miro.medium.com/max/2400/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg',
+                                forumTitle: 'bala',
+                                forumDesc:
+                                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pellentesque elit ullamcorper dignissim cras tincidunt lobortis. Fringilla est ullamcorper eget nulla. Aliquet risus feugiat in ante. Eget mi proin sed libero enim sed faucibus turpis. Velit laoreet id donec ultrices tincidunt arcu. Neque gravida in fermentum et sollicitudin ac orci. Tellus integer feugiat scelerisque varius morbi enim nunc faucibus a. Vestibulum morbi blandit cursus risus at ultrices mi. Pellentesque eu tincidunt tortor aliquam nulla facilisi cras. Enim eu turpis egestas pretium aenean pharetra magna ac. Amet volutpat consequat mauris nunc Vitae congue eu consequat ac felis donec et odio pellentesque. Velit aliquet sagittis id consectetur purus ut faucibus. Ac feugiat sed lectus vestibulum mattis ullamcorper velit sed ullamcorper. Sed sed risus pretium quam vulputate dignissim. Nibh cras pulvinar mattis nunc. Vestibulum morbi blandit cursus risus at. Sed risus pretium quam vulputate. Dictum fusce ut placerat orci. Lacus vestibulum sed arcu non odio euismod lacinia. Lobortis elementum nibh tellus molestie nunc. Felis eget nunc lobortis mattis aliquam. Nullam vehicula ipsum a arcu cursus vitae.Dui id ornare arcu odio ut sem nulla pharetra diam. Purus non enim praesent elementum facilisis leo vel. Est pellentesque elit ullamcorper dignissim cras tincidunt lobortis feugiat. Non curabitur gravida arcu ac tortor dignissim. Porttitor lacus luctus accumsan tortor posuere. Sed id semper risus in hendrerit. Scelerisque eleifend donec pretium vulputate sapien nec. Lacus sed turpis tincidunt id aliquet risus feugiat in ante. Purus viverra accumsan in nisl. Facilisis mauris sit amet massa vitae tortor condimentum lacinia quis. Malesuada fames ac turpis egestas. Id semper risus in hendrerit gravida rutrum quisque non tellus.Et tortor consequat id porta nibh venenatis cras. Nunc lobortis mattis aliquam faucibus purus. Diam volutpat commodo sed egestas egestas fringilla phasellus. Nibh nisl condimentum id venenatis a. Vel turpis nunc eget lorem dolor sed viverra ipsum nunc. Pharetra et ultrices neque ornare aenean. Tellus orci ac auctor augue mauris augue neque. Pulvinar mattis nunc sed blandit libero volutpat sed. Semper risus in hendrerit gravida rutrum quisque non tellus. Pellentesque sit amet porttitor eget. Dolor magna eget est lorem ipsum. Eget duis at tellus at urna condimentum mattis pellentesque. Metus aliquam eleifend mi in nulla posuere sollicitudin. Egestas quis ipsum suspendisse ultrices gravida dictum. Blandit massa enim nec dui nunc.Facilisis mauris sit amet massa. Id nibh tortor id aliquet lectus proin nibh nisl. Pharetra diam sit amet nisl suscipit. Maecenas ultricies mi eget mauris pharetra et ultrices neque ornare. Condimentum lacinia quis vel eros donec. Iaculis urna id volutpat lacus laoreet non curabitur gravida. Erat pellentesque adipiscing commodo elit at imperdiet dui accumsan. Penatibus et magnis dis parturient montes nascetur ridiculus. Lacinia quis vel eros donec. Aliquet nibh praesent tristique magna sit amet purus. Dignissim suspendisse in est ante in nibh mauris cursus mattis. Tempor id eu nisl nunc mi ipsum. Mattis vulputate enim nulla aliquet porttitor lacus.',
+                                comment_counter: '2',
+                                authorImg:
+                                    'https://miro.medium.com/max/2400/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg',
+                                author: 'jake',
+                                time_ago: '4hrs ago',
+                              );
+                            },
+                          ),
+                        );
                       },
                       child: forumList(
                         imageName:
@@ -260,8 +282,30 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, QuoteDetailScreen.id);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return QuoteDetailScreen(
+                                          image_Name:
+                                              snapshot.data[index].image,
+                                          quote_Title:
+                                              snapshot.data[index].title,
+                                          quote_Desc: snapshot.data[index].desc,
+                                          author_name:
+                                              snapshot.data[index].author,
+                                          author_Img:
+                                              snapshot.data[index].authorImage,
+                                          isBackground_Link:
+                                              snapshot.data[index].isBackground,
+                                          background_Link: snapshot
+                                              .data[index].backgroundLink,
+                                          timer_ago: snapshot.data[index].time,
+                                          dis_type: snapshot.data[index].type,
+                                        );
+                                      },
+                                    ),
+                                  );
                                 },
                                 child: QuoteWidget(
                                   imageName: snapshot.data[index].image,

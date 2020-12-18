@@ -6,7 +6,12 @@ class ForumWidget extends StatelessWidget {
   String imageName;
   String quoteTitle;
   String quoteDesc;
-  ForumWidget({this.imageName, this.quoteTitle, this.quoteDesc});
+  String comment_counter;
+  String author;
+  String authorImg;
+  String time_ago;
+  ForumWidget(
+      {this.imageName, this.quoteTitle, this.quoteDesc, this.comment_counter});
 
   @override
   Widget build(BuildContext context) {
@@ -99,13 +104,21 @@ class ForumWidget extends StatelessWidget {
                 SizedBox(
                   width: 30.0,
                 ),
-                Text(
-                  '1 Comment ',
-                  style: TextStyle(
-                    fontSize: 17.0,
-                    color: Colors.black54,
-                  ),
-                ),
+                (comment_counter != null)
+                    ? Text(
+                        '${comment_counter} Comment',
+                        style: TextStyle(
+                          fontSize: 17.0,
+                          color: Colors.black54,
+                        ),
+                      )
+                    : Text(
+                        'Comment',
+                        style: TextStyle(
+                          fontSize: 17.0,
+                          color: Colors.black54,
+                        ),
+                      ),
               ],
             )
           ],

@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:wow/widget/appBarCustomize.dart';
-import 'package:wow/widget/app_title_widget.dart';
 import 'package:wow/widget/quote_detail_widget.dart';
 
 class QuoteDetailScreen extends StatefulWidget {
   static const String id = 'quote_detail_screen';
+  final String image_Name,
+      quote_Title,
+      quote_Desc,
+      author_name,
+      author_Img,
+      isBackground_Link,
+      background_Link,
+      timer_ago,
+      dis_type;
+  QuoteDetailScreen(
+      {this.image_Name,
+      this.quote_Title,
+      this.quote_Desc,
+      this.author_name,
+      this.author_Img,
+      this.isBackground_Link,
+      this.background_Link,
+      this.timer_ago,
+      this.dis_type});
+
   @override
   _QuoteDetailScreenState createState() => _QuoteDetailScreenState();
 }
@@ -32,23 +50,16 @@ class _QuoteDetailScreenState extends State<QuoteDetailScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              // appTitleWidget(
-              //   title: '',
-              //   toNav: null,
-              // ),
               QuoteDetailWidget(
-                imageName:
-                    'https://miro.medium.com/max/2400/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg',
-                quoteTitle: 'Does True Love Exist',
-                quoteDesc:
-                    'From our Reserch, we can perfectly say that true love exist',
-                author: 'Zionnite',
-                authorImg:
-                    'https://miro.medium.com/max/2400/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg',
-                isBackgroundLink: 'true',
-                backgroundLink: 'http://facebook.com/nosakhare.endurance.7/',
-                time_ago: '12hrs ago',
-                type: 'Pain',
+                imageName: widget.image_Name,
+                quoteTitle: widget.quote_Title,
+                quoteDesc: widget.quote_Desc,
+                author: widget.author_name,
+                authorImg: widget.author_Img,
+                isBackgroundLink: widget.isBackground_Link,
+                backgroundLink: widget.background_Link,
+                time_ago: widget.timer_ago,
+                type: widget.dis_type,
               ),
             ],
           ),

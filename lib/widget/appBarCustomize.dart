@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../utils.dart';
 
 class AppBarCustomize extends StatelessWidget implements PreferredSize {
-  String toNav;
+  final String toNav;
   AppBarCustomize({this.toNav});
 
   @override

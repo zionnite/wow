@@ -18,6 +18,8 @@ class Quote {
     this.type,
     this.status,
     this.statusMsg,
+    this.isBackground,
+    this.backgroundLink,
   });
 
   String id;
@@ -30,6 +32,8 @@ class Quote {
   String type;
   String status;
   String statusMsg;
+  String isBackground;
+  String backgroundLink;
 
   factory Quote.fromJson(Map<String, dynamic> json) => Quote(
         id: json["id"],
@@ -42,6 +46,8 @@ class Quote {
         type: json["type"],
         status: json["status"],
         statusMsg: json["status_msg"],
+        isBackground: json["is_background"],
+        backgroundLink: json["background_link"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -55,5 +61,7 @@ class Quote {
         "type": type,
         "status": status,
         "status_msg": statusMsg,
+        "is_background": isBackground,
+        "background_link": backgroundLink,
       };
 }

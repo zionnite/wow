@@ -1,35 +1,34 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../utils.dart';
 
-class QuoteDetailWidget extends StatelessWidget {
+class ForumDetailWidget extends StatefulWidget {
   String imageName;
-  String quoteTitle;
-  String quoteDesc;
+  String forumTitle;
+  String forumDesc;
+  String comment_counter;
   String author;
   String authorImg;
-  String isBackgroundLink;
-  String backgroundLink;
   String time_ago;
-  String type;
 
-  QuoteDetailWidget({
+  ForumDetailWidget({
     this.imageName,
-    this.quoteTitle,
-    this.quoteDesc,
+    this.forumTitle,
+    this.forumDesc,
+    this.comment_counter,
     this.author,
     this.authorImg,
-    this.isBackgroundLink,
-    this.backgroundLink,
     this.time_ago,
-    this.type,
   });
 
   @override
+  _ForumDetailWidgetState createState() => _ForumDetailWidgetState();
+}
+
+class _ForumDetailWidgetState extends State<ForumDetailWidget> {
+  @override
   Widget build(BuildContext context) {
-    Future<void> _launched;
     return Column(
       children: [
         Container(
@@ -51,7 +50,7 @@ class QuoteDetailWidget extends StatelessWidget {
                 Container(
                   height: 500.0,
                   child: CachedNetworkImage(
-                    imageUrl: imageName,
+                    imageUrl: widget.imageName,
                     fit: BoxFit.cover,
                     fadeInDuration: Duration(milliseconds: 500),
                     fadeInCurve: Curves.easeIn,
@@ -70,7 +69,7 @@ class QuoteDetailWidget extends StatelessWidget {
                         radius: 50.0,
                         backgroundColor: firstColor,
                         child: CircleAvatar(
-                          backgroundImage: NetworkImage(authorImg),
+                          backgroundImage: NetworkImage(widget.authorImg),
                           radius: 48.0,
                         ),
                       ),
@@ -82,7 +81,7 @@ class QuoteDetailWidget extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              author,
+                              widget.author,
                               style: TextStyle(
                                 fontSize: 18.0,
                                 fontFamily: 'Raleway',
@@ -93,7 +92,7 @@ class QuoteDetailWidget extends StatelessWidget {
                               height: 5.0,
                             ),
                             Text(
-                              time_ago,
+                              widget.time_ago,
                               style: TextStyle(
                                 fontSize: 18.0,
                                 fontFamily: 'Raleway',
@@ -112,7 +111,7 @@ class QuoteDetailWidget extends StatelessWidget {
                     bottom: 10.0,
                   ),
                   child: Text(
-                    quoteTitle,
+                    widget.forumTitle,
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.w600,
@@ -133,67 +132,25 @@ class QuoteDetailWidget extends StatelessWidget {
                     bottom: 25.0,
                   ),
                   child: Text(
-                    this.quoteDesc,
+                    widget.forumDesc,
                     style: TextStyle(
-                      fontSize: 17.0,
-                      fontStyle: FontStyle.normal,
-                      fontFamily: 'Oxygen',
+                      fontSize: 20.0,
+                      height: 2,
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                  child: Divider(
+                    height: 1.0,
+                    color: Colors.black12,
                   ),
                 ),
               ],
             ),
           ),
         ),
-        (isBackgroundLink == 'true')
-            ? Container(
-                margin: EdgeInsets.only(bottom: 50.0),
-                child: GestureDetector(
-                  onTap: () {
-                    _launchUniversalLinkIos(backgroundLink);
-                  },
-                  child: Card(
-                    color: Colors.white70,
-                    elevation: 10.0,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8.0, bottom: 8.0, left: 20.0, right: 20.0),
-                      child: Text(
-                        'Know More',
-                        style: TextStyle(
-                          color: Colors.deepOrangeAccent,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            : Container(),
       ],
     );
-  }
-}
-
-Future<void> _launchUniversalLinkIos(String url) async {
-  if (await canLaunch(url)) {
-    final bool nativeAppLaunchSucceeded = await launch(
-      url,
-      forceSafariVC: false,
-      universalLinksOnly: true,
-    );
-    if (!nativeAppLaunchSucceeded) {
-      await launch(
-        url,
-        forceSafariVC: true,
-      );
-    }
-  }
-}
-
-Widget _launchStatus(BuildContext context, AsyncSnapshot<void> snapshot) {
-  if (snapshot.hasError) {
-    return Text('Error: ${snapshot.error}');
-  } else {
-    return const Text('');
   }
 }

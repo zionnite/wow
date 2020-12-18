@@ -25,7 +25,24 @@ class _QuoteScreenState extends State<QuoteScreen> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, QuoteDetailScreen.id);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return QuoteDetailScreen(
+                        image_Name: 'snapshot.data[index].image',
+                        quote_Title: 'snapshot.data[index].title',
+                        quote_Desc: 'snapshot.data[index].desc',
+                        author_name: 'snapshot.data[index].author',
+                        author_Img: 'snapshot.data[index].authorImage',
+                        isBackground_Link: 'snapshot.data[index].isBackground',
+                        background_Link: 'snapshot.data[index].backgroundLink',
+                        timer_ago: 'snapshot.data[index].time',
+                        dis_type: 'snapshot.data[index].type',
+                      );
+                    },
+                  ),
+                );
               },
               child: QuoteWidget(
                 imageName:
