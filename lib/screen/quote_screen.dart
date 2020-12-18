@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wow/screen/category_screen.dart';
 import 'package:wow/screen/quote_detail_screen.dart';
 import 'package:wow/widget/app_title_widget.dart';
 import 'package:wow/widget/quote_widget.dart';
@@ -40,57 +41,14 @@ class _QuoteScreenState extends State<QuoteScreen> {
                     margin: EdgeInsets.symmetric(vertical: 15.0),
                     child: GestureDetector(
                       onTap: () {
-                        print('search clicked');
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(250),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 18.0, horizontal: 50),
-                          child: Text(
-                            'Pains Pains Pains',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return CategoryScreen();
+                            },
                           ),
-                        ),
-                        elevation: 5.0,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 15.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        print('search clicked');
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(250),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 18.0, horizontal: 50),
-                          child: Text(
-                            'Grief',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        elevation: 5.0,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 15.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        print('search clicked');
+                        );
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
@@ -115,7 +73,14 @@ class _QuoteScreenState extends State<QuoteScreen> {
                     margin: EdgeInsets.symmetric(vertical: 15.0),
                     child: GestureDetector(
                       onTap: () {
-                        print('search clicked');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return CategoryScreen();
+                            },
+                          ),
+                        );
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
@@ -126,6 +91,70 @@ class _QuoteScreenState extends State<QuoteScreen> {
                               vertical: 18.0, horizontal: 50),
                           child: Text(
                             'Grief',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        elevation: 5.0,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 15.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return CategoryScreen();
+                            },
+                          ),
+                        );
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(250),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 18.0, horizontal: 50),
+                          child: Text(
+                            'Stress',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        elevation: 5.0,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 15.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return CategoryScreen();
+                            },
+                          ),
+                        );
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(250),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 18.0, horizontal: 50),
+                          child: Text(
+                            'Brain Disorder',
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.bold,

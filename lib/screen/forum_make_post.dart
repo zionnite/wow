@@ -47,6 +47,7 @@ class _ForumMakePostState extends State<ForumMakePost> {
                   elevation: 5.0,
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   child: TextField(
+                    maxLines: null,
                     onChanged: (text) {},
                     style: dropDownMenuItemStyle,
                     cursorColor: Colors.black,
@@ -54,6 +55,45 @@ class _ForumMakePostState extends State<ForumMakePost> {
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 32.0, vertical: 14.0),
                       border: InputBorder.none,
+                      hintText: 'Your Name',
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 10),
+                child: Material(
+                  elevation: 5.0,
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  child: TextField(
+                    maxLines: null,
+                    onChanged: (text) {},
+                    style: dropDownMenuItemStyle,
+                    cursorColor: Colors.black,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 32.0, vertical: 14.0),
+                      border: InputBorder.none,
+                      hintText: 'Your Email',
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 10),
+                child: Material(
+                  elevation: 5.0,
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  child: TextField(
+                    maxLines: null,
+                    onChanged: (text) {},
+                    style: dropDownMenuItemStyle,
+                    cursorColor: Colors.black,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 32.0, vertical: 14.0),
+                      border: InputBorder.none,
+                      hintText: 'Post Title',
                     ),
                   ),
                 ),
@@ -82,11 +122,15 @@ class _ForumMakePostState extends State<ForumMakePost> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 10.0),
                 child: Container(
+                  constraints: BoxConstraints(
+                    maxHeight: 400.0,
+                  ),
                   height: 400,
                   child: Material(
                     elevation: 5.0,
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     child: TextField(
+                      maxLines: null,
                       onChanged: (text) {},
                       style: dropDownMenuItemStyle,
                       cursorColor: Colors.black,
@@ -94,6 +138,7 @@ class _ForumMakePostState extends State<ForumMakePost> {
                         contentPadding: EdgeInsets.symmetric(
                             horizontal: 32.0, vertical: 14.0),
                         border: InputBorder.none,
+                        hintText: 'Write Detail of Post Content',
                       ),
                     ),
                   ),

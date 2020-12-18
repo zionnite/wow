@@ -6,6 +6,7 @@ import 'package:wow/model/Quote.dart';
 import 'package:wow/screen/forum_screen.dart';
 import 'package:wow/screen/quote_detail_screen.dart';
 import 'package:wow/screen/quote_screen.dart';
+import 'package:wow/screen/search_result_screen.dart';
 
 import 'package:wow/utils.dart';
 import 'package:wow/widget/quote_widget.dart';
@@ -20,9 +21,12 @@ class HomeScreenTopPart extends StatefulWidget {
 }
 
 class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
+  String searchTerm;
   AppBloc appBloc;
   QuoteBloc quoteBloc;
   //final QuoteBloc allQuoteBloc = QuoteBloc();
+
+  TextEditingController searchTermController = TextEditingController();
 
   @override
   void initState() {
@@ -37,6 +41,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
     //allQuoteBloc.dispose();
     appBloc.dispose();
     quoteBloc.dispose();
+    searchTermController.dispose();
   }
 
   @override
@@ -101,13 +106,19 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                           elevation: 5.0,
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           child: TextField(
-                            onChanged: (text) {},
+                            controller: searchTermController,
+                            onChanged: (text) {
+                              setState(() {
+                                searchTerm = text;
+                              });
+                            },
                             style: dropDownMenuItemStyle,
                             cursorColor: Colors.black,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.symmetric(
                                   horizontal: 32.0, vertical: 14.0),
                               border: InputBorder.none,
+                              hintText: 'Enter Search Term',
                             ),
                           ),
                         ),
@@ -116,7 +127,18 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                         margin: EdgeInsets.symmetric(vertical: 15.0),
                         child: GestureDetector(
                           onTap: () {
-                            print('search clicked');
+                            setState(() {
+                              searchTermController.text = '';
+                            });
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return ResultSearchScreen(
+                                      searchTerm: searchTerm);
+                                },
+                              ),
+                            );
                           },
                           child: Card(
                             shape: RoundedRectangleBorder(
