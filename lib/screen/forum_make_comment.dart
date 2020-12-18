@@ -82,6 +82,7 @@ class ForumMakeComment extends StatelessWidget {
                     elevation: 5.0,
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     child: TextField(
+                      maxLines: null,
                       onChanged: (text) {},
                       style: dropDownMenuItemStyle,
                       cursorColor: Colors.black,
