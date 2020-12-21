@@ -16,13 +16,10 @@ class forumList extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 2.0),
             width: 200.0,
-            // child: Image.asset(
-            //   'assets/images/image1.jpg',
-            //   fit: BoxFit.cover,
-            // ),
             child: CachedNetworkImage(
               imageUrl: imageName,
               fit: BoxFit.cover,
+              height: 200,
               fadeInDuration: Duration(milliseconds: 500),
               fadeInCurve: Curves.easeIn,
               placeholder: (context, progressText) => Center(

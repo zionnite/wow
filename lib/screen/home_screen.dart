@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wow/blocs/QouteBloc.dart';
 import 'package:wow/blocs/app_bloc.dart';
 import 'package:wow/blocs/bloc_provider.dart';
+import 'package:wow/blocs/forum_bloc.dart';
+import 'package:wow/model/Forum.dart';
 import 'package:wow/model/Quote.dart';
 import 'package:wow/screen/forum_screen.dart';
 import 'package:wow/screen/quote_detail_screen.dart';
@@ -24,6 +26,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
   String searchTerm;
   AppBloc appBloc;
   QuoteBloc quoteBloc;
+  ForumBloc forumBloc;
   //final QuoteBloc allQuoteBloc = QuoteBloc();
 
   TextEditingController searchTermController = TextEditingController();
@@ -32,6 +35,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
   void initState() {
     appBloc = BlocProvider.of<AppBloc>(context);
     quoteBloc = BlocProvider.of<QuoteBloc>(context);
+    forumBloc = BlocProvider.of<ForumBloc>(context);
     super.initState();
   }
 
@@ -41,6 +45,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
     //allQuoteBloc.dispose();
     appBloc.dispose();
     quoteBloc.dispose();
+    forumBloc.dispose();
     searchTermController.dispose();
   }
 
@@ -208,41 +213,56 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
               Container(
                 margin: EdgeInsets.symmetric(vertical: 12.0),
                 height: 200.0,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return ForumDetailScreen(
-                                pick_id: '1',
-                                imageName:
-                                    'https://miro.medium.com/max/2400/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg',
-                                forumTitle: 'bala',
-                                forumDesc:
-                                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pellentesque elit ullamcorper dignissim cras tincidunt lobortis. Fringilla est ullamcorper eget nulla. Aliquet risus feugiat in ante. Eget mi proin sed libero enim sed faucibus turpis. Velit laoreet id donec ultrices tincidunt arcu. Neque gravida in fermentum et sollicitudin ac orci. Tellus integer feugiat scelerisque varius morbi enim nunc faucibus a. Vestibulum morbi blandit cursus risus at ultrices mi. Pellentesque eu tincidunt tortor aliquam nulla facilisi cras. Enim eu turpis egestas pretium aenean pharetra magna ac. Amet volutpat consequat mauris nunc Vitae congue eu consequat ac felis donec et odio pellentesque. Velit aliquet sagittis id consectetur purus ut faucibus. Ac feugiat sed lectus vestibulum mattis ullamcorper velit sed ullamcorper. Sed sed risus pretium quam vulputate dignissim. Nibh cras pulvinar mattis nunc. Vestibulum morbi blandit cursus risus at. Sed risus pretium quam vulputate. Dictum fusce ut placerat orci. Lacus vestibulum sed arcu non odio euismod lacinia. Lobortis elementum nibh tellus molestie nunc. Felis eget nunc lobortis mattis aliquam. Nullam vehicula ipsum a arcu cursus vitae.Dui id ornare arcu odio ut sem nulla pharetra diam. Purus non enim praesent elementum facilisis leo vel. Est pellentesque elit ullamcorper dignissim cras tincidunt lobortis feugiat. Non curabitur gravida arcu ac tortor dignissim. Porttitor lacus luctus accumsan tortor posuere. Sed id semper risus in hendrerit. Scelerisque eleifend donec pretium vulputate sapien nec. Lacus sed turpis tincidunt id aliquet risus feugiat in ante. Purus viverra accumsan in nisl. Facilisis mauris sit amet massa vitae tortor condimentum lacinia quis. Malesuada fames ac turpis egestas. Id semper risus in hendrerit gravida rutrum quisque non tellus.Et tortor consequat id porta nibh venenatis cras. Nunc lobortis mattis aliquam faucibus purus. Diam volutpat commodo sed egestas egestas fringilla phasellus. Nibh nisl condimentum id venenatis a. Vel turpis nunc eget lorem dolor sed viverra ipsum nunc. Pharetra et ultrices neque ornare aenean. Tellus orci ac auctor augue mauris augue neque. Pulvinar mattis nunc sed blandit libero volutpat sed. Semper risus in hendrerit gravida rutrum quisque non tellus. Pellentesque sit amet porttitor eget. Dolor magna eget est lorem ipsum. Eget duis at tellus at urna condimentum mattis pellentesque. Metus aliquam eleifend mi in nulla posuere sollicitudin. Egestas quis ipsum suspendisse ultrices gravida dictum. Blandit massa enim nec dui nunc.Facilisis mauris sit amet massa. Id nibh tortor id aliquet lectus proin nibh nisl. Pharetra diam sit amet nisl suscipit. Maecenas ultricies mi eget mauris pharetra et ultrices neque ornare. Condimentum lacinia quis vel eros donec. Iaculis urna id volutpat lacus laoreet non curabitur gravida. Erat pellentesque adipiscing commodo elit at imperdiet dui accumsan. Penatibus et magnis dis parturient montes nascetur ridiculus. Lacinia quis vel eros donec. Aliquet nibh praesent tristique magna sit amet purus. Dignissim suspendisse in est ante in nibh mauris cursus mattis. Tempor id eu nisl nunc mi ipsum. Mattis vulputate enim nulla aliquet porttitor lacus.',
-                                comment_counter: '2',
-                                authorImg:
-                                    'https://miro.medium.com/max/2400/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg',
-                                author: 'jake',
-                                time_ago: '4hrs ago',
+                child: StreamBuilder<List<Forum>>(
+                  stream: forumBloc.allforumStream,
+                  builder: (context, AsyncSnapshot<List<Forum>> snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.error != null && snapshot.data.length > 0) {
+                        return _buildErrorWidget(snapshot.error);
+                      }
+                      return ListView.builder(
+                        physics: ClampingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return ForumDetailScreen(
+                                      pick_id: snapshot.data[index].id,
+                                      imageName: snapshot.data[index].image,
+                                      forumTitle: snapshot.data[index].title,
+                                      forumDesc: snapshot.data[index].desc,
+                                      comment_counter:
+                                          snapshot.data[index].commentCounter,
+                                      authorImg:
+                                          snapshot.data[index].authorImage,
+                                      author: snapshot.data[index].author,
+                                      time_ago: snapshot.data[index].time,
+                                    );
+                                  },
+                                ),
                               );
                             },
-                          ),
-                        );
-                      },
-                      child: forumList(
-                        imageName:
-                            'https://miro.medium.com/max/2400/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg',
-                        title: 'I love you',
-                        user_name: 'zionnite',
-                        time_ago: '2hrs ago',
-                      ),
-                    ),
-                  ],
+                            child: forumList(
+                              imageName: snapshot.data[index].image,
+                              title: snapshot.data[index].title,
+                              user_name: snapshot.data[index].author,
+                              time_ago: snapshot.data[index].time,
+                            ),
+                          );
+                        },
+                      );
+                    } else if (snapshot.hasError) {
+                      return _buildErrorWidget(snapshot.error);
+                    } else {
+                      return _buildLoadingWidget();
+                    }
+                  },
                 ),
               ),
               Padding(
@@ -376,11 +396,4 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
       ),
     );
   }
-
-// QuoteWidget(
-// imageName: NetworkImage(quotes.),
-// quoteTitle: 'title',
-// quoteDesc:
-// 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
-// )
 }

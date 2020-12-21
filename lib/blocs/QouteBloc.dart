@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 import 'package:wow/blocs/bloc_provider.dart';
 import 'package:wow/model/Quote.dart';
-import 'package:wow/services/QuoteService.dart';
+import 'package:wow/services/ApiService.dart';
 
 class QuoteBloc implements BlocBase {
   final StreamController<List<Quote>> _allQuoteController =
