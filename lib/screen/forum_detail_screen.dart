@@ -17,7 +17,7 @@ class ForumDetailScreen extends StatefulWidget {
   String authorImg;
   String time_ago;
 
-  ForumBloc forumBloc;
+  // ForumBloc forumBloc;
 
   ForumDetailScreen({
     this.pick_id,
@@ -28,7 +28,7 @@ class ForumDetailScreen extends StatefulWidget {
     this.author,
     this.authorImg,
     this.time_ago,
-    this.forumBloc,
+    //this.forumBloc,
   });
 
   @override
@@ -36,6 +36,19 @@ class ForumDetailScreen extends StatefulWidget {
 }
 
 class _ForumDetailScreenState extends State<ForumDetailScreen> {
+  var forumBloc = ForumBloc();
+
+  @override
+  void initState() {
+    forumBloc.getCommentById(widget.pick_id);
+  }
+
+  @override
+  void dispose() {
+    forumBloc.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,7 +155,7 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
                         bottom: 5.0,
                       ),
                       child: StreamBuilder<List<ForumComment>>(
-                        stream: widget.forumBloc.allForumComment,
+                        stream: forumBloc.allForumComment,
                         builder: (context,
                             AsyncSnapshot<List<ForumComment>> snapshot) {
                           if (snapshot.hasData) {
@@ -280,17 +293,6 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    //widget.forumBloc.dispose();
-  }
-
-  @override
-  void initState() {
-    //widget.forumBloc = BlocProvider.of<ForumBloc>(context);
   }
 
   Widget _buildErrorWidget(String error) {

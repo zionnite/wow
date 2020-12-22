@@ -230,8 +230,8 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                           return GestureDetector(
                             onTap: () async {
                               //ForumBloc comment_detail =
-                              await forumBloc
-                                  .getCommentById(snapshot.data[index].id);
+                              // await forumBloc
+                              //     .getCommentById(snapshot.data[index].id);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -247,7 +247,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                                           snapshot.data[index].authorImage,
                                       author: snapshot.data[index].author,
                                       time_ago: snapshot.data[index].time,
-                                      forumBloc: forumBloc,
+                                      //forumBloc: forumBloc,
                                     );
                                   },
                                 ),

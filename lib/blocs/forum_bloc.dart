@@ -11,10 +11,10 @@ class ForumBloc implements BlocBase {
       BehaviorSubject<List<Forum>>();
   Stream<List<Forum>> get allforumStream => forumStreamController.stream;
 
-  final StreamController<List<ForumComment>> forumCommentStreamCotroller =
+  final StreamController<List<ForumComment>> forumCommentStreamController =
       BehaviorSubject<List<ForumComment>>();
   Stream<List<ForumComment>> get allForumComment =>
-      forumCommentStreamCotroller.stream;
+      forumCommentStreamController.stream;
 
   List<Forum> data;
   List<ForumComment> comment_data;
@@ -30,12 +30,12 @@ class ForumBloc implements BlocBase {
 
   getCommentById(String id) async {
     comment_data = await getForumCommentById(id);
-    forumCommentStreamCotroller.sink.add(comment_data);
+    forumCommentStreamController.sink.add(comment_data);
   }
 
   @override
   void dispose() {
     forumStreamController.close();
-    forumCommentStreamCotroller.close();
+    forumCommentStreamController.close();
   }
 }
