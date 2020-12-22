@@ -16,7 +16,7 @@ class QuoteBloc implements BlocBase {
   Stream<List<Category>> get categoryStream => categoryController.stream;
 
   final StreamController<List<Quote>> quoteCatController =
-      StreamController<List<Quote>>();
+      BehaviorSubject<List<Quote>>();
   StreamSink<List<Quote>> get listQuoteCatSink => quoteCatController.sink;
   Stream<List<Quote>> get listQuoteCatStream => quoteCatController.stream;
 
@@ -48,6 +48,6 @@ class QuoteBloc implements BlocBase {
   void dispose() {
     _allQuoteController.close();
     categoryController.close();
-    quoteCatController.close();
+    // quoteCatController.close();
   }
 }

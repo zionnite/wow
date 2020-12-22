@@ -9,32 +9,32 @@ import 'package:wow/widget/quote_widget.dart';
 class CategoryScreen extends StatefulWidget {
   String cat_id, cat_name;
 
-  QuoteBloc quoteBloc;
-  CategoryScreen({this.cat_id, this.cat_name, this.quoteBloc});
+  CategoryScreen({this.cat_id, this.cat_name});
 
   @override
   _CategoryScreenState createState() => _CategoryScreenState();
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
+  QuoteBloc quoteBloc;
   @override
   void initState() {
-    //widget.quoteBloc = BlocProvider.of<QuoteBloc>(context);
+    quoteBloc = BlocProvider.of<QuoteBloc>(context);
   }
 
   @override
   void dispose() {
-    //widget.quoteBloc.dispose();
     super.dispose();
+    //quoteBloc.quoteCatController.close();
   }
 
   getCategoryQuote() async {
-    await widget.quoteBloc.getQuoteById(widget.cat_id);
+    await quoteBloc.getQuoteById(widget.cat_id);
   }
 
   @override
   Widget build(BuildContext context) {
-    //getCategoryQuote();
+    getCategoryQuote();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -64,7 +64,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               ),
             ),
             StreamBuilder<List<Quote>>(
-              stream: widget.quoteBloc.allQuoteStream,
+              stream: quoteBloc.listQuoteCatStream,
               builder: (context, AsyncSnapshot<List<Quote>> snapshot) {
                 if (snapshot.hasData) {
                   if (snapshot.error != null && snapshot.data.length > 0) {

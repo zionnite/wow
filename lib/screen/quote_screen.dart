@@ -28,6 +28,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
   void dispose() {
     super.dispose();
     quoteBloc.dispose();
+    quoteBloc.quoteCatController.close();
   }
 
   @override
@@ -66,9 +67,9 @@ class _QuoteScreenState extends State<QuoteScreen> {
                         return Container(
                           margin: EdgeInsets.symmetric(vertical: 15.0),
                           child: GestureDetector(
-                            onTap: () async {
-                              QuoteBloc categories_data = await quoteBloc
-                                  .getQuoteById(snapshot.data[index].catId);
+                            onTap: () {
+                              //QuoteBloc categories_data = await quoteBloc
+                              //  .getQuoteById(snapshot.data[index].catId);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -76,7 +77,6 @@ class _QuoteScreenState extends State<QuoteScreen> {
                                     return CategoryScreen(
                                       cat_id: snapshot.data[index].catId,
                                       cat_name: snapshot.data[index].catName,
-                                      quoteBloc: categories_data,
                                     );
                                   },
                                 ),
