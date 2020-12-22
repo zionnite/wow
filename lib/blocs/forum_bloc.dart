@@ -28,13 +28,14 @@ class ForumBloc implements BlocBase {
     forumStreamController.sink.add(data);
   }
 
-  getCommentById(int Id) async {
-    comment_data = await getForumCommentById(Id);
+  getCommentById(String id) async {
+    comment_data = await getForumCommentById(id);
     forumCommentStreamCotroller.sink.add(comment_data);
   }
 
   @override
   void dispose() {
     forumStreamController.close();
+    forumCommentStreamCotroller.close();
   }
 }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wow/blocs/bloc_provider.dart';
+import 'package:wow/blocs/forum_bloc.dart';
+import 'package:wow/model/ForumComment.dart';
 import 'package:wow/screen/forum_make_comment.dart';
 import 'package:wow/utils.dart';
 import 'package:wow/widget/forum_detail_widget.dart';
@@ -14,6 +17,8 @@ class ForumDetailScreen extends StatefulWidget {
   String authorImg;
   String time_ago;
 
+  ForumBloc forumBloc;
+
   ForumDetailScreen({
     this.pick_id,
     this.imageName,
@@ -23,6 +28,7 @@ class ForumDetailScreen extends StatefulWidget {
     this.author,
     this.authorImg,
     this.time_ago,
+    this.forumBloc,
   });
 
   @override
@@ -129,132 +135,98 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
                 Column(
                   children: [
                     Padding(
-                        padding: const EdgeInsets.only(
-                          left: 8.0,
-                          right: 8.0,
-                          top: 5.0,
-                          bottom: 5.0,
-                        ),
-                        child: Column(
-                          children: [
-                            Card(
-                              elevation: 3,
-                              color: Colors.white70,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'i love the work christ has set for me i love the work christ has set for me i love the work christ has set for me i love the work christ has set for me i love the work christ has set for me ',
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        height: 2,
+                      padding: const EdgeInsets.only(
+                        left: 8.0,
+                        right: 8.0,
+                        top: 5.0,
+                        bottom: 5.0,
+                      ),
+                      child: StreamBuilder<List<ForumComment>>(
+                        stream: widget.forumBloc.allForumComment,
+                        builder: (context,
+                            AsyncSnapshot<List<ForumComment>> snapshot) {
+                          if (snapshot.hasData) {
+                            if (snapshot.error != null &&
+                                snapshot.data.length > 0) {
+                              return _buildErrorWidget(snapshot.error);
+                            }
+                            return ListView.builder(
+                              physics: ClampingScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (context, index) {
+                                if (snapshot.data[index].comId == null ||
+                                    snapshot.data[index].comId == '') {
+                                  return Container(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        'No comment yet, be the first to comment!',
+                                        style: TextStyle(
+                                          fontSize: 15.0,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      '2hrs ago',
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        height: 2,
+                                  );
+                                }
+                                return Card(
+                                  elevation: 3,
+                                  color: Colors.white70,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          snapshot.data[index].comBody,
+                                          style: TextStyle(
+                                            fontSize: 20.0,
+                                            height: 2,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Card(
-                              elevation: 3,
-                              color: Colors.white70,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'i love the work christ has set for me i love the work christ has set for me i love the work christ has set for me i love the work christ has set for me i love the work christ has set for me ',
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        height: 2,
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              snapshot.data[index].comAuthor,
+                                              style: TextStyle(
+                                                fontSize: 20.0,
+                                                height: 2,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 20.0,
+                                            ),
+                                            Text(
+                                              snapshot.data[index].comTime,
+                                              style: TextStyle(
+                                                fontSize: 20.0,
+                                                height: 2,
+                                                color: Colors.red.shade400,
+                                                fontWeight: FontWeight.w100,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      '2hrs ago',
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        height: 2,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Card(
-                              elevation: 3,
-                              color: Colors.white70,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'i love the work christ has set for me i love the work christ has set for me i love the work christ has set for me i love the work christ has set for me i love the work christ has set for me ',
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        height: 2,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      '2hrs ago',
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        height: 2,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Card(
-                              elevation: 3,
-                              color: Colors.white70,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'i love the work christ has set for me i love the work christ has set for me i love the work christ has set for me i love the work christ has set for me i love the work christ has set for me ',
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        height: 2,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      '2hrs ago',
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        height: 2,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )),
+                                );
+                              },
+                            );
+                          } else if (snapshot.hasError) {
+                            return _buildErrorWidget(snapshot.error);
+                          } else {
+                            return _buildLoadingWidget();
+                          }
+                        },
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -304,6 +276,42 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
                 ),
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    //widget.forumBloc.dispose();
+  }
+
+  @override
+  void initState() {
+    //widget.forumBloc = BlocProvider.of<ForumBloc>(context);
+  }
+
+  Widget _buildErrorWidget(String error) {
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("Error occured: $error"),
+      ],
+    ));
+  }
+
+  Widget _buildLoadingWidget() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 25.0,
+            width: 25.0,
+            child: CircularProgressIndicator(),
           ),
         ],
       ),

@@ -4,6 +4,7 @@ import 'package:wow/blocs/app_bloc.dart';
 import 'package:wow/blocs/bloc_provider.dart';
 import 'package:wow/blocs/forum_bloc.dart';
 import 'package:wow/model/Forum.dart';
+import 'package:wow/model/ForumComment.dart';
 import 'package:wow/model/Quote.dart';
 import 'package:wow/screen/forum_screen.dart';
 import 'package:wow/screen/quote_detail_screen.dart';
@@ -227,7 +228,10 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
-                            onTap: () {
+                            onTap: () async {
+                              //ForumBloc comment_detail =
+                              await forumBloc
+                                  .getCommentById(snapshot.data[index].id);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -243,6 +247,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                                           snapshot.data[index].authorImage,
                                       author: snapshot.data[index].author,
                                       time_ago: snapshot.data[index].time,
+                                      forumBloc: forumBloc,
                                     );
                                   },
                                 ),

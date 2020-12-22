@@ -20,6 +20,7 @@ class Quote {
     this.statusMsg,
     this.isBackground,
     this.backgroundLink,
+    this.catId,
   });
 
   String id;
@@ -34,6 +35,7 @@ class Quote {
   String statusMsg;
   String isBackground;
   String backgroundLink;
+  String catId;
 
   factory Quote.fromJson(Map<String, dynamic> json) => Quote(
         id: json["id"],
@@ -48,6 +50,7 @@ class Quote {
         statusMsg: json["status_msg"],
         isBackground: json["is_background"],
         backgroundLink: json["background_link"],
+        catId: json["cat_id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -63,5 +66,6 @@ class Quote {
         "status_msg": statusMsg,
         "is_background": isBackground,
         "background_link": backgroundLink,
+        "cat_id": catId,
       };
 }
