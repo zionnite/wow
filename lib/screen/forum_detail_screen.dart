@@ -36,7 +36,7 @@ class ForumDetailScreen extends StatefulWidget {
 }
 
 class _ForumDetailScreenState extends State<ForumDetailScreen> {
-  var forumBloc = ForumBloc();
+  final forumBloc = ForumBloc();
 
   @override
   void initState() {

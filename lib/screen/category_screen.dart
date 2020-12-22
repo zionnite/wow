@@ -16,16 +16,17 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  QuoteBloc quoteBloc;
+  final quoteBloc = QuoteBloc();
   @override
   void initState() {
-    quoteBloc = BlocProvider.of<QuoteBloc>(context);
+    //quoteBloc = BlocProvider.of<QuoteBloc>(context);
+    quoteBloc.getQuoteById(widget.cat_id);
   }
 
   @override
   void dispose() {
+    quoteBloc.dispose();
     super.dispose();
-    //quoteBloc.quoteCatController.close();
   }
 
   getCategoryQuote() async {
@@ -34,7 +35,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    getCategoryQuote();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
