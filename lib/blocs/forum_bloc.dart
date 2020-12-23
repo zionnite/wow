@@ -31,15 +31,15 @@ class ForumBloc implements BlocBase {
   final _mkpEmail = BehaviorSubject<String>();
   final _mkpTitle = BehaviorSubject<String>();
   final _mkpContent = BehaviorSubject<String>();
-  final _mkpPostImage = BehaviorSubject<File>();
-  final _mkpProfileImage = BehaviorSubject<File>();
+  final mkpPostImage = BehaviorSubject<File>();
+  final mkpProfileImage = BehaviorSubject<File>();
 
   Function(String) get mkpNameSink => _mkpName.sink.add;
   Function(String) get mkpEmailSink => _mkpEmail.sink.add;
   Function(String) get mkpTitleSink => _mkpTitle.sink.add;
   Function(String) get mkpContentSink => _mkpContent.sink.add;
-  Function(File) get mkpPostImageSink => _mkpPostImage.sink.add;
-  Function(File) get mkpProfileImageSink => _mkpProfileImage.sink.add;
+  Function(File) get mkpPostImageSink => mkpPostImage.sink.add;
+  Function(File) get mkpProfileImageSink => mkpProfileImage.sink.add;
 
   /*Forum Make Post*/
 
@@ -63,6 +63,19 @@ class ForumBloc implements BlocBase {
   postToComment(String id) async {
     commentStatus = await makeCommentPost(
         id, _mkcName.value, _mkcEmail.value, _mkcComment.value);
+
+    return commentStatus;
+  }
+
+  postToPost(File postImage, File profileImage) async {
+    commentStatus = await makePost(
+      _mkpName.value,
+      _mkpEmail.value,
+      _mkpTitle.value,
+      _mkpContent.value,
+      postImage,
+      profileImage,
+    );
 
     return commentStatus;
   }

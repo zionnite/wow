@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:wow/model/Category.dart';
 import 'package:wow/model/Forum.dart';
 import 'package:wow/model/ForumComment.dart';
@@ -5,6 +7,7 @@ import 'package:wow/model/Quote.dart';
 import 'package:http/http.dart' as http;
 
 final String mainUrl = 'http://wow.joons-me.com/Api';
+final String fakemainUrl = 'http://localhost/wow_php/Api';
 
 Future<List<Quote>> getAllQuotes() async {
   final response = await http.get('$mainUrl/get_quote');
@@ -53,7 +56,30 @@ Future<bool> makeCommentPost(
   } else {
     return false;
   }
-  // new Future.delayed(new Duration(seconds: 4), () {
-  //
-  // });
+}
+
+Future<bool> makePost(String name, String email, String title, String comment,
+    File postImg, File profileImg) async {
+  //return forumCommentFromJson(response.body);
+
+  final uri = Uri.parse('$mainUrl/make_post');
+  var request = http.MultipartRequest('POST', uri);
+  request.fields['title'] = title;
+  request.fields['body'] = comment;
+  request.fields['author'] = name;
+  request.fields['email'] = email;
+
+  var postImage = await http.MultipartFile.fromPath('post_image', postImg.path);
+  request.files.add(postImage);
+
+  var profileImage =
+      await http.MultipartFile.fromPath('profile_image', profileImg.path);
+  request.files.add(profileImage);
+
+  var respond = await request.send();
+  if (respond.statusCode == 200) {
+    return true;
+  } else {
+    return false;
+  }
 }
