@@ -227,6 +227,18 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                         shrinkWrap: true,
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
+                          if (snapshot.data[index].id == null ||
+                              snapshot.data[index].id == "") {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'There is no Trending topics to display at the moment',
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                ),
+                              ),
+                            );
+                          }
                           return GestureDetector(
                             onTap: () async {
                               //ForumBloc comment_detail =
@@ -321,12 +333,26 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                             snapshot.data.length > 0) {
                           return _buildErrorWidget(snapshot.error);
                         }
+
                         return ListView.builder(
                             physics: ClampingScrollPhysics(),
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, index) {
+                              //check if id is not null here
+                              if (snapshot.data[index].id == null ||
+                                  snapshot.data[index].id == "") {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Quote is not available at the moment',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    ),
+                                  ),
+                                );
+                              }
                               return GestureDetector(
                                 onTap: () {
                                   Navigator.push(

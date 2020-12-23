@@ -35,3 +35,25 @@ Future<List<ForumComment>> getForumCommentById(String id) async {
   final response = await http.get('$mainUrl/get_forum_comment_by_id/$id');
   return forumCommentFromJson(response.body);
 }
+
+Future<bool> makeCommentPost(
+    String id, String name, String email, String comment) async {
+  //return forumCommentFromJson(response.body);
+
+  final uri = Uri.parse('$mainUrl/make_comment');
+  var request = http.MultipartRequest('POST', uri);
+  request.fields['name'] = name;
+  request.fields['email'] = email;
+  request.fields['comment'] = comment;
+  request.fields['forum_id'] = id;
+
+  var respond = await request.send();
+  if (respond.statusCode == 200) {
+    return true;
+  } else {
+    return false;
+  }
+  // new Future.delayed(new Duration(seconds: 4), () {
+  //
+  // });
+}
