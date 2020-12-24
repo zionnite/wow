@@ -40,8 +40,18 @@ class ForumBloc implements BlocBase {
   Function(String) get mkpContentSink => _mkpContent.sink.add;
   Function(File) get mkpPostImageSink => mkpPostImage.sink.add;
   Function(File) get mkpProfileImageSink => mkpProfileImage.sink.add;
-
   /*Forum Make Post*/
+
+  /*Forum Search Post*/
+  final StreamController<List<Forum>> searchController =
+      BehaviorSubject<List<Forum>>();
+  final StreamController<String> searchTermController =
+      BehaviorSubject<String>();
+
+  StreamSink<String> get searchSink => searchTermController.sink;
+  Stream<List<Forum>> get searchStream => searchController.stream;
+
+  /*Forum Search Post*/
 
   List<Forum> data;
   List<ForumComment> comment_data;
@@ -80,6 +90,11 @@ class ForumBloc implements BlocBase {
     return commentStatus;
   }
 
+  searchForum(String search) async {
+    data = await searchForumPost(search);
+    searchController.sink.add(data);
+  }
+
   @override
   void dispose() {
     forumStreamController.close();
@@ -87,5 +102,13 @@ class ForumBloc implements BlocBase {
     _mkcName.close();
     _mkcEmail.close();
     _mkcComment.close();
+    _mkpName.close();
+    _mkpEmail.close();
+    _mkpTitle.close();
+    _mkpContent.close();
+    mkpPostImage.close();
+    mkpProfileImage.close();
+    searchController.close();
+    searchTermController.close();
   }
 }

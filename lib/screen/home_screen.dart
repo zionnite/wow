@@ -116,6 +116,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                             onChanged: (text) {
                               setState(() {
                                 searchTerm = text;
+                                //forumBloc.searchSink.add(searchTerm);
                               });
                             },
                             style: dropDownMenuItemStyle,

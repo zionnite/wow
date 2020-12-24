@@ -104,7 +104,7 @@ class ForumWidget extends StatelessWidget {
                 SizedBox(
                   width: 30.0,
                 ),
-                (comment_counter != null)
+                (comment_counter != '0')
                     ? Text(
                         '${comment_counter} Comment',
                         style: TextStyle(

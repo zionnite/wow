@@ -83,3 +83,14 @@ Future<bool> makePost(String name, String email, String title, String comment,
     return false;
   }
 }
+
+Future<List<Forum>> searchForumPost(String search_term) async {
+  final uri = Uri.parse('$mainUrl/search_forum');
+
+  var response = await http.post(uri, body: {
+    'search_term': search_term,
+  });
+
+  print(response.body);
+  return forumFromJson(response.body);
+}
