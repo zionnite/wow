@@ -91,6 +91,5 @@ Future<List<Forum>> searchForumPost(String search_term) async {
     'search_term': search_term,
   });
 
-  print(response.body);
   return forumFromJson(response.body);
 }
