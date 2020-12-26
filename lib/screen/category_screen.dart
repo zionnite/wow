@@ -3,6 +3,7 @@ import 'package:wow/blocs/QouteBloc.dart';
 import 'package:wow/blocs/bloc_provider.dart';
 import 'package:wow/model/Quote.dart';
 import 'package:wow/screen/quote_detail_screen.dart';
+import 'package:wow/services/ApiService.dart';
 import 'package:wow/utils.dart';
 import 'package:wow/widget/quote_widget.dart';
 
@@ -17,10 +18,40 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryScreen> {
   final quoteBloc = QuoteBloc();
+  ScrollController _controller;
+  int current_page = 1;
+  bool isLoading = false;
   @override
   void initState() {
     //quoteBloc = BlocProvider.of<QuoteBloc>(context);
-    quoteBloc.getQuoteById(widget.cat_id);
+    quoteBloc.getQuoteById(widget.cat_id, current_page);
+    _controller = ScrollController()..addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+      //quoteBloc.quotePerPage(1);
+      setState(() {
+        isLoading = true;
+        current_page++;
+      });
+
+      // Future.delayed(new Duration(seconds: 4), () {
+      getQuoteByCatId(widget.cat_id, current_page).then((value) => {
+            quoteBloc.handleCatListenPerPage(value),
+          });
+
+      //});
+    }
+  }
+
+  Future<void> handleRefresh() async {
+    setState(() {
+      current_page = 1;
+    });
+    await getQuoteByCatId(widget.cat_id, current_page).then((value) => {
+          quoteBloc.handleCatRefresh(value),
+        });
   }
 
   @override
@@ -30,7 +61,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   getCategoryQuote() async {
-    await quoteBloc.getQuoteById(widget.cat_id);
+    await quoteBloc.getQuoteById(widget.cat_id, current_page);
   }
 
   @override
@@ -53,83 +84,86 @@ class _CategoryScreenState extends State<CategoryScreen> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Text(
-              widget.cat_name,
-              style: TextStyle(
-                fontSize: 20.0,
-                color: Colors.red,
+      body: RefreshIndicator(
+        onRefresh: handleRefresh,
+        child: SingleChildScrollView(
+          controller: _controller,
+          child: Column(
+            children: [
+              Text(
+                widget.cat_name,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.red,
+                ),
               ),
-            ),
-            StreamBuilder<List<Quote>>(
-              stream: quoteBloc.listQuoteCatStream,
-              builder: (context, AsyncSnapshot<List<Quote>> snapshot) {
-                if (snapshot.hasData) {
-                  if (snapshot.error != null && snapshot.data.length > 0) {
-                    return _buildErrorWidget(snapshot.error);
-                  }
+              StreamBuilder<List<Quote>>(
+                stream: quoteBloc.listQuoteCatStream,
+                builder: (context, AsyncSnapshot<List<Quote>> snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.error != null && snapshot.data.length > 0) {
+                      return _buildErrorWidget(snapshot.error);
+                    }
 
-                  return ListView.builder(
-                      physics: ClampingScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (context, index) {
-                        if (snapshot.data[index].id == null ||
-                            snapshot.data[index].id == "") {
-                          return Center(
-                            child: Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Container(
-                                margin: EdgeInsets.only(),
-                                padding: EdgeInsets.all(10.0),
-                                child: Text(
-                                    'Could not fetched data, no Quote has been associated with this category'),
-                              ),
-                            ),
-                          );
-                        }
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return QuoteDetailScreen(
-                                    image_Name: snapshot.data[index].image,
-                                    quote_Title: snapshot.data[index].title,
-                                    quote_Desc: snapshot.data[index].desc,
-                                    author_name: snapshot.data[index].author,
-                                    author_Img:
-                                        snapshot.data[index].authorImage,
-                                    isBackground_Link:
-                                        snapshot.data[index].isBackground,
-                                    background_Link:
-                                        snapshot.data[index].backgroundLink,
-                                    timer_ago: snapshot.data[index].time,
-                                    dis_type: snapshot.data[index].type,
-                                  );
-                                },
+                    return ListView.builder(
+                        physics: ClampingScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          if (snapshot.data[index].id == null ||
+                              snapshot.data[index].id == "") {
+                            return Center(
+                              child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Container(
+                                  margin: EdgeInsets.only(),
+                                  padding: EdgeInsets.all(10.0),
+                                  child: Text('No more Data '),
+                                ),
                               ),
                             );
-                          },
-                          child: QuoteWidget(
-                            imageName: snapshot.data[index].image,
-                            quoteTitle: snapshot.data[index].title,
-                            quoteDesc: snapshot.data[index].desc,
-                          ),
-                        );
-                      });
-                } else if (snapshot.hasError) {
-                  return _buildErrorWidget(snapshot.error);
-                } else {
-                  return _buildLoadingWidget();
-                }
-              },
-            ),
-          ],
+                          }
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return QuoteDetailScreen(
+                                      image_Name: snapshot.data[index].image,
+                                      quote_Title: snapshot.data[index].title,
+                                      quote_Desc: snapshot.data[index].desc,
+                                      author_name: snapshot.data[index].author,
+                                      author_Img:
+                                          snapshot.data[index].authorImage,
+                                      isBackground_Link:
+                                          snapshot.data[index].isBackground,
+                                      background_Link:
+                                          snapshot.data[index].backgroundLink,
+                                      timer_ago: snapshot.data[index].time,
+                                      dis_type: snapshot.data[index].type,
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                            child: QuoteWidget(
+                              imageName: snapshot.data[index].image,
+                              quoteTitle: snapshot.data[index].title,
+                              quoteDesc: snapshot.data[index].desc,
+                            ),
+                          );
+                        });
+                  } else if (snapshot.hasError) {
+                    return _buildErrorWidget(snapshot.error);
+                  } else {
+                    return _buildLoadingWidget();
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -19,7 +19,6 @@ class QuoteScreen extends StatefulWidget {
 
 class _QuoteScreenState extends State<QuoteScreen> {
   final quoteBloc = QuoteBloc();
-  List<Quote> quoteList = List<Quote>();
   ScrollController _controller;
   int current_page = 1;
   bool isLoading = false;

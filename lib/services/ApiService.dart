@@ -16,7 +16,7 @@ Future<List<Quote>> getAllQuotes() async {
 
 Future<List<Quote>> getAllQuotesByPage(int current_page) async {
   final response =
-      await http.get('$fakemainUrl/get_quote_2/' + current_page.toString());
+      await http.get('$mainUrl/get_quote_2/' + current_page.toString());
   return quoteFromJson(response.body);
 }
 
@@ -30,8 +30,9 @@ Future<List<Category>> getAllCategory() async {
   return categoryFromJson(response.body);
 }
 
-Future<List<Quote>> getQuoteByCatId(String catId) async {
-  final response = await http.get('$mainUrl/get_quote_by_cat_id/$catId');
+Future<List<Quote>> getQuoteByCatId(String catId, int current_page) async {
+  final response =
+      await http.get('$fakemainUrl/get_quote_by_cat_id_2/$catId/$current_page');
   return quoteFromJson(response.body);
 }
 

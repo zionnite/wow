@@ -27,10 +27,8 @@ class QuoteBloc implements BlocBase {
 
   /*Per Page*/
 
-  List<Quote> data, page_data;
-  List<Quote> dataX;
+  List<Quote> data, page_data, dataX;
   List<Category> cat_data;
-  List<Quote> _list = [];
   QuoteBloc() {
     quotes();
     getCategory();
@@ -39,13 +37,11 @@ class QuoteBloc implements BlocBase {
   quotes() async {
     data = await getAllQuotes();
     _allQuoteController.sink.add(data);
-    //perPageController.stream.listen(handleListenPerPage);
-    //
   }
 
+  /*Quote Screen*/
   quotePerPage(int perPage) async {
     page_data = await getAllQuotesByPage(perPage);
-    // _list = await getAllQuotesByPage(perPage);
     perPageController.sink.add(page_data);
   }
 
@@ -59,16 +55,31 @@ class QuoteBloc implements BlocBase {
     page_data.addAll(quote);
     perPageController.sink.add(quote);
   }
+  /*Quote Screen*/
 
   getCategory() async {
     cat_data = await getAllCategory();
     categoryController.sink.add(cat_data);
   }
 
-  getQuoteById(String id) async {
-    dataX = await getQuoteByCatId(id);
+  /*Quote Category Screen*/
+
+  getQuoteById(String id, int current_page) async {
+    dataX = await getQuoteByCatId(id, current_page);
     listQuoteCatSink.add(dataX);
   }
+
+  handleCatListenPerPage(List<Quote> quote) {
+    dataX.addAll(quote);
+    listQuoteCatSink.add(dataX);
+  }
+
+  handleCatRefresh(List<Quote> quote) {
+    dataX.clear();
+    dataX.addAll(quote);
+    listQuoteCatSink.add(dataX);
+  }
+  /*Quote Category Screen*/
 
   void dispose() {
     _allQuoteController.close();
