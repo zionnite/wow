@@ -3,6 +3,7 @@ import 'package:wow/blocs/bloc_provider.dart';
 import 'package:wow/blocs/forum_bloc.dart';
 import 'package:wow/model/ForumComment.dart';
 import 'package:wow/screen/forum_make_comment.dart';
+import 'package:wow/services/ApiService.dart';
 import 'package:wow/utils.dart';
 import 'package:wow/widget/forum_detail_widget.dart';
 
@@ -38,9 +39,41 @@ class ForumDetailScreen extends StatefulWidget {
 class _ForumDetailScreenState extends State<ForumDetailScreen> {
   final forumBloc = ForumBloc();
 
+  ScrollController _controller;
+  int current_page = 1;
+  bool isLoading = false;
+
   @override
   void initState() {
-    forumBloc.getCommentById(widget.pick_id);
+    forumBloc.getCommentByIdnPage(widget.pick_id, current_page);
+    _controller = ScrollController()..addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+      setState(() {
+        isLoading = true;
+        current_page++;
+      });
+
+      // Future.delayed(new Duration(seconds: 4), () {
+      getForumCommentByIdnPerPage(widget.pick_id, current_page)
+          .then((value) => {
+                forumBloc.handleCommentListenPerPage(value),
+              });
+
+      //});
+    }
+  }
+
+  Future<void> handleRefresh() async {
+    setState(() {
+      current_page = 1;
+    });
+    await getForumCommentByIdnPerPage(widget.pick_id, current_page)
+        .then((value) => {
+              forumBloc.handleCommentListenRefresh(value),
+            });
   }
 
   @override
@@ -70,182 +103,191 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
       ),
       body: Stack(
         children: [
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                ForumDetailWidget(
-                  imageName: widget.imageName,
-                  forumTitle: widget.forumTitle,
-                  forumDesc: widget.forumDesc,
-                  comment_counter: widget.comment_counter,
-                  authorImg: widget.authorImg,
-                  author: widget.author,
-                  time_ago: widget.time_ago,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    elevation: 3,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: 5.0,
-                            bottom: 25.0,
-                          ),
-                          child: Text(
-                            '${widget.comment_counter} Comment',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              height: 2,
-                              color: Colors.deepOrangeAccent,
+          RefreshIndicator(
+            onRefresh: handleRefresh,
+            child: SingleChildScrollView(
+              controller: _controller,
+              child: Column(
+                children: [
+                  ForumDetailWidget(
+                    imageName: widget.imageName,
+                    forumTitle: widget.forumTitle,
+                    forumDesc: widget.forumDesc,
+                    comment_counter: widget.comment_counter,
+                    authorImg: widget.authorImg,
+                    author: widget.author,
+                    time_ago: widget.time_ago,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      elevation: 3,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 5.0,
+                              bottom: 25.0,
                             ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 15.0,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: 5.0,
-                            bottom: 25.0,
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return ForumMakeComment(
-                                      pick_id: widget.pick_id,
-                                    );
-                                  },
-                                ),
-                              );
-                            },
                             child: Text(
-                              'Make Comment',
+                              '${widget.comment_counter} Comment',
                               style: TextStyle(
                                 fontSize: 20.0,
                                 height: 2,
-                                color: Colors.blue,
+                                color: Colors.deepOrangeAccent,
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                          child: Divider(
-                            height: 1.0,
-                            color: Colors.black12,
+                          SizedBox(
+                            width: 15.0,
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 8.0,
-                        right: 8.0,
-                        top: 5.0,
-                        bottom: 5.0,
-                      ),
-                      child: StreamBuilder<List<ForumComment>>(
-                        stream: forumBloc.allForumComment,
-                        builder: (context,
-                            AsyncSnapshot<List<ForumComment>> snapshot) {
-                          if (snapshot.hasData) {
-                            if (snapshot.error != null &&
-                                snapshot.data.length > 0) {
-                              return _buildErrorWidget(snapshot.error);
-                            }
-                            return ListView.builder(
-                              physics: ClampingScrollPhysics(),
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemCount: snapshot.data.length,
-                              itemBuilder: (context, index) {
-                                if (snapshot.data[index].comId == null ||
-                                    snapshot.data[index].comId == '') {
-                                  return Container(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'No comment yet, be the first to comment!',
-                                        style: TextStyle(
-                                          fontSize: 15.0,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }
-                                return Card(
-                                  elevation: 3,
-                                  color: Colors.white70,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          snapshot.data[index].comBody,
-                                          style: TextStyle(
-                                            fontSize: 20.0,
-                                            height: 2,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              snapshot.data[index].comAuthor,
-                                              style: TextStyle(
-                                                fontSize: 20.0,
-                                                height: 2,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 20.0,
-                                            ),
-                                            Text(
-                                              snapshot.data[index].comTime,
-                                              style: TextStyle(
-                                                fontSize: 20.0,
-                                                height: 2,
-                                                color: Colors.red.shade400,
-                                                fontWeight: FontWeight.w100,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 5.0,
+                              bottom: 25.0,
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return ForumMakeComment(
+                                        pick_id: widget.pick_id,
+                                      );
+                                    },
                                   ),
                                 );
                               },
-                            );
-                          } else if (snapshot.hasError) {
-                            return _buildErrorWidget(snapshot.error);
-                          } else {
-                            return _buildLoadingWidget();
-                          }
-                        },
+                              child: Text(
+                                'Make Comment',
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  height: 2,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 18.0),
+                            child: Divider(
+                              height: 1.0,
+                              color: Colors.black12,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: 80.0,
-                ),
-              ],
+                  ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 8.0,
+                          right: 8.0,
+                          top: 5.0,
+                          bottom: 5.0,
+                        ),
+                        child: StreamBuilder<List<ForumComment>>(
+                          stream: forumBloc.allForumComment,
+                          builder: (context,
+                              AsyncSnapshot<List<ForumComment>> snapshot) {
+                            if (snapshot.hasData) {
+                              if (snapshot.error != null &&
+                                  snapshot.data.length > 0) {
+                                return _buildErrorWidget(snapshot.error);
+                              }
+                              return ListView.builder(
+                                physics: ClampingScrollPhysics(),
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                itemCount: snapshot.data.length,
+                                itemBuilder: (context, index) {
+                                  if (snapshot.data[index].comId == null ||
+                                      snapshot.data[index].comId == '') {
+                                    return Container(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'No comment!',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 15.0,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  return Card(
+                                    elevation: 3,
+                                    color: Colors.white70,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            snapshot.data[index].comBody,
+                                            style: TextStyle(
+                                              fontSize: 20.0,
+                                              height: 2,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                snapshot.data[index].comAuthor,
+                                                style: TextStyle(
+                                                  fontSize: 20.0,
+                                                  height: 2,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 20.0,
+                                              ),
+                                              Text(
+                                                snapshot.data[index].comTime,
+                                                style: TextStyle(
+                                                  fontSize: 20.0,
+                                                  height: 2,
+                                                  color: Colors.red.shade400,
+                                                  fontWeight: FontWeight.w100,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            } else if (snapshot.hasError) {
+                              return _buildErrorWidget(snapshot.error);
+                            } else {
+                              return _buildLoadingWidget();
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 80.0,
+                  ),
+                ],
+              ),
             ),
           ),
           Positioned(

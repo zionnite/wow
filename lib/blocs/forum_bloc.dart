@@ -94,6 +94,22 @@ class ForumBloc implements BlocBase {
     forumCommentStreamController.sink.add(comment_data);
   }
 
+  getCommentByIdnPage(String id, int page) async {
+    comment_data = await getForumCommentByIdnPerPage(id, page);
+    forumCommentStreamController.sink.add(comment_data);
+  }
+
+  handleCommentListenPerPage(List<ForumComment> forum) {
+    comment_data.addAll(forum);
+    forumCommentStreamController.sink.add(comment_data);
+  }
+
+  handleCommentListenRefresh(List<ForumComment> forum) {
+    comment_data.clear();
+    comment_data.addAll(forum);
+    forumCommentStreamController.sink.add(comment_data);
+  }
+
   postToComment(String id) async {
     commentStatus = await makeCommentPost(
         id, _mkcName.value, _mkcEmail.value, _mkcComment.value);
