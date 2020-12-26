@@ -59,7 +59,7 @@ class ForumBloc implements BlocBase {
 
   /*Per Page*/
 
-  List<Forum> data, page_data;
+  List<Forum> data, page_data, search_data;
   List<ForumComment> comment_data;
   bool commentStatus;
   ForumBloc() {
@@ -130,9 +130,20 @@ class ForumBloc implements BlocBase {
     return commentStatus;
   }
 
-  searchForum(String search) async {
-    data = await searchForumPost(search);
-    searchController.sink.add(data);
+  searchForum(String search, int page) async {
+    search_data = await searchForumPostByPage(search, page);
+    searchController.sink.add(search_data);
+  }
+
+  handleSearchListenPerPage(List<Forum> forum) {
+    search_data.addAll(forum);
+    searchController.sink.add(search_data);
+  }
+
+  handleSearchListenRefresh(List<Forum> forum) {
+    search_data.clear();
+    search_data.addAll(forum);
+    searchController.sink.add(search_data);
   }
 
   @override

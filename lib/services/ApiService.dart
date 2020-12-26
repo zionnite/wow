@@ -112,3 +112,14 @@ Future<List<Forum>> searchForumPost(String search_term) async {
 
   return forumFromJson(response.body);
 }
+
+Future<List<Forum>> searchForumPostByPage(
+    String search_term, int current_page) async {
+  final uri = Uri.parse('$fakemainUrl/search_forum_by_page/$current_page');
+
+  var response = await http.post(uri, body: {
+    'search_term': search_term,
+  });
+
+  return forumFromJson(response.body);
+}
