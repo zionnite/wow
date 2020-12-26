@@ -54,6 +54,12 @@ class QuoteBloc implements BlocBase {
     perPageController.sink.add(page_data);
   }
 
+  handleListenRefresh(List<Quote> quote) {
+    page_data.clear();
+    page_data.addAll(quote);
+    perPageController.sink.add(quote);
+  }
+
   getCategory() async {
     cat_data = await getAllCategory();
     categoryController.sink.add(cat_data);
