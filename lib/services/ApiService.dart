@@ -41,6 +41,11 @@ Future<List<Forum>> getAllForums() async {
   return forumFromJson(response.body);
 }
 
+Future<List<Forum>> getAllForumPerPage(int current_page) async {
+  final response = await http.get('$fakemainUrl/get_forum_2/$current_page');
+  return forumFromJson(response.body);
+}
+
 Future<List<ForumComment>> getForumCommentById(String id) async {
   final response = await http.get('$mainUrl/get_forum_comment_by_id/$id');
   return forumCommentFromJson(response.body);

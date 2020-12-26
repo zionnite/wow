@@ -50,10 +50,16 @@ class ForumBloc implements BlocBase {
 
   StreamSink<String> get searchSink => searchTermController.sink;
   Stream<List<Forum>> get searchStream => searchController.stream;
-
   /*Forum Search Post*/
 
-  List<Forum> data;
+  /*Per Page*/
+  final StreamController<List<Forum>> perPageController =
+      BehaviorSubject<List<Forum>>();
+  Stream<List<Forum>> get perPageStream => perPageController.stream;
+
+  /*Per Page*/
+
+  List<Forum> data, page_data;
   List<ForumComment> comment_data;
   bool commentStatus;
   ForumBloc() {
@@ -64,6 +70,24 @@ class ForumBloc implements BlocBase {
     data = await getAllForums();
     forumStreamController.sink.add(data);
   }
+
+  /*Quote Screen*/
+  forumPerPage(int perPage) async {
+    page_data = await getAllForumPerPage(perPage);
+    perPageController.sink.add(page_data);
+  }
+
+  handleListenPerPage(List<Forum> forum) {
+    page_data.addAll(forum);
+    perPageController.sink.add(page_data);
+  }
+
+  handleListenRefresh(List<Forum> forum) {
+    page_data.clear();
+    page_data.addAll(forum);
+    perPageController.sink.add(page_data);
+  }
+  /*Quote Screen*/
 
   getCommentById(String id) async {
     comment_data = await getForumCommentById(id);
