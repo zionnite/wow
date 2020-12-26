@@ -14,6 +14,12 @@ Future<List<Quote>> getAllQuotes() async {
   return quoteFromJson(response.body);
 }
 
+Future<List<Quote>> getAllQuotesByPage(int current_page) async {
+  final response =
+      await http.get('$fakemainUrl/get_quote_2/' + current_page.toString());
+  return quoteFromJson(response.body);
+}
+
 Future<List<Quote>> getQuoteById(String id) async {
   final response = await http.get('$mainUrl/get_quote_by_id/$id');
   return quoteFromJson(response.body);

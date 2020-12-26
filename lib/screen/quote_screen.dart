@@ -5,6 +5,7 @@ import 'package:wow/model/Category.dart';
 import 'package:wow/model/Quote.dart';
 import 'package:wow/screen/category_screen.dart';
 import 'package:wow/screen/quote_detail_screen.dart';
+import 'package:wow/services/ApiService.dart';
 import 'package:wow/widget/app_title_widget.dart';
 import 'package:wow/widget/quote_widget.dart';
 
@@ -17,11 +18,35 @@ class QuoteScreen extends StatefulWidget {
 }
 
 class _QuoteScreenState extends State<QuoteScreen> {
-  QuoteBloc quoteBloc;
-
+  final quoteBloc = QuoteBloc();
+  List<Quote> quoteList = List<Quote>();
+  ScrollController _controller;
+  int current_page = 1;
+  bool isLoading = false;
   @override
   void initState() {
-    quoteBloc = BlocProvider.of<QuoteBloc>(context);
+    super.initState();
+
+    quoteBloc.quotePerPage(current_page);
+    //quoteBloc.quotes();
+    _controller = ScrollController()..addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+      //quoteBloc.quotePerPage(1);
+      setState(() {
+        isLoading = true;
+        current_page++;
+      });
+
+      // Future.delayed(new Duration(seconds: 4), () {
+      getAllQuotesByPage(current_page).then((value) => {
+            quoteBloc.handleListenPerPage(value),
+          });
+
+      //});
+    }
   }
 
   @override
@@ -36,6 +61,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
+        controller: _controller,
         child: Column(
           children: [
             appTitleWidget(
@@ -112,49 +138,59 @@ class _QuoteScreenState extends State<QuoteScreen> {
               ),
             ),
             StreamBuilder<List<Quote>>(
-              stream: quoteBloc.allQuoteStream,
+              stream: quoteBloc.perPageStream,
               builder: (context, AsyncSnapshot<List<Quote>> snapshot) {
                 if (snapshot.hasData) {
                   if (snapshot.error != null && snapshot.data.length > 0) {
                     return _buildErrorWidget(snapshot.error);
                   }
                   return ListView.builder(
-                      physics: ClampingScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return QuoteDetailScreen(
-                                    image_Name: snapshot.data[index].image,
-                                    quote_Title: snapshot.data[index].title,
-                                    quote_Desc: snapshot.data[index].desc,
-                                    author_name: snapshot.data[index].author,
-                                    author_Img:
-                                        snapshot.data[index].authorImage,
-                                    isBackground_Link:
-                                        snapshot.data[index].isBackground,
-                                    background_Link:
-                                        snapshot.data[index].backgroundLink,
-                                    timer_ago: snapshot.data[index].time,
-                                    dis_type: snapshot.data[index].type,
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                          child: QuoteWidget(
-                            imageName: snapshot.data[index].image,
-                            quoteTitle: snapshot.data[index].title,
-                            quoteDesc: snapshot.data[index].desc,
-                          ),
-                        );
-                      });
+                    physics: ClampingScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      if (snapshot.data[index].id == null ||
+                          snapshot.data[index].id == '') {
+                        //isLoading = false;
+                        return (isLoading)
+                            ? Text(
+                                'No more data',
+                                textAlign: TextAlign.center,
+                              )
+                            : Container();
+                      }
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return QuoteDetailScreen(
+                                  image_Name: snapshot.data[index].image,
+                                  quote_Title: snapshot.data[index].title,
+                                  quote_Desc: snapshot.data[index].desc,
+                                  author_name: snapshot.data[index].author,
+                                  author_Img: snapshot.data[index].authorImage,
+                                  isBackground_Link:
+                                      snapshot.data[index].isBackground,
+                                  background_Link:
+                                      snapshot.data[index].backgroundLink,
+                                  timer_ago: snapshot.data[index].time,
+                                  dis_type: snapshot.data[index].type,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: QuoteWidget(
+                          imageName: snapshot.data[index].image,
+                          quoteTitle: snapshot.data[index].title,
+                          quoteDesc: snapshot.data[index].desc,
+                        ),
+                      );
+                    },
+                  );
                 } else if (snapshot.hasError) {
                   return _buildErrorWidget(snapshot.error);
                 } else {
@@ -189,6 +225,29 @@ class _QuoteScreenState extends State<QuoteScreen> {
             child: CircularProgressIndicator(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class MyLoader extends StatelessWidget {
+  final double width;
+  final double height;
+
+  MyLoader(this.width, this.height);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      child: Center(
+        child: SizedBox(
+          width: width,
+          height: height,
+          child: CircularProgressIndicator(
+            strokeWidth: 3.0,
+          ),
+        ),
       ),
     );
   }

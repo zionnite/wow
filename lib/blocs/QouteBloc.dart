@@ -20,10 +20,17 @@ class QuoteBloc implements BlocBase {
   StreamSink<List<Quote>> get listQuoteCatSink => quoteCatController.sink;
   Stream<List<Quote>> get listQuoteCatStream => quoteCatController.stream;
 
-  List<Quote> data;
+  /*Per Page*/
+  final StreamController<List<Quote>> perPageController =
+      BehaviorSubject<List<Quote>>();
+  Stream<List<Quote>> get perPageStream => perPageController.stream;
+
+  /*Per Page*/
+
+  List<Quote> data, page_data;
   List<Quote> dataX;
   List<Category> cat_data;
-
+  List<Quote> _list = [];
   QuoteBloc() {
     quotes();
     getCategory();
@@ -32,7 +39,19 @@ class QuoteBloc implements BlocBase {
   quotes() async {
     data = await getAllQuotes();
     _allQuoteController.sink.add(data);
+    //perPageController.stream.listen(handleListenPerPage);
     //
+  }
+
+  quotePerPage(int perPage) async {
+    page_data = await getAllQuotesByPage(perPage);
+    // _list = await getAllQuotesByPage(perPage);
+    perPageController.sink.add(page_data);
+  }
+
+  handleListenPerPage(List<Quote> quote) {
+    page_data.addAll(quote);
+    perPageController.sink.add(page_data);
   }
 
   getCategory() async {
@@ -48,6 +67,7 @@ class QuoteBloc implements BlocBase {
   void dispose() {
     _allQuoteController.close();
     categoryController.close();
-    // quoteCatController.close();
+    quoteCatController.close();
+    perPageController.close();
   }
 }
