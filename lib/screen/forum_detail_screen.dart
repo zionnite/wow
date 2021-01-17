@@ -244,13 +244,20 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                snapshot.data[index].comAuthor,
-                                                style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  height: 2,
-                                                  fontWeight: FontWeight.bold,
+                                              Expanded(
+                                                child: Text(
+                                                  snapshot
+                                                      .data[index].comAuthor,
+                                                  style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    height: 2,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                                 ),
                                               ),
                                               SizedBox(
