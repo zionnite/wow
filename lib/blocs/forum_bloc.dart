@@ -3,11 +3,12 @@ import 'dart:io';
 
 import 'package:rxdart/rxdart.dart';
 import 'package:wow/blocs/bloc_provider.dart';
+import 'package:wow/blocs/validator/form_validator.dart';
 import 'package:wow/model/Forum.dart';
 import 'package:wow/model/ForumComment.dart';
 import 'package:wow/services/ApiService.dart';
 
-class ForumBloc implements BlocBase {
+class ForumBloc extends Object with Validator implements BlocBase {
   final StreamController<List<Forum>> forumStreamController =
       BehaviorSubject<List<Forum>>();
   Stream<List<Forum>> get allforumStream => forumStreamController.stream;
@@ -21,6 +22,12 @@ class ForumBloc implements BlocBase {
   final _mkcName = BehaviorSubject<String>();
   final _mkcEmail = BehaviorSubject<String>();
   final _mkcComment = BehaviorSubject<String>();
+
+  Stream<String> get mkcNameSinkVal => _mkcName.transform(nameValidator);
+  Stream<String> get mkcEmailSinkVal => _mkcEmail.transform(emailValidator);
+  Stream<String> get mkcCommentStinkVal =>
+      _mkcComment.transform(commentValidator);
+
   Function(String) get mkcNameSink => _mkcName.sink.add;
   Function(String) get mkcEmailSink => _mkcEmail.sink.add;
   Function(String) get mkcCommentSink => _mkcComment.sink.add;
@@ -33,6 +40,18 @@ class ForumBloc implements BlocBase {
   final _mkpContent = BehaviorSubject<String>();
   final mkpPostImage = BehaviorSubject<File>();
   final mkpProfileImage = BehaviorSubject<File>();
+
+  Stream<String> get mkpNameSinkVal => _mkpName.transform(nameValidator);
+  Stream<String> get mkpEmailSinkVal => _mkpEmail.transform(emailValidator);
+  Stream<String> get mkpTitleSinkVal => _mkpTitle.transform(titleValidator);
+  Stream<String> get mkpContentSinkVal =>
+      _mkpContent.transform(contentValidator);
+  Stream<File> get mkpPostImageSinkVal =>
+      mkpPostImage.transform(postImageValidator);
+  Stream<File> get mkpProfileImageSinkVal =>
+      mkpProfileImage.transform(profileImageValidator);
+
+  //Stream<bool> get submitBtn  => Rx.combineLatestList(mkpNameSinkVal,mkpEmailSinkVal,mkpTitleSinkVal,mkpContentSinkVal,mkpPostImageSinkVal,mkpProfileImageSinkVal).
 
   Function(String) get mkpNameSink => _mkpName.sink.add;
   Function(String) get mkpEmailSink => _mkpEmail.sink.add;

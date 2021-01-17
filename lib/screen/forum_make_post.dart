@@ -108,68 +108,81 @@ class _ForumMakePostState extends State<ForumMakePost> {
                       )
                     : Container(),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 32.0),
+                  padding: EdgeInsets.symmetric(horizontal: 10.0),
                   child: Material(
                     elevation: 5.0,
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    child: TextField(
-                      controller: fullNameController,
-                      maxLines: null,
-                      onChanged: foumBloc.mkpNameSink,
-                      style: dropDownMenuItemStyle,
-                      cursorColor: Colors.black,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                            horizontal: 32.0, vertical: 14.0),
-                        border: InputBorder.none,
-                        hintText: 'Your Name',
+                    child: StreamBuilder<String>(
+                      stream: foumBloc.mkpNameSinkVal,
+                      builder: (context, snapshot) => TextField(
+                        controller: fullNameController,
+                        maxLines: 1,
+                        onChanged: foumBloc.mkpNameSink,
+                        style: dropDownMenuItemStyle,
+                        cursorColor: Colors.black,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 32.0, vertical: 14.0),
+                          border: InputBorder.none,
+                          hintText: 'Your Name',
+                          errorText: snapshot.error,
+                        ),
                       ),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                   child: Material(
                     elevation: 5.0,
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    child: TextField(
-                      controller: emailController,
-                      maxLines: null,
-                      onChanged: foumBloc.mkpEmailSink,
-                      style: dropDownMenuItemStyle,
-                      cursorColor: Colors.black,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                            horizontal: 32.0, vertical: 14.0),
-                        border: InputBorder.none,
-                        hintText: 'Your Email',
+                    child: StreamBuilder<String>(
+                      stream: foumBloc.mkpEmailSinkVal,
+                      builder: (context, snapshot) => TextField(
+                        keyboardType: TextInputType.emailAddress,
+                        controller: emailController,
+                        maxLines: 1,
+                        onChanged: foumBloc.mkpEmailSink,
+                        style: dropDownMenuItemStyle,
+                        cursorColor: Colors.black,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 32.0, vertical: 14.0),
+                          border: InputBorder.none,
+                          hintText: 'Your Email',
+                          errorText: snapshot.error,
+                        ),
                       ),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                   child: Material(
                     elevation: 5.0,
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    child: TextField(
-                      controller: titleController,
-                      maxLines: null,
-                      onChanged: foumBloc.mkpTitleSink,
-                      style: dropDownMenuItemStyle,
-                      cursorColor: Colors.black,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                            horizontal: 32.0, vertical: 14.0),
-                        border: InputBorder.none,
-                        hintText: 'Post Title',
+                    child: StreamBuilder<String>(
+                      stream: foumBloc.mkpTitleSinkVal,
+                      builder: (context, snapshot) => TextField(
+                        controller: titleController,
+                        maxLines: null,
+                        onChanged: foumBloc.mkpTitleSink,
+                        style: dropDownMenuItemStyle,
+                        cursorColor: Colors.black,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 32.0, vertical: 14.0),
+                          border: InputBorder.none,
+                          hintText: 'Post Title',
+                          errorText: snapshot.error,
+                        ),
                       ),
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 28.0, vertical: 3.0),
+                      horizontal: 8.0, vertical: 3.0),
                   child: Card(
                     elevation: 4.0,
                     child: Row(
@@ -196,13 +209,13 @@ class _ForumMakePostState extends State<ForumMakePost> {
                       ? Text('No Image Selected')
                       : Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 28.0, vertical: 3.0),
+                              horizontal: 8.0, vertical: 3.0),
                           child: Image.file(postImage),
                         ),
                 ),
                 Padding(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 32.0, vertical: 10.0),
+                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                   child: Container(
                     constraints: BoxConstraints(
                       maxHeight: 400.0,
@@ -211,17 +224,21 @@ class _ForumMakePostState extends State<ForumMakePost> {
                     child: Material(
                       elevation: 5.0,
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      child: TextField(
-                        controller: contentController,
-                        maxLines: null,
-                        onChanged: foumBloc.mkpContentSink,
-                        style: dropDownMenuItemStyle,
-                        cursorColor: Colors.black,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 32.0, vertical: 14.0),
-                          border: InputBorder.none,
-                          hintText: 'Write Detail of Post Content',
+                      child: StreamBuilder<String>(
+                        stream: foumBloc.mkpContentSinkVal,
+                        builder: (context, snapshot) => TextField(
+                          controller: contentController,
+                          maxLines: null,
+                          onChanged: foumBloc.mkpContentSink,
+                          style: dropDownMenuItemStyle,
+                          cursorColor: Colors.black,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 32.0, vertical: 14.0),
+                            border: InputBorder.none,
+                            hintText: 'Write Detail of Post Content',
+                            errorText: snapshot.error,
+                          ),
                         ),
                       ),
                     ),
@@ -229,7 +246,7 @@ class _ForumMakePostState extends State<ForumMakePost> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 28.0, vertical: 3.0),
+                      horizontal: 8.0, vertical: 3.0),
                   child: Card(
                     elevation: 4.0,
                     child: Row(
@@ -256,48 +273,75 @@ class _ForumMakePostState extends State<ForumMakePost> {
                       ? Text('No Image Selected')
                       : Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 28.0, vertical: 3.0),
+                              horizontal: 8.0, vertical: 3.0),
                           child: Image.file(profileImg),
                         ),
                 ),
+                (_showStatus == true)
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 14.0),
+                        child: Text(
+                          _statusMsg,
+                          style: TextStyle(
+                            fontSize: 15.0,
+                            color: Colors.red,
+                          ),
+                        ),
+                      )
+                    : Container(),
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 15.0),
-                  child: GestureDetector(
+                  margin: EdgeInsets.only(top: 15.0, bottom: 80.0),
+                  child: InkWell(
                     onTap: () async {
                       setState(() {
                         _isLoading = true;
                       });
-                      _showCommentStatus =
-                          await foumBloc.postToPost(postImage, profileImg);
 
-                      if (_showCommentStatus) {
-                        setState(() {
-                          new Future.delayed(new Duration(seconds: 4), () {
-                            _showStatus = true;
-                            _statusMsg = 'Post has been Added successfully!';
+                      if (postImage != null &&
+                          profileImg != null &&
+                          fullNameController.text.length > 5 &&
+                          emailController.text.contains("@") &&
+                          titleController.text.length > 10 &&
+                          contentController.text.length > 50) {
+                        _showCommentStatus =
+                            await foumBloc.postToPost(postImage, profileImg);
+
+                        if (_showCommentStatus) {
+                          setState(() {
+                            new Future.delayed(new Duration(seconds: 4), () {
+                              _showStatus = true;
+                              _statusMsg = 'Post has been Added successfully!';
+                            });
+                          });
+                        } else {
+                          setState(() {
+                            new Future.delayed(new Duration(seconds: 4), () {
+                              _showStatus = true;
+                              _statusMsg =
+                                  'Could not add Post, please try again later or contact admin if issue persist!';
+                            });
+                          });
+                        }
+
+                        new Future.delayed(new Duration(seconds: 4), () {
+                          setState(() {
+                            _isLoading = false;
+                            fullNameController.text = '';
+                            emailController.text = '';
+                            titleController.text = '';
+                            contentController.text = '';
+                            profileImg = null;
+                            postImage = null;
                           });
                         });
                       } else {
                         setState(() {
-                          new Future.delayed(new Duration(seconds: 4), () {
-                            _showStatus = true;
-                            _statusMsg =
-                                'Could not add Post, please try again later or contact admin if issue persist!';
-                          });
+                          _isLoading = false;
+                          _showStatus = true;
+                          _statusMsg =
+                              'All Information is needed, Please fill the form';
                         });
                       }
-
-                      new Future.delayed(new Duration(seconds: 4), () {
-                        setState(() {
-                          _isLoading = false;
-                          fullNameController.text = '';
-                          emailController.text = '';
-                          titleController.text = '';
-                          contentController.text = '';
-                          profileImg = null;
-                          postImage = null;
-                        });
-                      });
                     },
                     child: Card(
                       shape: RoundedRectangleBorder(

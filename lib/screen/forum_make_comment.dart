@@ -120,62 +120,75 @@ class _ForumMakeCommentState extends State<ForumMakeComment> {
                       )
                     : Container(),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 32.0),
+                  padding: EdgeInsets.symmetric(horizontal: 10.0),
                   child: Material(
                     elevation: 5.0,
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    child: TextField(
-                      controller: fullNameController,
-                      onChanged: foumBloc.mkcNameSink,
-                      style: dropDownMenuItemStyle,
-                      cursorColor: Colors.black,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                            horizontal: 32.0, vertical: 14.0),
-                        border: InputBorder.none,
-                        hintText: 'Your Name',
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 12),
-                  child: Material(
-                    elevation: 5.0,
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    child: TextField(
-                      controller: emailAddressController,
-                      onChanged: foumBloc.mkcEmailSink,
-                      style: dropDownMenuItemStyle,
-                      cursorColor: Colors.black,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                            horizontal: 32.0, vertical: 14.0),
-                        border: InputBorder.none,
-                        hintText: 'Your Email',
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 32.0, vertical: 10.0),
-                  child: Container(
-                    height: 500,
-                    child: Material(
-                      elevation: 5.0,
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      child: TextField(
-                        controller: commentController,
-                        maxLines: null,
-                        onChanged: foumBloc.mkcCommentSink,
+                    child: StreamBuilder<String>(
+                      stream: foumBloc.mkcNameSinkVal,
+                      builder: (context, snapshot) => TextField(
+                        controller: fullNameController,
+                        onChanged: foumBloc.mkcNameSink,
                         style: dropDownMenuItemStyle,
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(
                               horizontal: 32.0, vertical: 14.0),
                           border: InputBorder.none,
-                          hintText: 'Enter Comment Details',
+                          hintText: 'Your Name',
+                          errorText: snapshot.error,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
+                  child: Material(
+                    elevation: 5.0,
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    child: StreamBuilder<String>(
+                      stream: foumBloc.mkcEmailSinkVal,
+                      builder: (context, snapshot) => TextField(
+                        keyboardType: TextInputType.emailAddress,
+                        controller: emailAddressController,
+                        onChanged: foumBloc.mkcEmailSink,
+                        style: dropDownMenuItemStyle,
+                        cursorColor: Colors.black,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 32.0, vertical: 14.0),
+                          border: InputBorder.none,
+                          hintText: 'Your Email',
+                          errorText: snapshot.error,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                  child: Container(
+                    height: 500,
+                    child: Material(
+                      elevation: 5.0,
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      child: StreamBuilder<String>(
+                        stream: foumBloc.mkcCommentStinkVal,
+                        builder: (context, snapshot) => TextField(
+                          controller: commentController,
+                          maxLines: null,
+                          onChanged: foumBloc.mkcCommentSink,
+                          style: dropDownMenuItemStyle,
+                          cursorColor: Colors.black,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 32.0, vertical: 14.0),
+                            border: InputBorder.none,
+                            hintText: 'Enter Comment Details',
+                            errorText: snapshot.error,
+                          ),
                         ),
                       ),
                     ),
@@ -183,7 +196,7 @@ class _ForumMakeCommentState extends State<ForumMakeComment> {
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 15.0),
-                  child: GestureDetector(
+                  child: InkWell(
                     onTap: () async {
                       //submitComment();
 
@@ -191,33 +204,45 @@ class _ForumMakeCommentState extends State<ForumMakeComment> {
                         _isLoading = true;
                       });
 
-                      _showCommentStatus =
-                          await foumBloc.postToComment(widget.pick_id);
-                      if (_showCommentStatus) {
-                        setState(() {
-                          new Future.delayed(new Duration(seconds: 4), () {
-                            _showStatus = true;
-                            _statusMsg = 'Comment has been Added successfully!';
+                      if (fullNameController.text.length > 5 &&
+                          emailAddressController.text.contains("@") &&
+                          commentController.text.length > 10) {
+                        _showCommentStatus =
+                            await foumBloc.postToComment(widget.pick_id);
+                        if (_showCommentStatus) {
+                          setState(() {
+                            new Future.delayed(new Duration(seconds: 4), () {
+                              _showStatus = true;
+                              _statusMsg =
+                                  'Comment has been Added successfully!';
+                            });
+                          });
+                        } else {
+                          setState(() {
+                            new Future.delayed(new Duration(seconds: 4), () {
+                              _showStatus = true;
+                              _statusMsg =
+                                  'Could not add Comment, please try again later or contact admin if issue persist!';
+                            });
+                          });
+                        }
+
+                        new Future.delayed(new Duration(seconds: 4), () {
+                          setState(() {
+                            _isLoading = false;
+                            fullNameController.text = '';
+                            emailAddressController.text = '';
+                            commentController.text = '';
                           });
                         });
                       } else {
                         setState(() {
-                          new Future.delayed(new Duration(seconds: 4), () {
-                            _showStatus = true;
-                            _statusMsg =
-                                'Could not add Comment, please try again later or contact admin if issue persist!';
-                          });
+                          _isLoading = false;
+                          _showStatus = true;
+                          _statusMsg =
+                              'All Information is needed, Please fill the form';
                         });
                       }
-
-                      new Future.delayed(new Duration(seconds: 4), () {
-                        setState(() {
-                          _isLoading = false;
-                          fullNameController.text = '';
-                          emailAddressController.text = '';
-                          commentController.text = '';
-                        });
-                      });
                     },
                     child: Card(
                       shape: RoundedRectangleBorder(
