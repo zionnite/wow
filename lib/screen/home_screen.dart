@@ -30,6 +30,8 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
   ForumBloc forumBloc;
   //final QuoteBloc allQuoteBloc = QuoteBloc();
 
+  bool _showStatus = false;
+  String _statusMsg;
   TextEditingController searchTermController = TextEditingController();
 
   @override
@@ -130,22 +132,48 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                           ),
                         ),
                       ),
+                      (_showStatus == true)
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 14.0),
+                              child: Text(
+                                _statusMsg,
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            )
+                          : Container(),
                       Container(
                         margin: EdgeInsets.symmetric(vertical: 15.0),
-                        child: GestureDetector(
+                        child: InkWell(
                           onTap: () {
-                            setState(() {
-                              searchTermController.text = '';
-                            });
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return ResultSearchScreen(
-                                      searchTerm: searchTerm);
-                                },
-                              ),
-                            );
+                            if (!searchTermController.text.isEmpty) {
+                              setState(() {
+                                searchTermController.text = '';
+                                _showStatus = false;
+                              });
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return ResultSearchScreen(
+                                      searchTerm: searchTerm,
+                                    );
+                                  },
+                                ),
+                              );
+                            } else {
+                              setState(() {
+                                setState(() {
+                                  _showStatus = true;
+                                  _statusMsg =
+                                      'Search Term Field can\'t be empty!';
+                                });
+                              });
+                            }
                           },
                           child: Card(
                             shape: RoundedRectangleBorder(
