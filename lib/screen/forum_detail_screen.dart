@@ -40,7 +40,7 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
   final forumBloc = ForumBloc();
 
   ScrollController _controller;
-  int current_page = 1;
+  int current_page = 10;
   bool isLoading = false;
 
   @override

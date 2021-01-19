@@ -63,16 +63,34 @@ class appTitleWidget extends StatelessWidget {
                     colors: [firstColor, secondColor],
                   ),
                 ),
-                child: Align(
-                  alignment: Alignment.topCenter,
-                  child: Text(
-                    title,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 45.0,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
+                child: title.length < 6
+                    ? Align(
+                        alignment: Alignment.topCenter,
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 45.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    : Container(
+                        margin: EdgeInsets.only(
+                          left: 20.0,
+                        ),
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Text(
+                            title,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 40.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
               ),
             ),
           ],

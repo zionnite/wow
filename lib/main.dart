@@ -9,6 +9,7 @@ import 'package:wow/screen/forum_screen.dart';
 import 'package:wow/screen/home_screen.dart';
 import 'package:wow/screen/quote_detail_screen.dart';
 import 'package:wow/screen/quote_screen.dart';
+import 'package:wow/screen/send_private_message.dart';
 import 'package:wow/utils.dart';
 
 // Future<void> main() async {
@@ -55,6 +56,7 @@ class _MyAppState extends State<MyApp> {
         Nav.id: (context) => Nav(),
         ForumDetailScreen.id: (context) => ForumDetailScreen(),
         QuoteDetailScreen.id: (context) => QuoteDetailScreen(),
+        SendPrivateMessage.id: (context) => SendPrivateMessage(),
       },
       home: Nav(),
       theme: appTheme,

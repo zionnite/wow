@@ -1,9 +1,12 @@
+import 'package:draggable_fab/draggable_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:wow/blocs/bloc_provider.dart';
 import 'package:wow/blocs/forum_bloc.dart';
 import 'package:wow/model/Forum.dart';
 import 'package:wow/screen/forum_make_post.dart';
+import 'package:wow/screen/send_private_message.dart';
 import 'package:wow/services/ApiService.dart';
+import 'package:wow/utils.dart';
 import 'package:wow/widget/app_title_widget.dart';
 import 'package:wow/widget/forum_widget.dart';
 
@@ -59,7 +62,7 @@ class _ForumScreenState extends State<ForumScreen> {
 
   @override
   void dispose() {
-    forumBloc.dispose();
+    //forumBloc.dispose();
     super.dispose();
   }
 
@@ -178,6 +181,17 @@ class _ForumScreenState extends State<ForumScreen> {
           ),
         ),
       ),
+      floatingActionButton: DraggableFab(
+        child: FloatingActionButton(
+          backgroundColor: firstColor,
+          onPressed: () {
+            Navigator.pushNamed(context, SendPrivateMessage.id);
+          },
+          child: Icon(
+            Icons.message,
+          ),
+        ),
+      ),
     );
   }
 
@@ -186,7 +200,7 @@ class _ForumScreenState extends State<ForumScreen> {
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Error occured: $error"),
+        Text("Error occurred: $error"),
       ],
     ));
   }

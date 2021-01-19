@@ -20,7 +20,7 @@ class _ResultSearchScreenState extends State<ResultSearchScreen> {
   final forumBloc = ForumBloc();
 
   ScrollController _controller;
-  int current_page = 1;
+  int current_page = 10;
   bool isLoading = false;
   @override
   void initState() {
@@ -56,7 +56,7 @@ class _ResultSearchScreenState extends State<ResultSearchScreen> {
 
   @override
   void dispose() {
-    forumBloc.dispose();
+    //forumBloc.dispose();
     super.dispose();
   }
 

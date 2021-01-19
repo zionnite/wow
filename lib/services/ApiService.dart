@@ -123,3 +123,24 @@ Future<List<Forum>> searchForumPostByPage(
 
   return forumFromJson(response.body);
 }
+
+Future<bool> sendPrivateMsg({
+  String name,
+  String email,
+  String message,
+}) async {
+  final uri = Uri.parse('$mainUrl/send_private_message');
+  var request = http.MultipartRequest('POST', uri);
+  request.fields['name'] = name;
+  request.fields['email'] = email;
+  request.fields['message'] = message;
+
+  var respond = await request.send();
+
+  print(respond);
+  if (respond.statusCode == 200) {
+    return true;
+  } else {
+    return false;
+  }
+}

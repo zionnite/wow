@@ -1,3 +1,4 @@
+import 'package:draggable_fab/draggable_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:wow/blocs/QouteBloc.dart';
 import 'package:wow/blocs/bloc_provider.dart';
@@ -5,7 +6,9 @@ import 'package:wow/model/Category.dart';
 import 'package:wow/model/Quote.dart';
 import 'package:wow/screen/category_screen.dart';
 import 'package:wow/screen/quote_detail_screen.dart';
+import 'package:wow/screen/send_private_message.dart';
 import 'package:wow/services/ApiService.dart';
+import 'package:wow/utils.dart';
 import 'package:wow/widget/app_title_widget.dart';
 import 'package:wow/widget/quote_widget.dart';
 
@@ -60,7 +63,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
   @override
   void dispose() {
     super.dispose();
-    quoteBloc.dispose();
+    //quoteBloc.dispose();
     quoteBloc.quoteCatController.close();
   }
 
@@ -210,6 +213,17 @@ class _QuoteScreenState extends State<QuoteScreen> {
                 },
               ),
             ],
+          ),
+        ),
+      ),
+      floatingActionButton: DraggableFab(
+        child: FloatingActionButton(
+          backgroundColor: firstColor,
+          onPressed: () {
+            Navigator.pushNamed(context, SendPrivateMessage.id);
+          },
+          child: Icon(
+            Icons.message,
           ),
         ),
       ),
