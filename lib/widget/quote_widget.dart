@@ -73,6 +73,7 @@ class QuoteWidget extends StatelessWidget {
                 left: 8.0,
                 top: 5.0,
                 bottom: 5.0,
+                right: 8.0,
               ),
               child: Text(
                 this.quoteDesc,
@@ -80,6 +81,7 @@ class QuoteWidget extends StatelessWidget {
                   fontSize: 17.0,
                   fontStyle: FontStyle.normal,
                   fontFamily: 'Oxygen',
+                  height: 2.0,
                 ),
                 maxLines: 5,
               ),

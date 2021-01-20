@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wow/utils.dart';
 
 class ForumWidget extends StatelessWidget {
@@ -78,9 +80,11 @@ class ForumWidget extends StatelessWidget {
                 left: 8.0,
                 top: 5.0,
                 bottom: 5.0,
+                right: 8.0,
               ),
-              child: Text(
-                this.quoteDesc,
+              child: SelectableLinkify(
+                onOpen: _onOpen,
+                text: this.quoteDesc,
                 style: TextStyle(
                   fontSize: 17.0,
                   fontStyle: FontStyle.normal,
@@ -125,5 +129,13 @@ class ForumWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _onOpen(LinkableElement link) async {
+    if (await canLaunch(link.url)) {
+      await launch(link.url);
+    } else {
+      throw 'Could not launch $link';
+    }
   }
 }
