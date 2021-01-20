@@ -20,7 +20,7 @@ class _ResultSearchScreenState extends State<ResultSearchScreen> {
   final forumBloc = ForumBloc();
 
   ScrollController _controller;
-  int current_page = 10;
+  int current_page = 1;
   bool isLoading = false;
   @override
   void initState() {
