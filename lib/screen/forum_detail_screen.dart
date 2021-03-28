@@ -208,21 +208,7 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
                                 itemBuilder: (context, index) {
                                   if (snapshot.data[index].comId == null ||
                                       snapshot.data[index].comId == '') {
-                                    return Container(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'No comment!',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 15.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    );
+                                    return Container();
                                   }
                                   return Card(
                                     elevation: 3,

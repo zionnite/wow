@@ -4,6 +4,7 @@ import 'package:wow/blocs/QouteBloc.dart';
 import 'package:wow/blocs/app_bloc.dart';
 import 'package:wow/blocs/bloc_provider.dart';
 import 'package:wow/blocs/forum_bloc.dart';
+import 'package:wow/model/Category.dart';
 import 'package:wow/model/Forum.dart';
 import 'package:wow/model/ForumComment.dart';
 import 'package:wow/model/Quote.dart';
@@ -17,6 +18,7 @@ import 'package:wow/utils.dart';
 import 'package:wow/widget/quote_widget.dart';
 import '../CustomShapeClipper.dart';
 import '../widget/forum_list_widget.dart';
+import 'category_screen.dart';
 import 'forum_detail_screen.dart';
 
 class HomeScreenTopPart extends StatefulWidget {
@@ -65,7 +67,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                 ClipPath(
                   clipper: CustomShapeClipper(),
                   child: Container(
-                    height: 450.0,
+                    height: 550.0,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [firstColor, secondColor],
@@ -76,22 +78,6 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                         SizedBox(
                           height: 20.0,
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.symmetric(horizontal: 28.0),
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //     children: [
-                        //       Icon(
-                        //         Icons.location_on,
-                        //         color: Colors.white,
-                        //       ),
-                        //       Icon(
-                        //         Icons.settings,
-                        //         color: Colors.white,
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                         SizedBox(
                           height: 50.0,
                         ),
@@ -112,89 +98,95 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                           height: 20.0,
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 32.0),
-                          child: Material(
-                            elevation: 5.0,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
-                            child: TextField(
-                              controller: searchTermController,
-                              onChanged: (text) {
-                                setState(() {
-                                  searchTerm = text;
-                                  //forumBloc.searchSink.add(searchTerm);
-                                });
-                              },
-                              style: dropDownMenuItemStyle,
-                              cursorColor: Colors.black,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 32.0, vertical: 14.0),
-                                border: InputBorder.none,
-                                hintText: 'Enter Search Term',
-                              ),
+                          padding: const EdgeInsets.only(
+                              left: 8.0, right: 8.0, top: 20.0),
+                          child: Text(
+                            'Please Click a Category or Scroll this way for more!',
+                            style: TextStyle(
+                              fontSize: 25.0,
+                              fontWeight: FontWeight.bold,
                             ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                        (_showStatus == true)
-                            ? Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 14.0),
-                                child: Text(
-                                  _statusMsg,
-                                  style: TextStyle(
-                                    fontSize: 15.0,
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              )
-                            : Container(),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 5.0, top: 5.0),
-                          child: InkWell(
-                            onTap: () {
-                              if (!searchTermController.text.isEmpty) {
-                                setState(() {
-                                  searchTermController.text = '';
-                                  _showStatus = false;
-                                });
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return ResultSearchScreen(
-                                        searchTerm: searchTerm,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                            size: 80.0,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 2.0),
+                          child: Container(
+                            height: 100.0,
+                            child: StreamBuilder<List<Category>>(
+                              stream: quoteBloc.categoryStream,
+                              builder: (context,
+                                  AsyncSnapshot<List<Category>> snapshot) {
+                                if (snapshot.hasData) {
+                                  if (snapshot.error != null &&
+                                      snapshot.data.length > 0) {
+                                    return _buildErrorWidget(snapshot.error);
+                                  }
+                                  return ListView.builder(
+                                    physics: ClampingScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    shrinkWrap: true,
+                                    itemCount: snapshot.data.length,
+                                    itemBuilder: (context, index) {
+                                      return Container(
+                                        margin: EdgeInsets.symmetric(
+                                            vertical: 15.0),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            //QuoteBloc categories_data = await quoteBloc
+                                            //  .getQuoteById(snapshot.data[index].catId);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) {
+                                                  return CategoryScreen(
+                                                    cat_id: snapshot
+                                                        .data[index].catId,
+                                                    cat_name: snapshot
+                                                        .data[index].catName,
+                                                  );
+                                                },
+                                              ),
+                                            );
+                                          },
+                                          child: Card(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(250),
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 18.0,
+                                                      horizontal: 50),
+                                              child: Text(
+                                                snapshot.data[index].catName,
+                                                style: TextStyle(
+                                                  fontSize: 18.0,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                            elevation: 5.0,
+                                          ),
+                                        ),
                                       );
                                     },
-                                  ),
-                                );
-                              } else {
-                                setState(() {
-                                  setState(() {
-                                    _showStatus = true;
-                                    _statusMsg =
-                                        'Search Term Field can\'t be empty!';
-                                  });
-                                });
-                              }
-                            },
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(250),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 18.0, horizontal: 50),
-                                child: Text(
-                                  'Search',
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              elevation: 5.0,
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return _buildErrorWidget(snapshot.error);
+                                } else {
+                                  return _buildLoadingWidget();
+                                }
+                              },
                             ),
                           ),
                         ),
@@ -203,6 +195,25 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                   ),
                 ),
               ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 20.0),
+              child: Text(
+                'Scroll Down for More!',
+                style: TextStyle(
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.arrow_downward_rounded,
+                color: Colors.black,
+                size: 80.0,
+              ),
             ),
             Column(
               children: [

@@ -113,16 +113,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         itemBuilder: (context, index) {
                           if (snapshot.data[index].id == null ||
                               snapshot.data[index].id == "") {
-                            return Center(
-                              child: Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Container(
-                                  margin: EdgeInsets.only(),
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Text('No more Data '),
-                                ),
-                              ),
-                            );
+                            return Container();
                           }
                           return GestureDetector(
                             onTap: () {

@@ -80,6 +80,26 @@ class _ForumScreenState extends State<ForumScreen> {
                 title: 'Forum',
                 toNav: Nav.id,
               ),
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 8.0, right: 8.0, top: 20.0),
+                child: Text(
+                  'Scroll Down for More!',
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.arrow_downward_rounded,
+                  color: Colors.black,
+                  size: 80.0,
+                ),
+              ),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 15.0),
                 child: GestureDetector(
@@ -101,7 +121,7 @@ class _ForumScreenState extends State<ForumScreen> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 18.0, horizontal: 50),
                       child: Text(
-                        'Create Topic',
+                        'Click here to tell your Story!',
                         style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
@@ -129,13 +149,7 @@ class _ForumScreenState extends State<ForumScreen> {
                             itemBuilder: (context, index) {
                               if (snapshot.data[index].id == null ||
                                   snapshot.data[index].id == '') {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'No More Data',
-                                    textAlign: TextAlign.center,
-                                  ),
-                                );
+                                return Container();
                               }
                               return GestureDetector(
                                 onTap: () {
