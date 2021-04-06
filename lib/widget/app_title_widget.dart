@@ -31,10 +31,22 @@ class appTitleWidget extends StatelessWidget {
                           Navigator.popAndPushNamed(context, toNav);
                         }
                       },
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: 40.0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: 50.0,
+                          ),
+                          Text(
+                            'Go Back',
+                            style: TextStyle(
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

@@ -156,7 +156,7 @@ class _SendPrivateMessageState extends State<SendPrivateMessage> {
                         new Future.delayed(new Duration(seconds: 4), () {
                           _showStatus = true;
                           _statusMsg =
-                              'Could not add Send Message, please try again later or contact admin if issue persist!';
+                              'Could not Send Message, please try again later or contact admin if issue persist!';
                         });
                       });
                     }

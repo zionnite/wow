@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wow/blocs/QouteBloc.dart';
 import 'package:wow/blocs/app_bloc.dart';
 import 'package:wow/blocs/bloc_provider.dart';
@@ -45,6 +46,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    //   DeviceOrientation.portraitDown,
+    // ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       //initialRoute: '/',

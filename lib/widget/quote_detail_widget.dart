@@ -50,9 +50,9 @@ class QuoteDetailWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: 500.0,
                   child: CachedNetworkImage(
                     imageUrl: imageName,
+                    width: double.infinity,
                     fit: BoxFit.cover,
                     fadeInDuration: Duration(milliseconds: 500),
                     fadeInCurve: Curves.easeIn,

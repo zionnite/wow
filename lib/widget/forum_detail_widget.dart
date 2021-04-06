@@ -50,10 +50,10 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: 500.0,
                   child: CachedNetworkImage(
                     imageUrl: widget.imageName,
-                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    fit: BoxFit.fitWidth,
                     fadeInDuration: Duration(milliseconds: 500),
                     fadeInCurve: Curves.easeIn,
                     placeholder: (context, progressText) => Center(

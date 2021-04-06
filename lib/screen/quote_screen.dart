@@ -64,7 +64,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
   void dispose() {
     super.dispose();
     //quoteBloc.dispose();
-    quoteBloc.quoteCatController.close();
+    //quoteBloc.quoteCatController.close();
   }
 
   @override
@@ -81,73 +81,24 @@ class _QuoteScreenState extends State<QuoteScreen> {
                 title: 'Quote',
                 toNav: Nav.id,
               ),
-              Text(
-                'Categories',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  color: Colors.redAccent.shade400,
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 8.0, right: 8.0, top: 20.0),
+                child: Text(
+                  'Scroll Down for More!',
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
-              Container(
-                height: 100.0,
-                child: StreamBuilder<List<Category>>(
-                  stream: quoteBloc.categoryStream,
-                  builder: (context, AsyncSnapshot<List<Category>> snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.error != null && snapshot.data.length > 0) {
-                        return _buildErrorWidget(snapshot.error);
-                      }
-                      return ListView.builder(
-                        physics: ClampingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.symmetric(vertical: 15.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                //QuoteBloc categories_data = await quoteBloc
-                                //  .getQuoteById(snapshot.data[index].catId);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return CategoryScreen(
-                                        cat_id: snapshot.data[index].catId,
-                                        cat_name: snapshot.data[index].catName,
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(250),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 18.0, horizontal: 50),
-                                  child: Text(
-                                    snapshot.data[index].catName,
-                                    style: TextStyle(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                elevation: 5.0,
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    } else if (snapshot.hasError) {
-                      return _buildErrorWidget(snapshot.error);
-                    } else {
-                      return _buildLoadingWidget();
-                    }
-                  },
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.arrow_downward_rounded,
+                  color: Colors.black,
+                  size: 80.0,
                 ),
               ),
               StreamBuilder<List<Quote>>(
@@ -166,12 +117,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
                         if (snapshot.data[index].id == null ||
                             snapshot.data[index].id == '') {
                           //isLoading = false;
-                          return (isLoading)
-                              ? Text(
-                                  'No more data',
-                                  textAlign: TextAlign.center,
-                                )
-                              : Container();
+                          return Container();
                         }
                         return GestureDetector(
                           onTap: () {

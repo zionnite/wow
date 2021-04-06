@@ -6,7 +6,8 @@ import 'package:wow/model/ForumComment.dart';
 import 'package:wow/model/Quote.dart';
 import 'package:http/http.dart' as http;
 
-final String mainUrl = 'http://wow.esuku.xyz/Api';
+// final String mainUrl = 'http://wow.esuku.xyz/Api';
+final String mainUrl = 'https://api.osherwomen.com/Api';
 final String fakemainUrl = 'http://localhost/wow_php/Api';
 
 Future<List<Quote>> getAllQuotes() async {
@@ -22,6 +23,11 @@ Future<List<Quote>> getAllQuotesByPage(int current_page) async {
 
 Future<List<Quote>> getQuoteById(String id) async {
   final response = await http.get('$mainUrl/get_quote_by_id/$id');
+  return quoteFromJson(response.body);
+}
+
+Future<List<Quote>> getRandomQuote() async {
+  final response = await http.get('$mainUrl/get_random_quote');
   return quoteFromJson(response.body);
 }
 
@@ -137,7 +143,7 @@ Future<bool> sendPrivateMsg({
 
   var respond = await request.send();
 
-  print(respond);
+  //print(respond);
   if (respond.statusCode == 200) {
     return true;
   } else {

@@ -20,7 +20,7 @@ class QuoteWidget extends StatelessWidget {
         horizontal: 9.0,
         vertical: 9.0,
       ),
-      height: 800.0,
+      height: 500.0,
       width: double.infinity,
       child: Card(
         elevation: 5.0,
@@ -38,7 +38,8 @@ class QuoteWidget extends StatelessWidget {
                 // ),
                 child: CachedNetworkImage(
                   imageUrl: imageName,
-                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  fit: BoxFit.fitWidth,
                   fadeInDuration: Duration(milliseconds: 500),
                   fadeInCurve: Curves.easeIn,
                   placeholder: (context, progressText) => Center(

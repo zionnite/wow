@@ -56,15 +56,18 @@ class forumList extends StatelessWidget {
                 Flexible(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        title,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 18.0,
+                      Container(
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 18.0,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        overflow: TextOverflow.ellipsis,
                       ),
                       Text(
                         user_name,
@@ -76,20 +79,20 @@ class forumList extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.0),
-                    ),
-                  ),
-                  child: Text(
-                    time_ago,
-                    style: TextStyle(fontSize: 14.0, color: Colors.black),
-                  ),
-                ),
+                // Container(
+                //   padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
+                //   decoration: BoxDecoration(
+                //     color: Colors.white,
+                //     shape: BoxShape.rectangle,
+                //     borderRadius: BorderRadius.all(
+                //       Radius.circular(10.0),
+                //     ),
+                //   ),
+                //   child: Text(
+                //     time_ago,
+                //     style: TextStyle(fontSize: 14.0, color: Colors.black),
+                //   ),
+                // ),
               ],
             ),
           )

@@ -20,6 +20,11 @@ class QuoteBloc implements BlocBase {
   StreamSink<List<Quote>> get listQuoteCatSink => quoteCatController.sink;
   Stream<List<Quote>> get listQuoteCatStream => quoteCatController.stream;
 
+  final StreamController<List<Quote>> randomQuoteController =
+      BehaviorSubject<List<Quote>>();
+  StreamSink<List<Quote>> get listRandomQuoteSink => randomQuoteController.sink;
+  Stream<List<Quote>> get listRandomQuoteStream => randomQuoteController.stream;
+
   /*Per Page*/
   final StreamController<List<Quote>> perPageController =
       BehaviorSubject<List<Quote>>();
@@ -27,11 +32,12 @@ class QuoteBloc implements BlocBase {
 
   /*Per Page*/
 
-  List<Quote> data, page_data, dataX;
+  List<Quote> data, page_data, dataX, random_data;
   List<Category> cat_data;
   QuoteBloc() {
     quotes();
     getCategory();
+    randomQuote();
   }
 
   quotes() async {
@@ -56,6 +62,11 @@ class QuoteBloc implements BlocBase {
     perPageController.sink.add(quote);
   }
   /*Quote Screen*/
+
+  randomQuote() async {
+    random_data = await getRandomQuote();
+    randomQuoteController.sink.add(random_data);
+  }
 
   getCategory() async {
     cat_data = await getAllCategory();
@@ -83,6 +94,7 @@ class QuoteBloc implements BlocBase {
 
   void dispose() {
     _allQuoteController.close();
+    randomQuoteController.close();
     categoryController.close();
     quoteCatController.close();
     perPageController.close();

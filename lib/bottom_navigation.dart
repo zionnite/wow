@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wow/screen/forum_screen.dart';
+import 'package:wow/screen/profile_screen.dart';
 import 'package:wow/screen/quote_screen.dart';
+import 'package:wow/screen/story_screen.dart';
 import 'package:wow/utils.dart';
 
 import 'screen/home_screen.dart';
@@ -17,6 +19,8 @@ class _NavState extends State<Nav> {
     HomeScreenTopPart(),
     QuoteScreen(),
     ForumScreen(),
+    StoryScreen(),
+    ProfileScreen(),
   ];
 
   void _onItemTap(int index) {
@@ -48,16 +52,29 @@ class _NavState extends State<Nav> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.people_alt_rounded,
+              Icons.all_inbox_outlined,
             ),
             label: 'Forum',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.album_sharp,
+            ),
+            label: 'Story',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.people_alt_rounded,
+            ),
+            label: 'Profile',
           ),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTap,
-        selectedFontSize: 20.0,
-        unselectedFontSize: 20.0,
+        selectedFontSize: 15.0,
+        unselectedFontSize: 15.0,
         selectedItemColor: firstColor,
+        unselectedItemColor: Colors.grey,
       ),
     );
   }
