@@ -35,47 +35,61 @@ class _NavState extends State<Nav> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 10.0,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
+      bottomNavigationBar: new Theme(
+        data: Theme.of(context).copyWith(
+          // sets the background color of the `BottomNavigationBar`
+          canvasColor: Colors.white,
+          // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+          primaryColor: Colors.red,
+          textTheme: Theme.of(context).textTheme.copyWith(
+                caption: new TextStyle(
+                  color: Colors.yellow,
+                ),
+              ),
+        ), // sets the inactive color of the `BottomNavigationBar`
+        child: BottomNavigationBar(
+          elevation: 10.0,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+              ),
+              label: 'Home',
             ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.menu_book_rounded,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.menu_book_rounded,
+              ),
+              label: 'Quote',
             ),
-            label: 'Quote',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.all_inbox_outlined,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.all_inbox_outlined,
+              ),
+              label: 'Forum',
             ),
-            label: 'Forum',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.album_sharp,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.album_sharp,
+              ),
+              label: 'Story',
             ),
-            label: 'Story',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.people_alt_rounded,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.people_alt_rounded,
+              ),
+              label: 'Profile',
             ),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTap,
-        selectedFontSize: 15.0,
-        unselectedFontSize: 15.0,
-        selectedItemColor: firstColor,
-        unselectedItemColor: Colors.grey,
+          ],
+          currentIndex: _selectedIndex,
+          onTap: _onItemTap,
+          selectedFontSize: 15.0,
+          unselectedFontSize: 15.0,
+          selectedItemColor: firstColor,
+          unselectedItemColor: Colors.grey,
+        ),
       ),
+      // bottomNavigationBar:
     );
   }
 }

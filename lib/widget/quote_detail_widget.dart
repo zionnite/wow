@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:http/http.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../utils.dart';
 
-class QuoteDetailWidget extends StatelessWidget {
+class QuoteDetailWidget extends StatefulWidget {
   String imageName;
   String quoteTitle;
   String quoteDesc;
@@ -29,6 +34,11 @@ class QuoteDetailWidget extends StatelessWidget {
   });
 
   @override
+  _QuoteDetailWidgetState createState() => _QuoteDetailWidgetState();
+}
+
+class _QuoteDetailWidgetState extends State<QuoteDetailWidget> {
+  @override
   Widget build(BuildContext context) {
     Future<void> _launched;
     return Column(
@@ -51,7 +61,7 @@ class QuoteDetailWidget extends StatelessWidget {
               children: [
                 Container(
                   child: CachedNetworkImage(
-                    imageUrl: imageName,
+                    imageUrl: widget.imageName,
                     width: double.infinity,
                     fit: BoxFit.cover,
                     fadeInDuration: Duration(milliseconds: 500),
@@ -72,7 +82,7 @@ class QuoteDetailWidget extends StatelessWidget {
                           radius: 50.0,
                           backgroundColor: firstColor,
                           child: CircleAvatar(
-                            backgroundImage: NetworkImage(authorImg),
+                            backgroundImage: NetworkImage(widget.authorImg),
                             radius: 48.0,
                           ),
                         ),
@@ -89,7 +99,7 @@ class QuoteDetailWidget extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  author,
+                                  widget.author,
                                   style: TextStyle(
                                     fontSize: 18.0,
                                     fontFamily: 'Raleway',
@@ -99,12 +109,64 @@ class QuoteDetailWidget extends StatelessWidget {
                                 SizedBox(
                                   height: 5.0,
                                 ),
-                                Text(
-                                  time_ago,
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontFamily: 'Raleway',
-                                  ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      widget.time_ago,
+                                      style: TextStyle(
+                                        fontSize: 18.0,
+                                        fontFamily: 'Raleway',
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 20.0),
+                                      child: IconButton(
+                                        icon: Icon(Icons.share_rounded),
+                                        onPressed: () async {
+                                          Share.share(widget.quoteDesc,
+                                              subject: 'Women Of Worth');
+
+                                          // final RenderBox box =
+                                          //     context.findRenderObject();
+                                          // if (Platform.isAndroid) {
+                                          //   var url = widget.imageName;
+                                          //   var response =
+                                          //       await get(Uri.parse(url));
+                                          //   final documentDirectory =
+                                          //       (await getExternalStorageDirectory())
+                                          //           .path;
+                                          //   File imgFile = new File(
+                                          //       '$documentDirectory/wow.png');
+                                          //   File imgFile2 = new File(
+                                          //       '$documentDirectory/wow.png');
+                                          //   imgFile.writeAsBytesSync(
+                                          //       response.bodyBytes);
+                                          //   Share.shareFiles([
+                                          //     '${new File('$documentDirectory/wow.png')}'
+                                          //   ],
+                                          //       subject: 'URL File Share',
+                                          //       text:
+                                          //           'Hello, check your share files!',
+                                          //       sharePositionOrigin:
+                                          //           box.localToGlobal(
+                                          //                   Offset.zero) &
+                                          //               box.size);
+                                          // } else {
+                                          //   Share.share(
+                                          //       'Hello, check your share files!',
+                                          //       subject: 'URL File Share',
+                                          //       sharePositionOrigin:
+                                          //           box.localToGlobal(
+                                          //                   Offset.zero) &
+                                          //               box.size);
+                                          // }
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -121,7 +183,7 @@ class QuoteDetailWidget extends StatelessWidget {
                     bottom: 10.0,
                   ),
                   child: Text(
-                    quoteTitle,
+                    widget.quoteTitle,
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.w600,
@@ -144,7 +206,7 @@ class QuoteDetailWidget extends StatelessWidget {
                   ),
                   child: SelectableLinkify(
                     onOpen: _onOpen,
-                    text: this.quoteDesc,
+                    text: this.widget.quoteDesc,
                     style: TextStyle(
                       fontSize: 18.0,
                       fontStyle: FontStyle.normal,
@@ -157,12 +219,21 @@ class QuoteDetailWidget extends StatelessWidget {
             ),
           ),
         ),
-        (isBackgroundLink == 'true')
-            ? Container(
-                margin: EdgeInsets.only(bottom: 50.0),
+        Container(
+          margin: EdgeInsets.only(
+            left: 15.0,
+            right: 15.0,
+            top: 8.0,
+            bottom: 15.0,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    _launchUniversalLinkIos(backgroundLink);
+                    _launchUniversalLinkIos(widget.backgroundLink);
                   },
                   child: Card(
                     color: Colors.white70,
@@ -170,10 +241,104 @@ class QuoteDetailWidget extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(
                           top: 8.0, bottom: 8.0, left: 20.0, right: 20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Icon(
+                            Icons.thumb_up,
+                            color: Colors.green,
+                          ),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Text(
+                            'Up Vote',
+                            style: TextStyle(
+                              color: Colors.green,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Expanded(
+                            child: Text(
+                              '40',
+                              style: TextStyle(
+                                color: Colors.green,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Text('|'),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    _launchUniversalLinkIos(widget.backgroundLink);
+                  },
+                  child: Card(
+                    color: Colors.white70,
+                    elevation: 10.0,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 8.0, bottom: 8.0, left: 20.0, right: 20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Icon(
+                            Icons.thumb_down,
+                            color: Colors.deepOrangeAccent,
+                          ),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Text(
+                            'Down Vote',
+                            style: TextStyle(
+                              color: Colors.deepOrangeAccent,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5.0,
+                          ),
+                          Expanded(
+                            child: Text(
+                              '4',
+                              style: TextStyle(
+                                color: Colors.deepOrangeAccent,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        (widget.isBackgroundLink == 'true')
+            ? Container(
+                margin: EdgeInsets.only(bottom: 50.0),
+                child: GestureDetector(
+                  onTap: () {
+                    _launchUniversalLinkIos(widget.backgroundLink);
+                  },
+                  child: Card(
+                    color: Colors.redAccent,
+                    elevation: 10.0,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 8.0, bottom: 8.0, left: 20.0, right: 20.0),
                       child: Text(
                         'Know More',
                         style: TextStyle(
-                          color: Colors.deepOrangeAccent,
+                          color: Colors.white,
                         ),
                       ),
                     ),

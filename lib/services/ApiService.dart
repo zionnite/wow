@@ -11,56 +11,58 @@ final String mainUrl = 'https://api.osherwomen.com/Api';
 final String fakemainUrl = 'http://localhost/wow_php/Api';
 
 Future<List<Quote>> getAllQuotes() async {
-  final response = await http.get('$mainUrl/get_quote');
+  final response = await http.get(Uri.parse('$mainUrl/get_quote'));
   return quoteFromJson(response.body);
 }
 
 Future<List<Quote>> getAllQuotesByPage(int current_page) async {
-  final response =
-      await http.get('$mainUrl/get_quote_2/' + current_page.toString());
+  final response = await http
+      .get(Uri.parse('$mainUrl/get_quote_2/' + current_page.toString()));
   return quoteFromJson(response.body);
 }
 
 Future<List<Quote>> getQuoteById(String id) async {
-  final response = await http.get('$mainUrl/get_quote_by_id/$id');
+  final response = await http.get(Uri.parse('$mainUrl/get_quote_by_id/$id'));
   return quoteFromJson(response.body);
 }
 
 Future<List<Quote>> getRandomQuote() async {
-  final response = await http.get('$mainUrl/get_random_quote');
+  final response = await http.get(Uri.parse('$mainUrl/get_random_quote'));
   return quoteFromJson(response.body);
 }
 
 Future<List<Category>> getAllCategory() async {
-  final response = await http.get('$mainUrl/get_category');
+  final response = await http.get(Uri.parse('$mainUrl/get_category'));
   return categoryFromJson(response.body);
 }
 
 Future<List<Quote>> getQuoteByCatId(String catId, int current_page) async {
-  final response =
-      await http.get('$mainUrl/get_quote_by_cat_id_2/$catId/$current_page');
+  final response = await http
+      .get(Uri.parse('$mainUrl/get_quote_by_cat_id_2/$catId/$current_page'));
   return quoteFromJson(response.body);
 }
 
 Future<List<Forum>> getAllForums() async {
-  final response = await http.get('$mainUrl/get_forum');
+  final response = await http.get(Uri.parse('$mainUrl/get_forum'));
   return forumFromJson(response.body);
 }
 
 Future<List<Forum>> getAllForumPerPage(int current_page) async {
-  final response = await http.get('$mainUrl/get_forum_2/$current_page');
+  final response =
+      await http.get(Uri.parse('$mainUrl/get_forum_2/$current_page'));
   return forumFromJson(response.body);
 }
 
 Future<List<ForumComment>> getForumCommentById(String id) async {
-  final response = await http.get('$mainUrl/get_forum_comment_by_id/$id');
+  final response =
+      await http.get(Uri.parse('$mainUrl/get_forum_comment_by_id/$id'));
   return forumCommentFromJson(response.body);
 }
 
 Future<List<ForumComment>> getForumCommentByIdnPerPage(
     String id, int current_page) async {
-  final response =
-      await http.get('$mainUrl/get_forum_comment_by_id_2/$id/$current_page');
+  final response = await http
+      .get(Uri.parse('$mainUrl/get_forum_comment_by_id_2/$id/$current_page'));
   return forumCommentFromJson(response.body);
 }
 

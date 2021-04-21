@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:popup_menu/popup_menu.dart';
 import 'package:wow/blocs/bloc_provider.dart';
 import 'package:wow/blocs/forum_bloc.dart';
 import 'package:wow/model/ForumComment.dart';
 import 'package:wow/screen/forum_make_comment.dart';
 import 'package:wow/services/ApiService.dart';
 import 'package:wow/utils.dart';
+import 'package:wow/widget/forum_comment_widget.dart';
 import 'package:wow/widget/forum_detail_widget.dart';
 
 class ForumDetailScreen extends StatefulWidget {
@@ -37,6 +39,7 @@ class ForumDetailScreen extends StatefulWidget {
 }
 
 class _ForumDetailScreenState extends State<ForumDetailScreen> {
+  //block start
   final forumBloc = ForumBloc();
 
   ScrollController _controller;
@@ -78,13 +81,14 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
 
   @override
   void dispose() {
-    //forumBloc.dispose();
+    // forumBloc.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // key: btnKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: InkWell(
@@ -110,6 +114,7 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
               child: Column(
                 children: [
                   ForumDetailWidget(
+                    pick_id: widget.pick_id,
                     imageName: widget.imageName,
                     forumTitle: widget.forumTitle,
                     forumDesc: widget.forumDesc,
@@ -200,6 +205,7 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
                                   snapshot.data.length > 0) {
                                 return _buildErrorWidget(snapshot.error);
                               }
+
                               return ListView.builder(
                                 physics: ClampingScrollPhysics(),
                                 scrollDirection: Axis.vertical,
@@ -210,59 +216,13 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
                                       snapshot.data[index].comId == '') {
                                     return Container();
                                   }
-                                  return Card(
-                                    elevation: 3,
-                                    color: Colors.white70,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            snapshot.data[index].comBody,
-                                            style: TextStyle(
-                                              fontSize: 20.0,
-                                              height: 2,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Expanded(
-                                                child: Text(
-                                                  snapshot
-                                                      .data[index].comAuthor,
-                                                  style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    height: 2,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 20.0,
-                                              ),
-                                              Text(
-                                                snapshot.data[index].comTime,
-                                                style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  height: 2,
-                                                  color: Colors.red.shade400,
-                                                  fontWeight: FontWeight.w100,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                  return ForumCommentWidget(
+                                    com_id: snapshot.data[index].comId,
+                                    com_author: snapshot.data[index].comAuthor,
+                                    com_body: snapshot.data[index].comBody,
+                                    com_time: snapshot.data[index].comTime,
+                                    com_authorImg:
+                                        'https://writestylesonline.com/wp-content/uploads/2021/02/Michele-Round-Circle-2020.png',
                                   );
                                 },
                               );
@@ -335,7 +295,7 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Error occured: $error"),
+        Text("Error occurred: $error"),
       ],
     ));
   }

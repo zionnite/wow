@@ -111,6 +111,7 @@ class _ForumMakePostState extends State<ForumMakePost> {
                   padding: EdgeInsets.symmetric(horizontal: 10.0),
                   child: Material(
                     elevation: 5.0,
+                    color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     child: StreamBuilder<String>(
                       stream: foumBloc.mkpNameSinkVal,
@@ -135,6 +136,7 @@ class _ForumMakePostState extends State<ForumMakePost> {
                   padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                   child: Material(
                     elevation: 5.0,
+                    color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     child: StreamBuilder<String>(
                       stream: foumBloc.mkpEmailSinkVal,
@@ -160,6 +162,7 @@ class _ForumMakePostState extends State<ForumMakePost> {
                   padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                   child: Material(
                     elevation: 5.0,
+                    color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     child: StreamBuilder<String>(
                       stream: foumBloc.mkpTitleSinkVal,
@@ -188,15 +191,21 @@ class _ForumMakePostState extends State<ForumMakePost> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        FlatButton(
-                          onPressed: () {
+                        InkWell(
+                          onTap: () {
                             choicePostImg();
                           },
-                          child: Text(
-                            'Upload Post Image',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              color: Colors.deepOrangeAccent,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 18.0,
+                              bottom: 18.0,
+                            ),
+                            child: Text(
+                              'Upload Post Image',
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.deepOrangeAccent,
+                              ),
                             ),
                           ),
                         ),
@@ -223,6 +232,7 @@ class _ForumMakePostState extends State<ForumMakePost> {
                     height: 400,
                     child: Material(
                       elevation: 5.0,
+                      color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       child: StreamBuilder<String>(
                         stream: foumBloc.mkpContentSinkVal,
@@ -252,15 +262,21 @@ class _ForumMakePostState extends State<ForumMakePost> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        FlatButton(
-                          onPressed: () {
+                        InkWell(
+                          onTap: () {
                             choiceProfileImg();
                           },
-                          child: Text(
-                            'Upload Profile Image',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              color: Colors.deepOrangeAccent,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 18.0,
+                              bottom: 18.0,
+                            ),
+                            child: Text(
+                              'Upload Profile Image',
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.deepOrangeAccent,
+                              ),
                             ),
                           ),
                         ),

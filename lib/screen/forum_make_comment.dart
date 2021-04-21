@@ -123,6 +123,7 @@ class _ForumMakeCommentState extends State<ForumMakeComment> {
                   padding: EdgeInsets.symmetric(horizontal: 10.0),
                   child: Material(
                     elevation: 5.0,
+                    color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     child: StreamBuilder<String>(
                       stream: foumBloc.mkcNameSinkVal,
@@ -146,6 +147,7 @@ class _ForumMakeCommentState extends State<ForumMakeComment> {
                   padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
                   child: Material(
                     elevation: 5.0,
+                    color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     child: StreamBuilder<String>(
                       stream: foumBloc.mkcEmailSinkVal,
@@ -173,6 +175,7 @@ class _ForumMakeCommentState extends State<ForumMakeComment> {
                     height: 500,
                     child: Material(
                       elevation: 5.0,
+                      color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       child: StreamBuilder<String>(
                         stream: foumBloc.mkcCommentStinkVal,

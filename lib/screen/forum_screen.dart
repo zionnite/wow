@@ -97,7 +97,7 @@ class _ForumScreenState extends State<ForumScreen> {
                 child: Icon(
                   Icons.arrow_downward_rounded,
                   color: Colors.black,
-                  size: 80.0,
+                  size: 40.0,
                 ),
               ),
               Container(
@@ -176,11 +176,13 @@ class _ForumScreenState extends State<ForumScreen> {
                                   );
                                 },
                                 child: ForumWidget(
+                                  pick_id: snapshot.data[index].id,
                                   imageName: snapshot.data[index].image,
                                   quoteTitle: snapshot.data[index].title,
                                   quoteDesc: snapshot.data[index].desc,
                                   comment_counter:
                                       snapshot.data[index].commentCounter,
+                                  author: snapshot.data[index].author,
                                 ),
                               );
                             });

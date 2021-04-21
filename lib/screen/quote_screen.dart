@@ -98,7 +98,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
                 child: Icon(
                   Icons.arrow_downward_rounded,
                   color: Colors.black,
-                  size: 80.0,
+                  size: 40.0,
                 ),
               ),
               StreamBuilder<List<Quote>>(
