@@ -30,8 +30,17 @@ class QuoteBloc implements BlocBase {
       BehaviorSubject<List<Quote>>();
   Stream<List<Quote>> get perPageStream => perPageController.stream;
 
+  final StreamController<int> yesCounterController = BehaviorSubject<int>();
+  StreamSink<int> get yerCounterSink => yesCounterController.sink;
+  Stream<int> get yesCounterStream => yesCounterController.stream;
+
+  final StreamController<int> noCounterController = BehaviorSubject<int>();
+  StreamSink<int> get noCounterSink => noCounterController.sink;
+  Stream<int> get noCounterStream => noCounterController.stream;
   /*Per Page*/
 
+  int yes_counter;
+  int no_counter;
   List<Quote> data, page_data, dataX, random_data;
   List<Category> cat_data;
   QuoteBloc() {
@@ -90,6 +99,18 @@ class QuoteBloc implements BlocBase {
     dataX.addAll(quote);
     listQuoteCatSink.add(dataX);
   }
+
+  handleYesCounter(String id, int current_counter, String user) async {
+    yes_counter = await getQuoteYesCounter(id, current_counter, user);
+    yerCounterSink.add(yes_counter);
+    return yes_counter;
+  }
+
+  handleNoCounter(String id, int current_counter, String user) async {
+    no_counter = await getQuoteNoCounter(id, current_counter, user);
+    noCounterSink.add(no_counter);
+    return no_counter;
+  }
   /*Quote Category Screen*/
 
   void dispose() {
@@ -98,5 +119,6 @@ class QuoteBloc implements BlocBase {
     categoryController.close();
     quoteCatController.close();
     perPageController.close();
+    yesCounterController.close();
   }
 }

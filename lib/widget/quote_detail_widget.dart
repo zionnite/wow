@@ -4,9 +4,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:http/http.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wow/blocs/QouteBloc.dart';
+import 'package:wow/services/ApiService.dart';
 
 import '../utils.dart';
 
@@ -20,6 +23,7 @@ class QuoteDetailWidget extends StatefulWidget {
   String backgroundLink;
   String time_ago;
   String type;
+  String quote_id;
 
   QuoteDetailWidget({
     this.imageName,
@@ -31,6 +35,7 @@ class QuoteDetailWidget extends StatefulWidget {
     this.backgroundLink,
     this.time_ago,
     this.type,
+    this.quote_id,
   });
 
   @override
@@ -38,11 +43,72 @@ class QuoteDetailWidget extends StatefulWidget {
 }
 
 class _QuoteDetailWidgetState extends State<QuoteDetailWidget> {
+  final quoteBloc = QuoteBloc();
+
+  int yes_counter = 0;
+  int no_counter = 0;
+
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    currentYesCounter();
+    currentNoCounter();
+    //callYesCounter();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  // callYesCounter() {
+  //   getQuoteYesCounter(1).then(
+  //     (value) => {
+  //       quoteBloc.handleYesCounter(value),
+  //     },
+  //   );
+  // }
+
+  currentYesCounter() {
+    setState(() {
+      _isLoading = true;
+    });
+    getCurrentQuoteYesCounter(widget.quote_id).then((value) {
+      if (mounted) {
+        setState(
+          () {
+            yes_counter = value;
+            _isLoading = false;
+          },
+        );
+      }
+    });
+  }
+
+  currentNoCounter() {
+    setState(() {
+      _isLoading = true;
+    });
+    getCurrentQuoteNoCounter(widget.quote_id).then((value) {
+      if (mounted) {
+        setState(
+          () {
+            no_counter = value;
+            _isLoading = false;
+          },
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Future<void> _launched;
     return Column(
       children: [
+        // Text(widget.quote_id),
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(
@@ -226,124 +292,174 @@ class _QuoteDetailWidgetState extends State<QuoteDetailWidget> {
             top: 8.0,
             bottom: 15.0,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: Column(
             children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    _launchUniversalLinkIos(widget.backgroundLink);
-                  },
-                  child: Card(
-                    color: Colors.white70,
-                    elevation: 10.0,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8.0, bottom: 8.0, left: 20.0, right: 20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Icon(
-                            Icons.thumb_up,
-                            color: Colors.green,
-                          ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Text(
-                            'Up Vote',
-                            style: TextStyle(
-                              color: Colors.green,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Expanded(
-                            child: Text(
-                              '40',
-                              style: TextStyle(
-                                color: Colors.green,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+              Text(
+                'Whats the Quote helpful',
+                style: TextStyle(
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              Text('|'),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    _launchUniversalLinkIos(widget.backgroundLink);
-                  },
-                  child: Card(
-                    color: Colors.white70,
-                    elevation: 10.0,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8.0, bottom: 8.0, left: 20.0, right: 20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Icon(
-                            Icons.thumb_down,
-                            color: Colors.deepOrangeAccent,
-                          ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Text(
-                            'Down Vote',
-                            style: TextStyle(
-                              color: Colors.deepOrangeAccent,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Expanded(
-                            child: Text(
-                              '4',
-                              style: TextStyle(
-                                color: Colors.deepOrangeAccent,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () async {
+                        setState(() {
+                          _isLoading = true;
+                        });
+                        int counter = await quoteBloc.handleYesCounter(
+                            widget.quote_id, yes_counter, 'zionnite');
+
+                        setState(() {
+                          yes_counter = counter;
+                          _isLoading = false;
+                          if (no_counter > 0) {
+                            no_counter--;
+                          }
+                        });
+                      },
+                      child: Card(
+                        color: Colors.white70,
+                        elevation: 10.0,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 8.0, bottom: 8.0, left: 20.0, right: 20.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Icon(
+                                Icons.thumb_up,
+                                color: Colors.green,
                               ),
-                            ),
-                          )
-                        ],
+                              SizedBox(
+                                width: 5.0,
+                              ),
+                              Text(
+                                'Yes',
+                                style: TextStyle(
+                                  color: Colors.green,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5.0,
+                              ),
+                              Expanded(
+                                child: (_isLoading == true)
+                                    ? Text('Loading...')
+                                    : Text(
+                                        '${yes_counter}',
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                        ),
+                                      ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                  Text('|'),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () async {
+                        setState(() {
+                          _isLoading = true;
+                        });
+                        int counter = await quoteBloc.handleNoCounter(
+                            widget.quote_id, yes_counter, 'zionnite');
+
+                        setState(() {
+                          no_counter = counter;
+                          _isLoading = false;
+                          if (yes_counter > 0) {
+                            yes_counter--;
+                          }
+                        });
+                      },
+                      child: Card(
+                        color: Colors.white70,
+                        elevation: 10.0,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 8.0, bottom: 8.0, left: 20.0, right: 20.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Icon(
+                                Icons.thumb_down,
+                                color: Colors.deepOrangeAccent,
+                              ),
+                              SizedBox(
+                                width: 5.0,
+                              ),
+                              Text(
+                                'No',
+                                style: TextStyle(
+                                  color: Colors.deepOrangeAccent,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5.0,
+                              ),
+                              Expanded(
+                                child: (_isLoading == true)
+                                    ? Text('Loading...')
+                                    : Text(
+                                        '${no_counter}',
+                                        style: TextStyle(
+                                          color: Colors.deepOrangeAccent,
+                                        ),
+                                      ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
         ),
         (widget.isBackgroundLink == 'true')
-            ? Container(
-                margin: EdgeInsets.only(bottom: 50.0),
-                child: GestureDetector(
-                  onTap: () {
-                    _launchUniversalLinkIos(widget.backgroundLink);
-                  },
-                  child: Card(
-                    color: Colors.redAccent,
-                    elevation: 10.0,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8.0, bottom: 8.0, left: 20.0, right: 20.0),
-                      child: Text(
-                        'Know More',
-                        style: TextStyle(
-                          color: Colors.white,
+            ? Column(
+                children: [
+                  Text(
+                    'More External Resource',
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 50.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        _launchUniversalLinkIos(widget.backgroundLink);
+                      },
+                      child: Card(
+                        color: Colors.redAccent,
+                        elevation: 10.0,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 8.0, bottom: 8.0, left: 20.0, right: 20.0),
+                          child: Text(
+                            'Know More',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                ],
               )
             : Container(),
       ],
@@ -381,4 +497,19 @@ Widget _launchStatus(BuildContext context, AsyncSnapshot<void> snapshot) {
   } else {
     return const Text('');
   }
+}
+
+Widget _buildLoadingWidget() {
+  return Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: 25.0,
+          width: 25.0,
+          child: CircularProgressIndicator(),
+        ),
+      ],
+    ),
+  );
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:wow/model/Category.dart';
@@ -150,5 +152,73 @@ Future<bool> sendPrivateMsg({
     return true;
   } else {
     return false;
+  }
+}
+
+//Quote Yes Counter
+Future<int> getCurrentQuoteYesCounter(String id) async {
+  final response =
+      await http.get(Uri.parse('$mainUrl/getCurrentQuoteYesCount/$id'));
+  var body = response.body;
+  Map<String, dynamic> j = json.decode(body);
+  bool status = j['status'];
+  int counter = j['counter'];
+  // print('Counter Plus ${counter}');
+  // print('Status Plus ${status}');
+  if (status == true) {
+    return counter;
+  } else {
+    return 0;
+  }
+}
+
+Future<int> getQuoteYesCounter(
+    String id, int current_counter, String user) async {
+  final response = await http
+      .get(Uri.parse('$mainUrl/post_make_counter/$id/$user/$current_counter'));
+  var body = response.body;
+  Map<String, dynamic> j = json.decode(body);
+  bool status = j['status'];
+  int counter = j['uplike_counter'];
+
+  if (status == true) {
+    return counter;
+    // return counter;
+  } else {
+    return 0;
+  }
+}
+
+//Quote No Counter
+Future<int> getCurrentQuoteNoCounter(String id) async {
+  final response =
+      await http.get(Uri.parse('$mainUrl/getCurrentQuoteNoCount/$id'));
+  var body = response.body;
+  Map<String, dynamic> j = json.decode(body);
+  bool status = j['status'];
+  int counter = j['counter'];
+  // print('Counter Plus ${counter}');
+  // print('Status Plus ${status}');
+  if (status == true) {
+    return counter;
+  } else {
+    return 0;
+  }
+}
+
+Future<int> getQuoteNoCounter(
+    String id, int current_counter, String user) async {
+  final response = await http.get(
+      Uri.parse('$mainUrl/post_make_down_counter/$id/$user/$current_counter'));
+  var body = response.body;
+  Map<String, dynamic> j = json.decode(body);
+  bool status = j['status'];
+  int counter = j['downlike_counter'];
+
+  if (status == true) {
+    return counter;
+    // return counter;
+  } else {
+    return 0;
   }
 }

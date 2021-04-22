@@ -91,10 +91,15 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Icon(
-                                    Icons.menu,
-                                    color: Colors.white,
-                                    size: 30,
+                                  IconButton(
+                                    onPressed: () {
+                                      print('Drawer Navigation Clicked');
+                                    },
+                                    icon: Icon(
+                                      Icons.menu,
+                                      size: 30,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                   // Icon(
                                   //   Icons.settings,
@@ -383,7 +388,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                                     ),
                                   ),
                                 ),
-                                elevation: 5.0,
+                                elevation: 8.0,
                               ),
                             ),
                           );
@@ -491,11 +496,14 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                                 //ForumBloc comment_detail =
                                 // await forumBloc
                                 //     .getCommentById(snapshot.data[index].id);
+
+                                // print(snapshot.data[index].id);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) {
                                       return QuoteDetailScreen(
+                                        quote_id: snapshot.data[index].id,
                                         image_Name: snapshot.data[index].image,
                                         quote_Title: snapshot.data[index].title,
                                         quote_Desc: snapshot.data[index].desc,
@@ -609,6 +617,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                                       MaterialPageRoute(
                                         builder: (context) {
                                           return QuoteDetailScreen(
+                                            quote_id: snapshot.data[index].id,
                                             image_Name:
                                                 snapshot.data[index].image,
                                             quote_Title:

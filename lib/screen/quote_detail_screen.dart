@@ -11,17 +11,20 @@ class QuoteDetailScreen extends StatefulWidget {
       isBackground_Link,
       background_Link,
       timer_ago,
-      dis_type;
-  QuoteDetailScreen(
-      {this.image_Name,
-      this.quote_Title,
-      this.quote_Desc,
-      this.author_name,
-      this.author_Img,
-      this.isBackground_Link,
-      this.background_Link,
-      this.timer_ago,
-      this.dis_type});
+      dis_type,
+      quote_id;
+  QuoteDetailScreen({
+    this.image_Name,
+    this.quote_Title,
+    this.quote_Desc,
+    this.author_name,
+    this.author_Img,
+    this.isBackground_Link,
+    this.background_Link,
+    this.timer_ago,
+    this.dis_type,
+    this.quote_id,
+  });
 
   @override
   _QuoteDetailScreenState createState() => _QuoteDetailScreenState();
@@ -51,6 +54,7 @@ class _QuoteDetailScreenState extends State<QuoteDetailScreen> {
           child: Column(
             children: [
               QuoteDetailWidget(
+                quote_id: widget.quote_id,
                 imageName: widget.image_Name,
                 quoteTitle: widget.quote_Title,
                 quoteDesc: widget.quote_Desc,

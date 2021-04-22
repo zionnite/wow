@@ -128,7 +128,7 @@ class _ForumScreenState extends State<ForumScreen> {
                         ),
                       ),
                     ),
-                    elevation: 5.0,
+                    elevation: 8.0,
                   ),
                 ),
               ),

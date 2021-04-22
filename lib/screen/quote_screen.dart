@@ -121,11 +121,13 @@ class _QuoteScreenState extends State<QuoteScreen> {
                         }
                         return GestureDetector(
                           onTap: () {
+                            //print(snapshot.data[index].id);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) {
                                   return QuoteDetailScreen(
+                                    quote_id: snapshot.data[index].id,
                                     image_Name: snapshot.data[index].image,
                                     quote_Title: snapshot.data[index].title,
                                     quote_Desc: snapshot.data[index].desc,
