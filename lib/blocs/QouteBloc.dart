@@ -120,5 +120,6 @@ class QuoteBloc implements BlocBase {
     quoteCatController.close();
     perPageController.close();
     yesCounterController.close();
+    noCounterController.close();
   }
 }
