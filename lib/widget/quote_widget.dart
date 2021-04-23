@@ -87,8 +87,8 @@ class QuoteWidget extends StatelessWidget {
                 maxLines: 5,
               ),
             ),
-            FlatButton(
-                onPressed: null,
+            InkWell(
+                onTap: null,
                 child: Text(
                   'Read More',
                   style: TextStyle(

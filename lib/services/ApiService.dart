@@ -422,7 +422,7 @@ Future<bool> commentBlockUser({
 }
 
 Future<bool> deleteComment({
-  forum_id,
+  String forum_id,
   String id,
   String user,
   BuildContext context,
@@ -448,5 +448,34 @@ Future<bool> deleteComment({
     );
     ScaffoldMessenger.of(context).showSnackBar(snacksBar);
     return false;
+  }
+}
+
+Future<String> toggle_follow_user({
+  String my_id,
+  String user_id,
+  BuildContext context,
+}) async {
+  final response =
+      await http.get(Uri.parse('$mainUrl/toggle_follow/$my_id/$user_id'));
+  var body = response.body;
+
+  Map<String, dynamic> j = json.decode(body);
+  String status = j['status'];
+
+  if (status == 'following') {
+    final snacksBar = SnackBar(
+      content: Text('You are Following User'),
+      //action: SnackBarAction(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    return status;
+  } else {
+    final snacksBar = SnackBar(
+      content: Text('User unfollow'),
+      //action: SnackBarAction(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    return status;
   }
 }

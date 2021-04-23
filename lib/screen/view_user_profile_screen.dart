@@ -1,0 +1,472 @@
+import 'package:flutter/material.dart';
+import 'package:wow/blocs/FollowBloc.dart';
+import 'package:wow/widget/bio_detail_widget.dart';
+
+class ViewUserProfileScreen extends StatefulWidget {
+  String user_id;
+  String user_name;
+
+  ViewUserProfileScreen({
+    this.user_id,
+    this.user_name,
+  });
+
+  @override
+  _ViewUserProfileScreenState createState() => _ViewUserProfileScreenState();
+}
+
+class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
+  final followBloc = FollowBloc();
+  // TODO: WORK ON THIS PLACE
+  final String my_id = '1';
+  final String user_id = '5';
+  bool _iFollow = false;
+  String follower_counter;
+  String following_counter;
+
+  //TODO: //check for status
+  bool follow_status = true;
+
+  countUserFollower(String user_id) async {
+    new Future.delayed(new Duration(seconds: 4), () {
+      setState(() {
+        follower_counter = '55';
+        follow_status = false;
+      });
+    });
+  }
+
+  countUserFollowing(String user_id) async {
+    new Future.delayed(new Duration(seconds: 4), () {
+      setState(() {
+        following_counter = '5';
+        follow_status = false;
+      });
+    });
+
+    print('Following ${follow_status}');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    countUserFollower(user_id);
+    countUserFollowing(user_id);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String result;
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                ClipPath(
+                  child: Container(
+                    height: 350.0,
+                    decoration: BoxDecoration(
+                      // gradient: LinearGradient(
+                      //   colors: [firstColor, secondColor],
+                      // ),
+                      image: new DecorationImage(
+                        fit: BoxFit.cover,
+                        colorFilter: new ColorFilter.mode(
+                            Colors.black.withOpacity(0.5), BlendMode.darken),
+                        image: new NetworkImage(
+                          'https://static0.srcdn.com/wordpress/wp-content/uploads/2016/11/Hercules-Dwayne-Johnson.jpg',
+                        ),
+                      ),
+                    ),
+                    // child: CachedNetworkImage(
+                    //   imageUrl:
+                    //       'https://static0.srcdn.com/wordpress/wp-content/uploads/2016/11/Hercules-Dwayne-Johnson.jpg',
+                    //   fit: BoxFit.cover,
+                    //   height: 200,
+                    //   fadeInDuration: Duration(milliseconds: 500),
+                    //   fadeInCurve: Curves.easeIn,
+                    //   placeholder: (context, progressText) => Center(
+                    //     child: CircularProgressIndicator(),
+                    //   ),
+                    // ),
+                  ),
+                ),
+                Positioned(
+                  top: 45,
+                  left: 10.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: 40,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      Text(
+                        'Profile',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Align(
+                //   alignment: Alignment.topCenter,
+                //   child: Container(
+                //     margin: EdgeInsets.only(
+                //       top: 300.0,
+                //     ),
+                //     child: CircleAvatar(
+                //       radius: 50.0,
+                //       child: CircleAvatar(
+                //         backgroundImage: AssetImage(
+                //           'assets/images/splash.png',
+                //         ),
+                //         radius: 45.0,
+                //       ),
+                //       backgroundColor: firstColor,
+                //     ),
+                //   ),
+                // ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 350.0,
+                  ),
+                  padding: EdgeInsets.all(
+                    20.0,
+                  ),
+                  height: 100,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: MaterialButton(
+                          onPressed: null,
+                          child: Column(
+                            children: [
+                              Text(
+                                'Followers',
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 25.0),
+                                  child: (follow_status)
+                                      ? Text('Loading...')
+                                      : Text(
+                                          '${follower_counter}',
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: SizedBox(
+                          width: 10.0,
+                        ),
+                      ),
+                      Expanded(
+                        child: MaterialButton(
+                          onPressed: null,
+                          child: Column(
+                            children: [
+                              Text(
+                                'Following',
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 28.0),
+                                  child: (follow_status)
+                                      ? Text('Loading...')
+                                      : Text(
+                                          '${following_counter}',
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                          ),
+                                          textAlign: TextAlign.right,
+                                        ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            (_iFollow == false)
+                ? InkWell(
+                    onTap: () async {
+                      result = await followBloc.handleFollowUser(
+                          my_id: my_id, user_id: user_id, context: context);
+                      //print(result);
+                      if (result == 'following') {
+                        print(result);
+                        setState(() {
+                          _iFollow = true;
+                          print(_iFollow);
+                        });
+                      }
+
+                      if (result == 'unfollowing') {
+                        setState(() {
+                          _iFollow = false;
+                        });
+                      }
+                    },
+                    child: (follow_status)
+                        ? Container(
+                            width: double.infinity,
+                            margin: EdgeInsets.only(
+                              left: 10,
+                              right: 10,
+                              bottom: 15.0,
+                            ),
+                            padding: EdgeInsets.all(
+                              15.0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey,
+                                  offset: Offset(0.0, 5.5), //(x,y)
+                                  blurRadius: 6.0,
+                                ),
+                              ],
+                            ),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Loading...',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'NerkoOne',
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            width: double.infinity,
+                            margin: EdgeInsets.only(
+                              left: 10,
+                              right: 10,
+                              bottom: 15.0,
+                            ),
+                            padding: EdgeInsets.all(
+                              15.0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey,
+                                  offset: Offset(0.0, 5.5), //(x,y)
+                                  blurRadius: 6.0,
+                                ),
+                              ],
+                            ),
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.thumb_up,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Text(
+                                    'Follow User',
+                                    style: TextStyle(
+                                      fontSize: 17.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                  )
+                : InkWell(
+                    onTap: () async {
+                      result = await followBloc.handleFollowUser(
+                          my_id: my_id, user_id: user_id, context: context);
+
+                      print(result);
+                      if (result == 'following') {
+                        setState(() {
+                          _iFollow = true;
+                        });
+                      }
+
+                      if (result == 'unfollowing') {
+                        setState(() {
+                          _iFollow = false;
+                        });
+                      }
+                    },
+                    child: (follow_status)
+                        ? Container(
+                            width: double.infinity,
+                            margin: EdgeInsets.only(
+                              left: 10,
+                              right: 10,
+                              bottom: 15.0,
+                            ),
+                            padding: EdgeInsets.all(
+                              15.0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey,
+                                  offset: Offset(0.0, 5.5), //(x,y)
+                                  blurRadius: 6.0,
+                                ),
+                              ],
+                            ),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Loading...',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'NerkoOne',
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            width: double.infinity,
+                            margin: EdgeInsets.only(
+                              left: 10,
+                              right: 10,
+                              bottom: 15.0,
+                            ),
+                            padding: EdgeInsets.all(
+                              15.0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey,
+                                  offset: Offset(0.0, 5.5), //(x,y)
+                                  blurRadius: 6.0,
+                                ),
+                              ],
+                            ),
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.thumb_down,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Text(
+                                    'Follow User',
+                                    style: TextStyle(
+                                      fontSize: 17.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                  ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15.0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'User Bio',
+                  style: TextStyle(
+                    fontSize: 25,
+                    //fontWeight: FontWeight.w600,
+                    fontFamily: 'NerkoOne',
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+            ),
+            //TODO: // CHANGE USER NAME
+            BioDetailWidget(
+              user_name: 'Jane',
+              user_full_name: 'Janet Okunmagbe',
+              age: '22yrs',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

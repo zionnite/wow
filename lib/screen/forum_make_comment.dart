@@ -27,7 +27,7 @@ class _ForumMakeCommentState extends State<ForumMakeComment> {
 
   @override
   void dispose() {
-    foumBloc.dispose();
+    //foumBloc.dispose();
     super.dispose();
     fullNameController.dispose();
     emailAddressController.dispose();

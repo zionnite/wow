@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wow/blocs/FollowBloc.dart';
 import 'package:wow/blocs/QouteBloc.dart';
 import 'package:wow/blocs/app_bloc.dart';
 import 'package:wow/blocs/bloc_provider.dart';
@@ -35,7 +36,10 @@ Future<void> main() async {
       bloc: QuoteBloc(),
       child: BlocProvider(
         bloc: ForumBloc(),
-        child: MyApp(),
+        child: BlocProvider(
+          bloc: FollowBloc(),
+          child: MyApp(),
+        ),
       ),
     ),
   ));

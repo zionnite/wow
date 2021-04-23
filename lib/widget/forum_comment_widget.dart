@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:popup_menu/popup_menu.dart';
 import 'package:wow/blocs/forum_bloc.dart';
+import 'package:wow/screen/view_user_profile_screen.dart';
 import 'package:wow/utils.dart';
 
 class ForumCommentWidget extends StatefulWidget {
@@ -10,6 +11,7 @@ class ForumCommentWidget extends StatefulWidget {
   String com_body;
   String com_time;
   String forum_id;
+  String commenter_id;
 
   ForumCommentWidget({
     this.com_id,
@@ -18,6 +20,7 @@ class ForumCommentWidget extends StatefulWidget {
     this.com_body,
     this.com_time,
     this.forum_id,
+    this.commenter_id,
   });
 
   @override
@@ -535,24 +538,54 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  radius: 50.0,
-                  backgroundColor: firstColor,
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return ViewUserProfileScreen(
+                            user_id: widget.commenter_id,
+                            user_name: widget.com_author,
+                          );
+                        },
+                      ),
+                    );
+                  },
                   child: CircleAvatar(
-                    backgroundImage: NetworkImage(widget.com_authorImg),
-                    radius: 48.0,
+                    radius: 50.0,
+                    backgroundColor: firstColor,
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(widget.com_authorImg),
+                      radius: 48.0,
+                    ),
                   ),
                 ),
                 SizedBox(
                   width: 5.0,
                 ),
                 Expanded(
-                  child: Text(
-                    widget.com_author,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      height: 2,
-                      fontWeight: FontWeight.bold,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ViewUserProfileScreen(
+                              user_id: widget.commenter_id,
+                              user_name: widget.com_author,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    child: Text(
+                      widget.com_author,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        height: 2,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),

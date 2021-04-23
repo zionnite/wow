@@ -4,6 +4,7 @@ import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:popup_menu/popup_menu.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wow/blocs/forum_bloc.dart';
+import 'package:wow/screen/view_user_profile_screen.dart';
 
 import '../utils.dart';
 
@@ -16,6 +17,7 @@ class ForumDetailWidget extends StatefulWidget {
   String author;
   String authorImg;
   String time_ago;
+  String author_id;
 
   ForumDetailWidget({
     this.pick_id,
@@ -26,6 +28,7 @@ class ForumDetailWidget extends StatefulWidget {
     this.author,
     this.authorImg,
     this.time_ago,
+    this.author_id,
   });
 
   @override
@@ -576,13 +579,28 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     // mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Container(
-                        child: CircleAvatar(
-                          radius: 50.0,
-                          backgroundColor: firstColor,
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ViewUserProfileScreen(
+                                  user_id: widget.author_id,
+                                  user_name: widget.author,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: Container(
                           child: CircleAvatar(
-                            backgroundImage: NetworkImage(widget.authorImg),
-                            radius: 48.0,
+                            radius: 50.0,
+                            backgroundColor: firstColor,
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage(widget.authorImg),
+                              radius: 48.0,
+                            ),
                           ),
                         ),
                       ),
@@ -596,12 +614,27 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  widget.author,
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontFamily: 'Raleway',
-                                    fontWeight: FontWeight.w800,
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return ViewUserProfileScreen(
+                                            user_id: widget.author_id,
+                                            user_name: widget.author,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    widget.author,
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontFamily: 'Raleway',
+                                      fontWeight: FontWeight.w800,
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
@@ -737,16 +770,16 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
       });
     }
     //print('Quote Id => $selected_id');
-    print('Quote Name => $selected_menu');
+    // print('Quote Name => $selected_menu');
     //perform Operation to QuoteBloc
   }
 
   void onDismiss() {
-    print('Menu is dismiss');
+    // print('Menu is dismiss');
   }
 
   stateChanged(bool isShow) {
-    print('menu is ${isShow ? 'showing' : 'closed'}');
+    // print('menu is ${isShow ? 'showing' : 'closed'}');
   }
 
   void checkState(BuildContext context) {
