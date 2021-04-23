@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:wow/model/Category.dart';
 import 'package:wow/model/Forum.dart';
 import 'package:wow/model/ForumComment.dart';
@@ -207,7 +208,11 @@ Future<int> getCurrentQuoteNoCounter(String id) async {
 }
 
 Future<int> getQuoteNoCounter(
-    String id, int current_counter, String user) async {
+  String id,
+  int current_counter,
+  String user,
+  BuildContext context,
+) async {
   final response = await http.get(
       Uri.parse('$mainUrl/post_make_down_counter/$id/$user/$current_counter'));
   var body = response.body;
@@ -217,8 +222,231 @@ Future<int> getQuoteNoCounter(
 
   if (status == true) {
     return counter;
-    // return counter;
   } else {
     return 0;
+  }
+}
+
+Future<List<Forum>> postReportProblem(
+  String id,
+  String report_type,
+  BuildContext context,
+) async {
+  final response = await http
+      .get(Uri.parse('$mainUrl/post_report_problem/$id/$report_type'));
+  var body = response.body;
+  Forum forum = Forum();
+
+  Map<String, dynamic> j = json.decode(body);
+  bool status = j['status'];
+  var body_forum = j['forum'];
+
+  // String qid = j['forum'][0]['id'];
+  // String title = j['forum'][0]['title'];
+  // String desc = j['forum'][0]['desc'];
+  // String image = j['forum'][0]['image'];
+  // String author = j['forum'][0]['author'];
+  // String author_image = j['forum'][0]['author_image'];
+  // String time = j['forum'][0]['time'];
+  // String q_status = j['forum'][0]['status'];
+  // String status_msg = j['forum'][0]['status_msg'];
+  // String comment_counter = j['forum'][0]['comment_counter'];
+  //
+  // print('Status ${status}');
+  //List<String> forum_list = new List<String>.from(body_quote[0]);
+  //print('Forum List ${forum_list}');
+
+  if (status == true) {
+    final snacksBar = SnackBar(
+      content: Text('Report Submitted!'),
+      //action: SnackBarAction(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    for (var bf in body_forum) {
+      print('Forum id ${bf['id']}');
+
+      String qid = bf['id'];
+      String title = bf['title'];
+      String desc = bf['desc'];
+      String image = bf['image'];
+      String author = bf['author'];
+      String author_image = bf['author_image'];
+      String time = bf['time'];
+      String q_status = bf['status'];
+      String status_msg = bf['status_msg'];
+      String comment_counter = bf['comment_counter'];
+
+      Forum(
+        id: qid,
+        title: 'Make MOney ooooo',
+        desc: desc,
+        image: image,
+        author: author,
+        authorImage: author_image,
+        time: time,
+        status: q_status,
+        statusMsg: status_msg,
+        commentCounter: comment_counter,
+      );
+    }
+    // return forumFromJson(body_forum);
+  } else {
+    final snacksBar = SnackBar(
+      content: Text('Could not Submit, Try Later!'),
+      //action: SnackBarAction(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    //return forumFromJson(response.body[0]);
+  }
+}
+
+Future<bool> postBlockUser({
+  String id,
+  String user,
+  BuildContext context,
+}) async {
+  final response =
+      await http.get(Uri.parse('$mainUrl/post_block_user/$id/$user'));
+  var body = response.body;
+
+  Map<String, dynamic> j = json.decode(body);
+  bool status = j['status'];
+
+  print('Status ${status}');
+
+  if (status == true) {
+    final snacksBar = SnackBar(
+      content: Text('You won\'t seen this user post anymore'),
+      //action: SnackBarAction(),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    return true;
+  } else {
+    final snacksBar = SnackBar(
+      content: Text('Could not perform operation, Try Later!'),
+      //action: SnackBarAction(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    return false;
+  }
+}
+
+Future<bool> deletePost({
+  String id,
+  String user,
+  BuildContext context,
+}) async {
+  final response = await http.get(Uri.parse('$mainUrl/delete_post/$id/$user'));
+  var body = response.body;
+
+  Map<String, dynamic> j = json.decode(body);
+  bool status = j['status'];
+
+  if (status == true) {
+    final snacksBar = SnackBar(
+      content: Text('You won\'t seen this post anymore'),
+      //action: SnackBarAction(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    return true;
+  } else {
+    final snacksBar = SnackBar(
+      content: Text('Could not perform operation, Try Later!'),
+      //action: SnackBarAction(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    return false;
+  }
+}
+
+Future<List<ForumComment>> commentReportProblem(
+  String id,
+  String report_type,
+  BuildContext context,
+  forum_id,
+) async {
+  final response = await http.get(
+      Uri.parse('$mainUrl/comment_report_problem/$forum_id/$id/$report_type'));
+  var body = response.body;
+
+  Map<String, dynamic> j = json.decode(body);
+  bool status = j['status'];
+
+  if (status == true) {
+    final snacksBar = SnackBar(
+      content: Text('Comment has been Submitted for Review!'),
+      //action: SnackBarAction(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+
+    // return forumFromJson(body_forum);
+  } else {
+    final snacksBar = SnackBar(
+      content: Text('Could not Submit, Try Later!'),
+      //action: SnackBarAction(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    //return forumFromJson(response.body[0]);
+  }
+}
+
+Future<bool> commentBlockUser({
+  String id,
+  String user,
+  BuildContext context,
+}) async {
+  final response =
+      await http.get(Uri.parse('$mainUrl/post_block_user/$id/$user'));
+  var body = response.body;
+
+  Map<String, dynamic> j = json.decode(body);
+  bool status = j['status'];
+
+  if (status == true) {
+    final snacksBar = SnackBar(
+      content: Text('You won\'t seen this user post anymore'),
+      //action: SnackBarAction(),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    return true;
+  } else {
+    final snacksBar = SnackBar(
+      content: Text('Could not perform operation, Try Later!'),
+      //action: SnackBarAction(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    return false;
+  }
+}
+
+Future<bool> deleteComment({
+  forum_id,
+  String id,
+  String user,
+  BuildContext context,
+}) async {
+  final response =
+      await http.get(Uri.parse('$mainUrl/delete_comment/$id/$user'));
+  var body = response.body;
+
+  Map<String, dynamic> j = json.decode(body);
+  bool status = j['status'];
+
+  if (status == true) {
+    final snacksBar = SnackBar(
+      content: Text('You won\'t seen this comment anymore'),
+      //action: SnackBarAction(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    return true;
+  } else {
+    final snacksBar = SnackBar(
+      content: Text('Could not perform operation, Try Later!'),
+      //action: SnackBarAction(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    return false;
   }
 }

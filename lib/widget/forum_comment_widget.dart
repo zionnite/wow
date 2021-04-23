@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:popup_menu/popup_menu.dart';
+import 'package:wow/blocs/forum_bloc.dart';
 import 'package:wow/utils.dart';
 
 class ForumCommentWidget extends StatefulWidget {
@@ -8,6 +9,7 @@ class ForumCommentWidget extends StatefulWidget {
   String com_authorImg;
   String com_body;
   String com_time;
+  String forum_id;
 
   ForumCommentWidget({
     this.com_id,
@@ -15,6 +17,7 @@ class ForumCommentWidget extends StatefulWidget {
     this.com_authorImg,
     this.com_body,
     this.com_time,
+    this.forum_id,
   });
 
   @override
@@ -30,6 +33,10 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
   var selected_menu;
   var selected_author;
   var selected_key;
+
+  final forumBloc = ForumBloc();
+  //TODO:// CHANGE USER NAME
+  final String user = 'zionnite';
 
   _showModalBottomSheetReport(context) {
     showModalBottomSheet(
@@ -66,8 +73,14 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
                       scrollDirection: Axis.vertical,
                       children: [
                         InkWell(
-                          onTap: () {
-                            print('Nudity');
+                          onTap: () async {
+                            await forumBloc.handleCommentProblemReporting(
+                              id: widget.com_id,
+                              user: user,
+                              report_type: 'nudity',
+                              forum_id: widget.forum_id,
+                              context: context,
+                            );
                             Navigator.pop(context);
                           },
                           child: Card(
@@ -95,8 +108,15 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            print('Violence');
+                          onTap: () async {
+                            await forumBloc.handleCommentProblemReporting(
+                              id: widget.com_id,
+                              user: user,
+                              report_type: 'violence',
+                              forum_id: widget.forum_id,
+                              context: context,
+                            );
+                            Navigator.pop(context);
                           },
                           child: Card(
                             elevation: 4.0,
@@ -123,8 +143,15 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            print('Harassment');
+                          onTap: () async {
+                            await forumBloc.handleCommentProblemReporting(
+                              id: widget.com_id,
+                              user: user,
+                              report_type: 'harassment',
+                              forum_id: widget.forum_id,
+                              context: context,
+                            );
+                            Navigator.pop(context);
                           },
                           child: Card(
                             elevation: 4.0,
@@ -151,8 +178,15 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            print('Suicide or Self-injury');
+                          onTap: () async {
+                            await forumBloc.handleCommentProblemReporting(
+                              id: widget.com_id,
+                              user: user,
+                              report_type: 'suicide_or_self_injury',
+                              forum_id: widget.forum_id,
+                              context: context,
+                            );
+                            Navigator.pop(context);
                           },
                           child: Card(
                             elevation: 4.0,
@@ -179,8 +213,15 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            print('False Information');
+                          onTap: () async {
+                            await forumBloc.handleCommentProblemReporting(
+                              id: widget.com_id,
+                              user: user,
+                              report_type: 'false_information',
+                              forum_id: widget.forum_id,
+                              context: context,
+                            );
+                            Navigator.pop(context);
                           },
                           child: Card(
                             elevation: 4.0,
@@ -207,8 +248,15 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            print('Hate Speech');
+                          onTap: () async {
+                            await forumBloc.handleCommentProblemReporting(
+                              id: widget.com_id,
+                              user: user,
+                              report_type: 'hate_speech',
+                              forum_id: widget.forum_id,
+                              context: context,
+                            );
+                            Navigator.pop(context);
                           },
                           child: Card(
                             elevation: 4.0,
@@ -235,8 +283,15 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            print('Spam');
+                          onTap: () async {
+                            await forumBloc.handleCommentProblemReporting(
+                              id: widget.com_id,
+                              user: user,
+                              report_type: 'spam',
+                              forum_id: widget.forum_id,
+                              context: context,
+                            );
+                            Navigator.pop(context);
                           },
                           child: Card(
                             elevation: 4.0,
@@ -330,7 +385,7 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
                   children: [
                     MaterialButton(
                       onPressed: () {
-                        print('No');
+                        Navigator.pop(context);
                       },
                       elevation: 4,
                       color: Colors.redAccent,
@@ -345,8 +400,13 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
                       ),
                     ),
                     MaterialButton(
-                      onPressed: () {
-                        print('Yes');
+                      onPressed: () async {
+                        await forumBloc.handleCommentBlockUser(
+                          id: widget.com_id,
+                          user: user,
+                          context: context,
+                        );
+                        Navigator.pop(context);
                       },
                       elevation: 4,
                       color: Colors.green,
@@ -414,7 +474,7 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
                   children: [
                     MaterialButton(
                       onPressed: () {
-                        print('No');
+                        Navigator.pop(context);
                       },
                       elevation: 4,
                       color: Colors.redAccent,
@@ -429,8 +489,14 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
                       ),
                     ),
                     MaterialButton(
-                      onPressed: () {
-                        print('Yes');
+                      onPressed: () async {
+                        await forumBloc.handleDeleteComment(
+                          id: widget.com_id,
+                          user: user,
+                          context: context,
+                          forum_id: widget.forum_id,
+                        );
+                        Navigator.pop(context);
                       },
                       elevation: 4,
                       color: Colors.green,

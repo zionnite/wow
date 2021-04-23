@@ -50,6 +50,8 @@ class _QuoteDetailWidgetState extends State<QuoteDetailWidget> {
 
   bool _isLoading = false;
 
+  //TODO:// CHANGE USER NAME
+  final String user = 'zionnite';
   @override
   void initState() {
     super.initState();
@@ -312,7 +314,7 @@ class _QuoteDetailWidgetState extends State<QuoteDetailWidget> {
                           _isLoading = true;
                         });
                         int counter = await quoteBloc.handleYesCounter(
-                            widget.quote_id, yes_counter, 'zionnite');
+                            widget.quote_id, yes_counter, user);
 
                         setState(() {
                           yes_counter = counter;
@@ -371,7 +373,7 @@ class _QuoteDetailWidgetState extends State<QuoteDetailWidget> {
                           _isLoading = true;
                         });
                         int counter = await quoteBloc.handleNoCounter(
-                            widget.quote_id, yes_counter, 'zionnite');
+                            widget.quote_id, yes_counter, user, context);
 
                         setState(() {
                           no_counter = counter;

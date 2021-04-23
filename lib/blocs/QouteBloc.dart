@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wow/blocs/bloc_provider.dart';
 import 'package:wow/model/Category.dart';
@@ -106,8 +107,9 @@ class QuoteBloc implements BlocBase {
     return yes_counter;
   }
 
-  handleNoCounter(String id, int current_counter, String user) async {
-    no_counter = await getQuoteNoCounter(id, current_counter, user);
+  handleNoCounter(
+      String id, int current_counter, String user, BuildContext context) async {
+    no_counter = await getQuoteNoCounter(id, current_counter, user, context);
     noCounterSink.add(no_counter);
     return no_counter;
   }

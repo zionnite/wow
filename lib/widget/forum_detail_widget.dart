@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:popup_menu/popup_menu.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wow/blocs/forum_bloc.dart';
 
 import '../utils.dart';
 
@@ -39,6 +40,10 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
   var selected_id;
   var selected_menu;
 
+  final forumBloc = ForumBloc();
+  //TODO:// CHANGE USER NAME
+  final String user = 'zionnite';
+
   _showModalBottomSheetReport(context) {
     showModalBottomSheet(
         context: context,
@@ -74,8 +79,13 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
                       scrollDirection: Axis.vertical,
                       children: [
                         InkWell(
-                          onTap: () {
-                            print('Nudity');
+                          onTap: () async {
+                            await forumBloc.handleProblemReporting(
+                              id: widget.pick_id,
+                              user: user,
+                              report_type: 'nudity',
+                              context: context,
+                            );
                             Navigator.pop(context);
                           },
                           child: Card(
@@ -103,8 +113,14 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            print('Violence');
+                          onTap: () async {
+                            await forumBloc.handleProblemReporting(
+                              id: widget.pick_id,
+                              user: user,
+                              report_type: 'violence',
+                              context: context,
+                            );
+                            Navigator.pop(context);
                           },
                           child: Card(
                             elevation: 4.0,
@@ -131,8 +147,14 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            print('Harassment');
+                          onTap: () async {
+                            await forumBloc.handleProblemReporting(
+                              id: widget.pick_id,
+                              user: user,
+                              report_type: 'harassment',
+                              context: context,
+                            );
+                            Navigator.pop(context);
                           },
                           child: Card(
                             elevation: 4.0,
@@ -159,8 +181,14 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            print('Suicide or Self-injury');
+                          onTap: () async {
+                            await forumBloc.handleProblemReporting(
+                              id: widget.pick_id,
+                              user: user,
+                              report_type: 'suicide_or_self_injury',
+                              context: context,
+                            );
+                            Navigator.pop(context);
                           },
                           child: Card(
                             elevation: 4.0,
@@ -187,8 +215,14 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            print('False Information');
+                          onTap: () async {
+                            await forumBloc.handleProblemReporting(
+                              id: widget.pick_id,
+                              user: user,
+                              report_type: 'false_information',
+                              context: context,
+                            );
+                            Navigator.pop(context);
                           },
                           child: Card(
                             elevation: 4.0,
@@ -215,8 +249,14 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            print('Hate Speech');
+                          onTap: () async {
+                            await forumBloc.handleProblemReporting(
+                              id: widget.pick_id,
+                              user: user,
+                              report_type: 'hate_speech',
+                              context: context,
+                            );
+                            Navigator.pop(context);
                           },
                           child: Card(
                             elevation: 4.0,
@@ -243,8 +283,14 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            print('Spam');
+                          onTap: () async {
+                            await forumBloc.handleProblemReporting(
+                              id: widget.pick_id,
+                              user: user,
+                              report_type: 'spam',
+                              context: context,
+                            );
+                            Navigator.pop(context);
                           },
                           child: Card(
                             elevation: 4.0,
@@ -338,7 +384,7 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
                   children: [
                     MaterialButton(
                       onPressed: () {
-                        print('No');
+                        Navigator.pop(context);
                       },
                       elevation: 4,
                       color: Colors.redAccent,
@@ -353,8 +399,13 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
                       ),
                     ),
                     MaterialButton(
-                      onPressed: () {
-                        print('Yes');
+                      onPressed: () async {
+                        await forumBloc.handleBlockUser(
+                          id: widget.pick_id,
+                          user: user,
+                          context: context,
+                        );
+                        Navigator.pop(context);
                       },
                       elevation: 4,
                       color: Colors.green,
@@ -422,7 +473,7 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
                   children: [
                     MaterialButton(
                       onPressed: () {
-                        print('No');
+                        Navigator.pop(context);
                       },
                       elevation: 4,
                       color: Colors.redAccent,
@@ -437,8 +488,13 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
                       ),
                     ),
                     MaterialButton(
-                      onPressed: () {
-                        print('Yes');
+                      onPressed: () async {
+                        await forumBloc.handlePostDelete(
+                          id: widget.pick_id,
+                          user: user,
+                          context: context,
+                        );
+                        Navigator.pop(context);
                       },
                       elevation: 4,
                       color: Colors.green,

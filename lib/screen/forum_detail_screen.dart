@@ -217,6 +217,7 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
                                     return Container();
                                   }
                                   return ForumCommentWidget(
+                                    forum_id: widget.pick_id,
                                     com_id: snapshot.data[index].comId,
                                     com_author: snapshot.data[index].comAuthor,
                                     com_body: snapshot.data[index].comBody,

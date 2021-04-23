@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wow/blocs/bloc_provider.dart';
 import 'package:wow/blocs/validator/form_validator.dart';
@@ -78,8 +79,53 @@ class ForumBloc extends Object with Validator implements BlocBase {
 
   /*Per Page*/
 
-  List<Forum> data, page_data, search_data;
-  List<ForumComment> comment_data;
+  /*Report a Problem*/
+
+  final StreamController<List<Forum>> reportProblemController =
+      BehaviorSubject<List<Forum>>();
+  StreamSink<List<Forum>> get reportStreamSink => reportProblemController.sink;
+  Stream<List<Forum>> get reportStream => reportProblemController.stream;
+  /*Report a Problem*/
+
+  /*Block User*/
+  final StreamController<bool> blockUserController = BehaviorSubject<bool>();
+  StreamSink<bool> get blockUserSink => blockUserController.sink;
+  Stream<bool> get blockUserStream => blockUserController.stream;
+  /*Block User*/
+
+  /*Delete Post */
+  final StreamController<bool> deletePostController = BehaviorSubject<bool>();
+  StreamSink<bool> get deletePostSink => deletePostController.sink;
+  Stream<bool> get deletePostStream => deletePostController.stream;
+  /*Delete Post */
+
+  /*Comment Reporting*/
+  final StreamController<List<ForumComment>> reportCommentProblemController =
+      BehaviorSubject<List<ForumComment>>();
+  StreamSink<List<ForumComment>> get reportCommentStreamSink =>
+      reportCommentProblemController.sink;
+  Stream<List<ForumComment>> get reportCommentStream =>
+      reportCommentProblemController.stream;
+  /*Comment Reporting*/
+
+  /*Block User*/
+  final StreamController<bool> blockCommentUserController =
+      BehaviorSubject<bool>();
+  StreamSink<bool> get blockCommentUserSink => blockCommentUserController.sink;
+  Stream<bool> get blockCommentUserStream => blockCommentUserController.stream;
+  /*Block User*/
+
+  /*Delete Comment */
+  final StreamController<bool> deleteCommentController =
+      BehaviorSubject<bool>();
+  StreamSink<bool> get deleteCommentSink => deleteCommentController.sink;
+  Stream<bool> get deleteCommentStream => deleteCommentController.stream;
+  /*Delete Comment*/
+
+  String report_status_i;
+  bool blockUser, delete_Post, blockCommentUser, delete_comment;
+  List<Forum> data, page_data, search_data, report_status;
+  List<ForumComment> comment_data, comment_report_status;
   bool commentStatus;
   ForumBloc() {
     forums();
@@ -165,6 +211,61 @@ class ForumBloc extends Object with Validator implements BlocBase {
     searchController.sink.add(search_data);
   }
 
+  handleProblemReporting({
+    String id,
+    String user,
+    String report_type,
+    BuildContext context,
+  }) async {
+    report_status = await postReportProblem(id, report_type, context);
+    reportProblemController.sink.add(report_status);
+    forums();
+  }
+
+  handleBlockUser({
+    String id,
+    String user,
+    BuildContext context,
+  }) async {
+    blockUser = await postBlockUser(id: id, user: user, context: context);
+    blockUserController.sink.add(blockUser);
+  }
+
+  handlePostDelete({
+    String id,
+    String user,
+    BuildContext context,
+  }) async {
+    delete_Post = await deletePost(id: id, user: user, context: context);
+    deletePostController.sink.add(delete_Post);
+  }
+
+  handleCommentProblemReporting({
+    String id,
+    String user,
+    String report_type,
+    BuildContext context,
+    String forum_id,
+  }) async {
+    comment_report_status =
+        await commentReportProblem(id, report_type, context, forum_id);
+    reportCommentProblemController.sink.add(comment_report_status);
+    forums();
+  }
+
+  handleCommentBlockUser({String id, String user, BuildContext context}) async {
+    blockCommentUser =
+        await commentBlockUser(id: id, user: user, context: context);
+    blockCommentUserController.sink.add(blockCommentUser);
+  }
+
+  handleDeleteComment(
+      {String forum_id, String id, String user, BuildContext context}) async {
+    delete_comment = await deleteComment(
+        forum_id: forum_id, id: id, user: user, context: context);
+    deleteCommentController.sink.add(blockCommentUser);
+  }
+
   @override
   void dispose() {
     forumStreamController.close();
@@ -180,5 +281,11 @@ class ForumBloc extends Object with Validator implements BlocBase {
     mkpProfileImage.close();
     searchController.close();
     searchTermController.close();
+    reportProblemController.close();
+    blockUserController.close();
+    deletePostController.close();
+    reportCommentProblemController.close();
+    blockCommentUserController.close();
+    deleteCommentController.close();
   }
 }

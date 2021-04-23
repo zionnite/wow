@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:popup_menu/popup_menu.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wow/blocs/forum_bloc.dart';
 import 'package:wow/utils.dart';
 
 class ForumWidget extends StatefulWidget {
@@ -37,6 +38,10 @@ class _ForumWidgetState extends State<ForumWidget> {
   String author;
   String authorImg;
   String time_ago;
+
+  final forumBloc = ForumBloc();
+  //TODO:// CHANGE USER NAME
+  final String user = 'zionnite';
 
   _showModalBottomSheetReport(context) {
     showModalBottomSheet(
@@ -73,8 +78,13 @@ class _ForumWidgetState extends State<ForumWidget> {
                       scrollDirection: Axis.vertical,
                       children: [
                         InkWell(
-                          onTap: () {
-                            print('Nudity');
+                          onTap: () async {
+                            await forumBloc.handleProblemReporting(
+                              id: widget.pick_id,
+                              user: user,
+                              report_type: 'nudity',
+                              context: context,
+                            );
                             Navigator.pop(context);
                           },
                           child: Card(
@@ -102,8 +112,14 @@ class _ForumWidgetState extends State<ForumWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            print('Violence');
+                          onTap: () async {
+                            await forumBloc.handleProblemReporting(
+                              id: widget.pick_id,
+                              user: user,
+                              report_type: 'violence',
+                              context: context,
+                            );
+                            Navigator.pop(context);
                           },
                           child: Card(
                             elevation: 4.0,
@@ -130,8 +146,14 @@ class _ForumWidgetState extends State<ForumWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            print('Harassment');
+                          onTap: () async {
+                            await forumBloc.handleProblemReporting(
+                              id: widget.pick_id,
+                              user: user,
+                              report_type: 'harassment',
+                              context: context,
+                            );
+                            Navigator.pop(context);
                           },
                           child: Card(
                             elevation: 4.0,
@@ -158,8 +180,14 @@ class _ForumWidgetState extends State<ForumWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            print('Suicide or Self-injury');
+                          onTap: () async {
+                            await forumBloc.handleProblemReporting(
+                              id: widget.pick_id,
+                              user: user,
+                              report_type: 'suicide_or_self_injury',
+                              context: context,
+                            );
+                            Navigator.pop(context);
                           },
                           child: Card(
                             elevation: 4.0,
@@ -186,8 +214,14 @@ class _ForumWidgetState extends State<ForumWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            print('False Information');
+                          onTap: () async {
+                            await forumBloc.handleProblemReporting(
+                              id: widget.pick_id,
+                              user: user,
+                              report_type: 'false_information',
+                              context: context,
+                            );
+                            Navigator.pop(context);
                           },
                           child: Card(
                             elevation: 4.0,
@@ -214,8 +248,14 @@ class _ForumWidgetState extends State<ForumWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            print('Hate Speech');
+                          onTap: () async {
+                            await forumBloc.handleProblemReporting(
+                              id: widget.pick_id,
+                              user: user,
+                              report_type: 'hate_speech',
+                              context: context,
+                            );
+                            Navigator.pop(context);
                           },
                           child: Card(
                             elevation: 4.0,
@@ -242,8 +282,14 @@ class _ForumWidgetState extends State<ForumWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
-                            print('Spam');
+                          onTap: () async {
+                            await forumBloc.handleProblemReporting(
+                              id: widget.pick_id,
+                              user: user,
+                              report_type: 'spam',
+                              context: context,
+                            );
+                            Navigator.pop(context);
                           },
                           child: Card(
                             elevation: 4.0,
@@ -301,7 +347,7 @@ class _ForumWidgetState extends State<ForumWidget> {
                   child: Column(
                     children: [
                       Text(
-                        'Are you sure you want to Block this User',
+                        'Are you sure you want to Block this User (${widget.author})?',
                         style: TextStyle(
                           fontSize: 23.0,
                           fontWeight: FontWeight.bold,
@@ -337,7 +383,7 @@ class _ForumWidgetState extends State<ForumWidget> {
                   children: [
                     MaterialButton(
                       onPressed: () {
-                        print('No');
+                        Navigator.pop(context);
                       },
                       elevation: 4,
                       color: Colors.redAccent,
@@ -352,8 +398,13 @@ class _ForumWidgetState extends State<ForumWidget> {
                       ),
                     ),
                     MaterialButton(
-                      onPressed: () {
-                        print('Yes');
+                      onPressed: () async {
+                        await forumBloc.handleBlockUser(
+                          id: widget.pick_id,
+                          user: user,
+                          context: context,
+                        );
+                        Navigator.pop(context);
                       },
                       elevation: 4,
                       color: Colors.green,
@@ -367,29 +418,6 @@ class _ForumWidgetState extends State<ForumWidget> {
                         ),
                       ),
                     ),
-                    // Card(
-                    //   elevation: 4.0,
-                    //   color: Colors.redAccent,
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.all(8.0),
-                    //     child: Container(
-                    //       margin: EdgeInsets.only(
-                    //         top: 5.0,
-                    //       ),
-                    //       height: 30.0,
-                    //       width: double.infinity,
-                    //       child: Text(
-                    //         'No, Cancel',
-                    //         textAlign: TextAlign.center,
-                    //         style: TextStyle(
-                    //           color: Colors.white,
-                    //           fontSize: 20.0,
-                    //           fontFamily: 'Raleway',
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // )
                   ],
                 )
               ],
@@ -444,7 +472,7 @@ class _ForumWidgetState extends State<ForumWidget> {
                   children: [
                     MaterialButton(
                       onPressed: () {
-                        print('No');
+                        Navigator.pop(context);
                       },
                       elevation: 4,
                       color: Colors.redAccent,
@@ -459,8 +487,13 @@ class _ForumWidgetState extends State<ForumWidget> {
                       ),
                     ),
                     MaterialButton(
-                      onPressed: () {
-                        print('Yes');
+                      onPressed: () async {
+                        await forumBloc.handlePostDelete(
+                          id: widget.pick_id,
+                          user: user,
+                          context: context,
+                        );
+                        Navigator.pop(context);
                       },
                       elevation: 4,
                       color: Colors.green,
