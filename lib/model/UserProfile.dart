@@ -1,13 +1,10 @@
-// To parse this JSON data, do
-//
-//     final userProfile = userProfileFromJson(jsonString);
-
 import 'dart:convert';
 
-UserProfile userProfileFromJson(String str) =>
-    UserProfile.fromJson(json.decode(str));
+List<UserProfile> userProfileFromJson(String str) => List<UserProfile>.from(
+    json.decode(str).map((x) => UserProfile.fromJson(x)));
 
-String userProfileToJson(UserProfile data) => json.encode(data.toJson());
+String userProfileToJson(List<UserProfile> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class UserProfile {
   UserProfile({
@@ -32,8 +29,8 @@ class UserProfile {
   String email;
   String phoneNo;
   String userImg;
-  String following;
-  String followers;
+  int following;
+  int followers;
   bool iFollow;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(

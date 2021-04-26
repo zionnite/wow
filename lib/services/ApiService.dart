@@ -8,6 +8,7 @@ import 'package:wow/model/Forum.dart';
 import 'package:wow/model/ForumComment.dart';
 import 'package:wow/model/Quote.dart';
 import 'package:http/http.dart' as http;
+import 'package:wow/model/UserProfile.dart';
 
 // final String mainUrl = 'http://wow.esuku.xyz/Api';
 final String mainUrl = 'https://api.osherwomen.com/Api';
@@ -546,4 +547,11 @@ Future<String> toggle_follow_user({
     ScaffoldMessenger.of(context).showSnackBar(snacksBar);
     return status;
   }
+}
+
+Future<List<UserProfile>> getAllUsersByPage(
+    int current_page, String my_id) async {
+  final response = await http
+      .get(Uri.parse('$mainUrl/get_users/$my_id/' + current_page.toString()));
+  return userProfileFromJson(response.body);
 }

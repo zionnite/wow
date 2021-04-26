@@ -12,10 +12,9 @@ class ViewUserProfileScreen extends StatefulWidget {
   String sex;
   String phone_no;
   String email;
-  String follower_count;
-  String following_count;
-  String iFollow;
-  String follow_status;
+  int follower_count;
+  int following_count;
+  bool iFollow;
   String user_img;
 
   ViewUserProfileScreen({
@@ -30,7 +29,6 @@ class ViewUserProfileScreen extends StatefulWidget {
     this.follower_count,
     this.following_count,
     this.iFollow,
-    this.follow_status,
     this.user_img,
   });
 
@@ -46,19 +44,16 @@ class ViewUserProfileScreen extends StatefulWidget {
 class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
   final followBloc = FollowBloc();
   // TODO: WORK ON THIS PLACE
-  final String my_id = '1';
-  final String user_id = '2';
-  bool _iFollow = false;
+
   int follower_counter;
   int following_counter;
-
   //TODO: //check for status
   bool follow_status = true;
 
   countUserFollower(String user_id) async {
     new Future.delayed(new Duration(seconds: 4), () {
       setState(() {
-        follower_counter = 55;
+        follower_counter = widget.follower_count;
         follow_status = false;
       });
     });
@@ -67,7 +62,7 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
   countUserFollowing(String user_id) async {
     new Future.delayed(new Duration(seconds: 4), () {
       setState(() {
-        following_counter = 5;
+        following_counter = widget.following_count;
         follow_status = false;
       });
     });
@@ -78,8 +73,8 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
   @override
   void initState() {
     super.initState();
-    countUserFollower(user_id);
-    countUserFollowing(user_id);
+    countUserFollower(widget.user_id);
+    countUserFollowing(widget.user_id);
   }
 
   @override
@@ -103,9 +98,7 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                         fit: BoxFit.cover,
                         colorFilter: new ColorFilter.mode(
                             Colors.black.withOpacity(0.5), BlendMode.darken),
-                        image: new NetworkImage(
-                          'https://static0.srcdn.com/wordpress/wp-content/uploads/2016/11/Hercules-Dwayne-Johnson.jpg',
-                        ),
+                        image: new NetworkImage(widget.user_img),
                       ),
                     ),
                     // child: CachedNetworkImage(
@@ -253,16 +246,18 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                 ),
               ],
             ),
-            (_iFollow == false)
+            (widget.iFollow == false)
                 ? InkWell(
                     onTap: () async {
                       result = await followBloc.handleFollowUser(
-                          my_id: my_id, user_id: user_id, context: context);
+                          my_id: widget.my_id,
+                          user_id: widget.user_id,
+                          context: context);
                       //print(result);
                       if (result == 'following_true') {
-                        print(result);
+                        //print(result);
                         setState(() {
-                          _iFollow = true;
+                          widget.iFollow = true;
                           follower_counter++;
                           //print(_iFollow);
                         });
@@ -270,7 +265,7 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
 
                       if (result == 'unfollowing_true') {
                         setState(() {
-                          _iFollow = false;
+                          widget.iFollow = false;
                           follower_counter--;
                         });
                       }
@@ -368,19 +363,21 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                 : InkWell(
                     onTap: () async {
                       result = await followBloc.handleFollowUser(
-                          my_id: my_id, user_id: user_id, context: context);
+                          my_id: widget.my_id,
+                          user_id: widget.user_id,
+                          context: context);
 
-                      print(result);
+                      //print(result);
                       if (result == 'following_true') {
                         setState(() {
-                          _iFollow = true;
+                          widget.iFollow = true;
                           follower_counter++;
                         });
                       }
 
                       if (result == 'unfollowing_true') {
                         setState(() {
-                          _iFollow = false;
+                          widget.iFollow = false;
                           follower_counter--;
                         });
                       }
@@ -492,9 +489,9 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
             ),
             //TODO: // CHANGE USER NAME
             BioDetailWidget(
-              user_name: 'Jane',
-              user_full_name: 'Janet Okunmagbe',
-              age: '22yrs',
+              user_name: 'wowApp${widget.user_id}',
+              user_full_name: widget.full_name,
+              age: widget.age,
             ),
           ],
         ),
