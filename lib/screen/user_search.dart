@@ -1,55 +1,62 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:wow/blocs/UserBloc.dart';
 import 'package:wow/model/UserProfile.dart';
-import 'package:wow/screen/user_search.dart';
-import 'package:wow/screen/view_user_profile_screen.dart';
 import 'package:wow/services/ApiService.dart';
-import 'package:wow/utils.dart';
 import 'package:wow/widget/users_widget.dart';
 
 import '../bottom_navigation.dart';
+import '../utils.dart';
 
-class UsersScreen extends StatefulWidget {
-  static const String id = 'user_screen';
+class SearchUsers extends StatefulWidget {
+  String searchTerm;
+
+  SearchUsers({
+    this.searchTerm,
+  });
+
   @override
-  _UsersScreenState createState() => _UsersScreenState();
+  _SearchUsersState createState() => _SearchUsersState();
 }
 
-class _UsersScreenState extends State<UsersScreen> {
+class _SearchUsersState extends State<SearchUsers> {
   TextEditingController searchTermController = TextEditingController();
   String searchTerm;
   bool _showStatus = false;
   String _statusMsg;
 
+  //TODO : CHANGE my_id HERE
+  final String my_id = '1';
+
   final userBloc = UserBloc();
+
   ScrollController _controller;
   int current_page = 1;
   bool isLoading = false;
 
-  //TODO: CHANGE HERE
-  final String my_id = '1';
   @override
   void initState() {
-    super.initState();
+    userBloc.searchUsers(widget.searchTerm, current_page, my_id);
+    _controller = ScrollController()..addListener(_scrollListener);
+  }
 
-    userBloc.userPerPage(current_page, my_id);
+  void searchUsers() {
+    print(searchTerm);
+    userBloc.searchUsers(searchTerm, 1, my_id);
     _controller = ScrollController()..addListener(_scrollListener);
   }
 
   void _scrollListener() {
     if (_controller.position.pixels == _controller.position.maxScrollExtent) {
-      //quoteBloc.quotePerPage(1);
       setState(() {
         isLoading = true;
         current_page++;
       });
 
       // Future.delayed(new Duration(seconds: 4), () {
-      getAllUsersByPage(current_page, my_id).then((value) => {
-            userBloc.handleListenPerPage(value),
-          });
+      searchUsersByPage(widget.searchTerm, current_page, my_id)
+          .then((value) => {
+                userBloc.handleSearchListenPerPage(value),
+              });
 
       //});
     }
@@ -59,22 +66,21 @@ class _UsersScreenState extends State<UsersScreen> {
     setState(() {
       current_page = 1;
     });
-    await getAllUsersByPage(1, my_id).then((value) => {
-          userBloc.handleListenRefresh(value),
-        });
+    await searchUsersByPage(widget.searchTerm, current_page, my_id)
+        .then((value) => {
+              userBloc.handleSearchListenRefresh(value),
+            });
   }
 
   @override
   void dispose() {
+    //userBloc.dispose();
     super.dispose();
-    //quoteBloc.dispose();
-    //quoteBloc.quoteCatController.close();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: RefreshIndicator(
         onRefresh: handleRefresh,
         child: SingleChildScrollView(
@@ -91,7 +97,7 @@ class _UsersScreenState extends State<UsersScreen> {
                     child: Padding(
                       padding: EdgeInsets.only(top: 70.0),
                       child: Text(
-                        'Users',
+                        'Searching User',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 35.0,
@@ -109,7 +115,7 @@ class _UsersScreenState extends State<UsersScreen> {
                         Icons.arrow_back_ios,
                         color: Colors.white,
                       ),
-                      onPressed: () => Navigator.pushNamed(context, Nav.id),
+                      onPressed: () => Navigator.pop(context),
                     ),
                   ),
                   Container(
@@ -144,16 +150,7 @@ class _UsersScreenState extends State<UsersScreen> {
                                   searchTermController.text = '';
                                   _showStatus = false;
                                 });
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return SearchUsers(
-                                        searchTerm: searchTerm,
-                                      );
-                                    },
-                                  ),
-                                );
+                                searchUsers();
                               } else {
                                 setState(() {
                                   setState(() {
@@ -185,7 +182,7 @@ class _UsersScreenState extends State<UsersScreen> {
                     )
                   : Container(),
               StreamBuilder<List<UserProfile>>(
-                  stream: userBloc.perPageStream,
+                  stream: userBloc.searchStream,
                   builder:
                       (context, AsyncSnapshot<List<UserProfile>> snapshot) {
                     if (snapshot.hasData) {

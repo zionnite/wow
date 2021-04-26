@@ -555,3 +555,15 @@ Future<List<UserProfile>> getAllUsersByPage(
       .get(Uri.parse('$mainUrl/get_users/$my_id/' + current_page.toString()));
   return userProfileFromJson(response.body);
 }
+
+Future<List<UserProfile>> searchUsersByPage(
+    String search_term, int current_page, String my_id) async {
+  final uri = Uri.parse('$mainUrl/search_users/$current_page/$my_id');
+
+  var response = await http.post(uri, body: {
+    'search_term': search_term,
+  });
+
+  print(response.body);
+  return userProfileFromJson(response.body);
+}

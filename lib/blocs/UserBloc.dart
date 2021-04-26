@@ -10,7 +10,13 @@ class UserBloc implements BlocBase {
       BehaviorSubject<List<UserProfile>>();
   Stream<List<UserProfile>> get perPageStream => userController.stream;
 
-  List<UserProfile> page_data;
+  /*Search Users */
+  final StreamController<List<UserProfile>> searchController =
+      BehaviorSubject<List<UserProfile>>();
+  Stream<List<UserProfile>> get searchStream => searchController.stream;
+  /*Search Users */
+
+  List<UserProfile> page_data, search_data;
 
   userPerPage(int perPage, String my_id) async {
     page_data = await getAllUsersByPage(perPage, my_id);
@@ -25,12 +31,28 @@ class UserBloc implements BlocBase {
   handleListenRefresh(List<UserProfile> users_profile) {
     page_data.clear();
     page_data.addAll(users_profile);
-    userController.sink.add(page_data);
-    // TODO : COME HERE,THIS PLACE MIGHT GIVE US EERROR LATER
+    userController.sink.add(users_profile);
+  }
+
+  searchUsers(String search, int page, String my_id) async {
+    search_data = await searchUsersByPage(search, page, my_id);
+    searchController.sink.add(search_data);
+  }
+
+  handleSearchListenPerPage(List<UserProfile> users) {
+    search_data.addAll(users);
+    searchController.sink.add(search_data);
+  }
+
+  handleSearchListenRefresh(List<UserProfile> users) {
+    search_data.clear();
+    search_data.addAll(users);
+    searchController.sink.add(search_data);
   }
 
   @override
   void dispose() {
     userController.close();
+    searchController.close();
   }
 }
