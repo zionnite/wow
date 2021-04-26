@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final forum = forumFromJson(jsonString);
+
 import 'dart:convert';
 
 List<Forum> forumFromJson(String str) =>
@@ -19,6 +23,16 @@ class Forum {
     this.status,
     this.statusMsg,
     this.commentCounter,
+    this.userId,
+    this.userName,
+    this.fullName,
+    this.sex,
+    this.age,
+    this.phoneNo,
+    this.userImg,
+    this.following,
+    this.followers,
+    this.iFollow,
   });
 
   String id;
@@ -32,6 +46,16 @@ class Forum {
   String status;
   String statusMsg;
   String commentCounter;
+  String userId;
+  String userName;
+  String fullName;
+  String sex;
+  String age;
+  String phoneNo;
+  String userImg;
+  int following;
+  int followers;
+  bool iFollow;
 
   factory Forum.fromJson(Map<String, dynamic> json) => Forum(
         id: json["id"],
@@ -45,6 +69,16 @@ class Forum {
         status: json["status"],
         statusMsg: json["status_msg"],
         commentCounter: json["comment_counter"],
+        userId: json["user_id"],
+        userName: json["user_name"],
+        fullName: json["full_name"],
+        sex: json["sex"],
+        age: json["age"],
+        phoneNo: json["phone_no"],
+        userImg: json["user_img"],
+        following: json["following"],
+        followers: json["followers"],
+        iFollow: json["iFollow"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -59,5 +93,15 @@ class Forum {
         "status": status,
         "status_msg": statusMsg,
         "comment_counter": commentCounter,
+        "user_id": userId,
+        "user_name": userName,
+        "full_name": fullName,
+        "sex": sex,
+        "age": age,
+        "phone_no": phoneNo,
+        "user_img": userImg,
+        "following": following,
+        "followers": followers,
+        "iFollow": iFollow,
       };
 }

@@ -12,6 +12,16 @@ class ForumCommentWidget extends StatefulWidget {
   String com_time;
   String forum_id;
   String commenter_id;
+  String user_id;
+  String user_name;
+  String full_name;
+  String sex;
+  String age;
+  String phone_no;
+  String user_img;
+  int following;
+  int followers;
+  bool iFollow;
 
   ForumCommentWidget({
     this.com_id,
@@ -21,6 +31,16 @@ class ForumCommentWidget extends StatefulWidget {
     this.com_time,
     this.forum_id,
     this.commenter_id,
+    this.user_id,
+    this.user_name,
+    this.full_name,
+    this.sex,
+    this.age,
+    this.phone_no,
+    this.user_img,
+    this.following,
+    this.followers,
+    this.iFollow,
   });
 
   @override
@@ -545,8 +565,16 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
                       MaterialPageRoute(
                         builder: (context) {
                           return ViewUserProfileScreen(
-                            user_id: widget.commenter_id,
-                            user_name: widget.com_author,
+                            user_id: widget.user_id,
+                            user_name: widget.user_name,
+                            user_img: widget.user_img,
+                            full_name: widget.full_name,
+                            sex: widget.sex,
+                            age: widget.age,
+                            phone_no: widget.phone_no,
+                            following_count: widget.following,
+                            follower_count: widget.followers,
+                            iFollow: widget.iFollow,
                           );
                         },
                       ),
@@ -572,8 +600,16 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
                         MaterialPageRoute(
                           builder: (context) {
                             return ViewUserProfileScreen(
-                              user_id: widget.commenter_id,
-                              user_name: widget.com_author,
+                              user_id: widget.user_id,
+                              user_name: widget.user_name,
+                              user_img: widget.user_img,
+                              full_name: widget.full_name,
+                              sex: widget.sex,
+                              age: widget.age,
+                              phone_no: widget.phone_no,
+                              following_count: widget.following,
+                              follower_count: widget.followers,
+                              iFollow: widget.iFollow,
                             );
                           },
                         ),

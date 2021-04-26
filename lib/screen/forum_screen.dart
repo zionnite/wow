@@ -27,11 +27,13 @@ class _ForumScreenState extends State<ForumScreen> {
   int current_page = 1;
   bool isLoading = false;
 
+  //Todo: Change my_id here
+  final String my_id = '1';
   @override
   void initState() {
     // forumBloc = BlocProvider.of<ForumBloc>(context);
 
-    forumBloc.forumPerPage(current_page);
+    forumBloc.forumPerPage(current_page, my_id);
     _controller = ScrollController()..addListener(_scrollListener);
   }
 
@@ -43,7 +45,7 @@ class _ForumScreenState extends State<ForumScreen> {
       });
 
       // Future.delayed(new Duration(seconds: 4), () {
-      getAllForumPerPage(current_page).then((value) => {
+      getAllForumPerPage(current_page, my_id).then((value) => {
             forumBloc.handleListenPerPage(value),
           });
 
@@ -55,7 +57,7 @@ class _ForumScreenState extends State<ForumScreen> {
     setState(() {
       current_page = 1;
     });
-    await getAllForumPerPage(current_page).then((value) => {
+    await getAllForumPerPage(current_page, my_id).then((value) => {
           forumBloc.handleListenRefresh(value),
         });
   }
@@ -169,6 +171,23 @@ class _ForumScreenState extends State<ForumScreen> {
                                               snapshot.data[index].authorImage,
                                           author: snapshot.data[index].author,
                                           time_ago: snapshot.data[index].time,
+                                          user_id: snapshot.data[index].userId,
+                                          user_img:
+                                              snapshot.data[index].userImg,
+                                          user_name:
+                                              snapshot.data[index].userName,
+                                          full_name:
+                                              snapshot.data[index].fullName,
+                                          phone_no:
+                                              snapshot.data[index].phoneNo,
+                                          sex: snapshot.data[index].sex,
+                                          age: snapshot.data[index].age,
+                                          followers:
+                                              snapshot.data[index].followers,
+                                          following:
+                                              snapshot.data[index].following,
+                                          iFollow: snapshot.data[index].iFollow,
+
                                           //forumBloc: forumBloc,
                                         );
                                       },

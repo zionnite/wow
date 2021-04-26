@@ -19,6 +19,16 @@ class ForumDetailScreen extends StatefulWidget {
   String author;
   String authorImg;
   String time_ago;
+  String user_id;
+  String user_name;
+  String full_name;
+  String sex;
+  String age;
+  String phone_no;
+  String user_img;
+  int following;
+  int followers;
+  bool iFollow;
 
   // ForumBloc forumBloc;
 
@@ -31,7 +41,16 @@ class ForumDetailScreen extends StatefulWidget {
     this.author,
     this.authorImg,
     this.time_ago,
-    //this.forumBloc,
+    this.user_id,
+    this.user_name,
+    this.full_name,
+    this.sex,
+    this.age,
+    this.phone_no,
+    this.user_img,
+    this.following,
+    this.followers,
+    this.iFollow,
   });
 
   @override
@@ -46,9 +65,13 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
   int current_page = 1;
   bool isLoading = false;
 
+  //TODO: // change my_id
+
+  final String my_id = '1';
+
   @override
   void initState() {
-    forumBloc.getCommentByIdnPage(widget.pick_id, current_page);
+    forumBloc.getCommentByIdnPage(widget.pick_id, current_page, my_id);
     _controller = ScrollController()..addListener(_scrollListener);
   }
 
@@ -60,7 +83,7 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
       });
 
       // Future.delayed(new Duration(seconds: 4), () {
-      getForumCommentByIdnPerPage(widget.pick_id, current_page)
+      getForumCommentByIdnPerPage(widget.pick_id, current_page, my_id)
           .then((value) => {
                 forumBloc.handleCommentListenPerPage(value),
               });
@@ -73,7 +96,7 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
     setState(() {
       current_page = 1;
     });
-    await getForumCommentByIdnPerPage(widget.pick_id, current_page)
+    await getForumCommentByIdnPerPage(widget.pick_id, current_page, my_id)
         .then((value) => {
               forumBloc.handleCommentListenRefresh(value),
             });
@@ -122,6 +145,16 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
                     authorImg: widget.authorImg,
                     author: widget.author,
                     time_ago: widget.time_ago,
+                    user_id: widget.user_id,
+                    user_name: widget.user_name,
+                    user_img: widget.user_img,
+                    full_name: widget.full_name,
+                    sex: widget.sex,
+                    age: widget.age,
+                    phone_no: widget.phone_no,
+                    following: widget.following,
+                    followers: widget.followers,
+                    iFollow: widget.iFollow,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -222,8 +255,17 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
                                     com_author: snapshot.data[index].comAuthor,
                                     com_body: snapshot.data[index].comBody,
                                     com_time: snapshot.data[index].comTime,
-                                    com_authorImg:
-                                        'https://writestylesonline.com/wp-content/uploads/2021/02/Michele-Round-Circle-2020.png',
+                                    com_authorImg: snapshot.data[index].userImg,
+                                    user_id: snapshot.data[index].userId,
+                                    user_name: snapshot.data[index].userName,
+                                    user_img: snapshot.data[index].userImg,
+                                    full_name: snapshot.data[index].fullName,
+                                    followers: snapshot.data[index].followers,
+                                    following: snapshot.data[index].following,
+                                    iFollow: snapshot.data[index].iFollow,
+                                    age: snapshot.data[index].age,
+                                    sex: snapshot.data[index].sex,
+                                    phone_no: snapshot.data[index].phoneNo,
                                   );
                                 },
                               );

@@ -137,8 +137,8 @@ class ForumBloc extends Object with Validator implements BlocBase {
   }
 
   /*Quote Screen*/
-  forumPerPage(int perPage) async {
-    page_data = await getAllForumPerPage(perPage);
+  forumPerPage(int perPage, String my_id) async {
+    page_data = await getAllForumPerPage(perPage, my_id);
     perPageController.sink.add(page_data);
   }
 
@@ -159,8 +159,8 @@ class ForumBloc extends Object with Validator implements BlocBase {
     forumCommentStreamController.sink.add(comment_data);
   }
 
-  getCommentByIdnPage(String id, int page) async {
-    comment_data = await getForumCommentByIdnPerPage(id, page);
+  getCommentByIdnPage(String id, int page, String my_id) async {
+    comment_data = await getForumCommentByIdnPerPage(id, page, my_id);
     forumCommentStreamController.sink.add(comment_data);
   }
 

@@ -51,9 +51,11 @@ Future<List<Forum>> getAllForums() async {
   return forumFromJson(response.body);
 }
 
-Future<List<Forum>> getAllForumPerPage(int current_page) async {
+Future<List<Forum>> getAllForumPerPage(int current_page, String my_id) async {
   final response =
-      await http.get(Uri.parse('$mainUrl/get_forum_2/$current_page'));
+      await http.get(Uri.parse('$mainUrl/get_forum_2/$current_page/$my_id'));
+  // print('my id ${my_id}');
+  // print(response.body);
   return forumFromJson(response.body);
 }
 
@@ -64,9 +66,9 @@ Future<List<ForumComment>> getForumCommentById(String id) async {
 }
 
 Future<List<ForumComment>> getForumCommentByIdnPerPage(
-    String id, int current_page) async {
-  final response = await http
-      .get(Uri.parse('$mainUrl/get_forum_comment_by_id_2/$id/$current_page'));
+    String id, int current_page, String my_id) async {
+  final response = await http.get(
+      Uri.parse('$mainUrl/get_forum_comment_by_id_2/$id/$current_page/$my_id'));
   return forumCommentFromJson(response.body);
 }
 

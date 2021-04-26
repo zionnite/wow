@@ -17,7 +17,16 @@ class ForumDetailWidget extends StatefulWidget {
   String author;
   String authorImg;
   String time_ago;
-  String author_id;
+  String user_id;
+  String user_name;
+  String full_name;
+  String sex;
+  String age;
+  String phone_no;
+  String user_img;
+  int following;
+  int followers;
+  bool iFollow;
 
   ForumDetailWidget({
     this.pick_id,
@@ -28,7 +37,16 @@ class ForumDetailWidget extends StatefulWidget {
     this.author,
     this.authorImg,
     this.time_ago,
-    this.author_id,
+    this.user_id,
+    this.user_name,
+    this.full_name,
+    this.sex,
+    this.age,
+    this.phone_no,
+    this.user_img,
+    this.following,
+    this.followers,
+    this.iFollow,
   });
 
   @override
@@ -590,8 +608,16 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
                             MaterialPageRoute(
                               builder: (context) {
                                 return ViewUserProfileScreen(
-                                  user_id: widget.author_id,
-                                  user_name: widget.author,
+                                  user_id: widget.user_id,
+                                  user_name: widget.user_name,
+                                  user_img: widget.user_img,
+                                  full_name: widget.full_name,
+                                  sex: widget.sex,
+                                  age: widget.age,
+                                  phone_no: widget.phone_no,
+                                  following_count: widget.following,
+                                  follower_count: widget.followers,
+                                  iFollow: widget.iFollow,
                                 );
                               },
                             ),
@@ -625,7 +651,7 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
                                       MaterialPageRoute(
                                         builder: (context) {
                                           return ViewUserProfileScreen(
-                                            user_id: widget.author_id,
+                                            user_id: widget.user_id,
                                             user_name: widget.author,
                                           );
                                         },
