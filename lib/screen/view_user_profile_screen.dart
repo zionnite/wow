@@ -3,13 +3,41 @@ import 'package:wow/blocs/FollowBloc.dart';
 import 'package:wow/widget/bio_detail_widget.dart';
 
 class ViewUserProfileScreen extends StatefulWidget {
+  static const String id = 'view_user_profile_screen';
   String user_id;
   String user_name;
+  String my_id;
+  String full_name;
+  String age;
+  String sex;
+  String phone_no;
+  String email;
+  String follower_count;
+  String following_count;
+  String iFollow;
+  String follow_status;
+  String user_img;
 
   ViewUserProfileScreen({
     this.user_id,
     this.user_name,
+    this.my_id,
+    this.full_name,
+    this.age,
+    this.sex,
+    this.phone_no,
+    this.email,
+    this.follower_count,
+    this.following_count,
+    this.iFollow,
+    this.follow_status,
+    this.user_img,
   });
+
+  // ViewUserProfileScreen({
+  //   this.user_id,
+  //   this.user_name,
+  // });
 
   @override
   _ViewUserProfileScreenState createState() => _ViewUserProfileScreenState();
@@ -19,10 +47,10 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
   final followBloc = FollowBloc();
   // TODO: WORK ON THIS PLACE
   final String my_id = '1';
-  final String user_id = '5';
+  final String user_id = '2';
   bool _iFollow = false;
-  String follower_counter;
-  String following_counter;
+  int follower_counter;
+  int following_counter;
 
   //TODO: //check for status
   bool follow_status = true;
@@ -30,7 +58,7 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
   countUserFollower(String user_id) async {
     new Future.delayed(new Duration(seconds: 4), () {
       setState(() {
-        follower_counter = '55';
+        follower_counter = 55;
         follow_status = false;
       });
     });
@@ -39,12 +67,12 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
   countUserFollowing(String user_id) async {
     new Future.delayed(new Duration(seconds: 4), () {
       setState(() {
-        following_counter = '5';
+        following_counter = 5;
         follow_status = false;
       });
     });
 
-    print('Following ${follow_status}');
+    //print('Following ${follow_status}');
   }
 
   @override
@@ -231,17 +259,19 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                       result = await followBloc.handleFollowUser(
                           my_id: my_id, user_id: user_id, context: context);
                       //print(result);
-                      if (result == 'following') {
+                      if (result == 'following_true') {
                         print(result);
                         setState(() {
                           _iFollow = true;
-                          print(_iFollow);
+                          follower_counter++;
+                          //print(_iFollow);
                         });
                       }
 
-                      if (result == 'unfollowing') {
+                      if (result == 'unfollowing_true') {
                         setState(() {
                           _iFollow = false;
+                          follower_counter--;
                         });
                       }
                     },
@@ -341,15 +371,17 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                           my_id: my_id, user_id: user_id, context: context);
 
                       print(result);
-                      if (result == 'following') {
+                      if (result == 'following_true') {
                         setState(() {
                           _iFollow = true;
+                          follower_counter++;
                         });
                       }
 
-                      if (result == 'unfollowing') {
+                      if (result == 'unfollowing_true') {
                         setState(() {
                           _iFollow = false;
+                          follower_counter--;
                         });
                       }
                     },
@@ -431,7 +463,7 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                                     width: 5.0,
                                   ),
                                   Text(
-                                    'Follow User',
+                                    'UnFollow User',
                                     style: TextStyle(
                                       fontSize: 17.0,
                                       color: Colors.white,

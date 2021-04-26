@@ -197,17 +197,17 @@ class _ForumScreenState extends State<ForumScreen> {
           ),
         ),
       ),
-      floatingActionButton: DraggableFab(
-        child: FloatingActionButton(
-          backgroundColor: firstColor,
-          onPressed: () {
-            Navigator.pushNamed(context, SendPrivateMessage.id);
-          },
-          child: Icon(
-            Icons.message,
-          ),
-        ),
-      ),
+      // floatingActionButton: DraggableFab(
+      //   child: FloatingActionButton(
+      //     backgroundColor: firstColor,
+      //     onPressed: () {
+      //       Navigator.pushNamed(context, SendPrivateMessage.id);
+      //     },
+      //     child: Icon(
+      //       Icons.message,
+      //     ),
+      //   ),
+      // ),
     );
   }
 

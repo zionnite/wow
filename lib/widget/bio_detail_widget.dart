@@ -28,7 +28,7 @@ class _BioDetailWidgetState extends State<BioDetailWidget> {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: 25.0,
+              vertical: 5.0,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -56,7 +56,7 @@ class _BioDetailWidgetState extends State<BioDetailWidget> {
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 0.0,
-              vertical: 12.0,
+              vertical: 5.0,
             ),
             child: Divider(
               // color: Colors.grey,
@@ -65,7 +65,7 @@ class _BioDetailWidgetState extends State<BioDetailWidget> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: 25.0,
+              vertical: 5.0,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,7 +93,7 @@ class _BioDetailWidgetState extends State<BioDetailWidget> {
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 0.0,
-              vertical: 12.0,
+              vertical: 5.0,
             ),
             child: Divider(
               height: 1.0,
@@ -101,7 +101,7 @@ class _BioDetailWidgetState extends State<BioDetailWidget> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: 25.0,
+              vertical: 5.0,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

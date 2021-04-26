@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:wow/screen/forum_screen.dart';
 import 'package:wow/screen/profile_screen.dart';
 import 'package:wow/screen/quote_screen.dart';
+import 'package:wow/screen/send_private_message.dart';
 import 'package:wow/screen/story_screen.dart';
+import 'package:wow/screen/users_screen.dart';
 import 'package:wow/utils.dart';
 
 import 'screen/home_screen.dart';
@@ -20,7 +22,9 @@ class _NavState extends State<Nav> {
     QuoteScreen(),
     ForumScreen(),
     StoryScreen(),
+    UsersScreen(),
     ProfileScreen(),
+    SendPrivateMessage(),
   ];
 
   void _onItemTap(int index) {
@@ -32,23 +36,22 @@ class _NavState extends State<Nav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //drawer: Drawer(),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: new Theme(
         data: Theme.of(context).copyWith(
-          // sets the background color of the `BottomNavigationBar`
           canvasColor: Colors.white,
-          // sets the active color of the `BottomNavigationBar` if `Brightness` is light
           primaryColor: Colors.red,
           textTheme: Theme.of(context).textTheme.copyWith(
                 caption: new TextStyle(
                   color: Colors.yellow,
                 ),
               ),
-        ), // sets the inactive color of the `BottomNavigationBar`
+        ),
         child: BottomNavigationBar(
-          elevation: 10.0,
+          elevation: 5.0,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(
@@ -78,7 +81,19 @@ class _NavState extends State<Nav> {
               icon: Icon(
                 Icons.people_alt_rounded,
               ),
+              label: 'Users',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+              ),
               label: 'Profile',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.message,
+              ),
+              label: 'Contact',
             ),
           ],
           currentIndex: _selectedIndex,

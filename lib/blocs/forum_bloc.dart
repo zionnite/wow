@@ -217,7 +217,7 @@ class ForumBloc extends Object with Validator implements BlocBase {
     String report_type,
     BuildContext context,
   }) async {
-    report_status = await postReportProblem(id, report_type, context);
+    report_status = await postReportProblem(id, report_type, context, user);
     reportProblemController.sink.add(report_status);
     forums();
   }
@@ -248,7 +248,7 @@ class ForumBloc extends Object with Validator implements BlocBase {
     String forum_id,
   }) async {
     comment_report_status =
-        await commentReportProblem(id, report_type, context, forum_id);
+        await commentReportProblem(id, report_type, context, forum_id, user);
     reportCommentProblemController.sink.add(comment_report_status);
     forums();
   }

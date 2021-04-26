@@ -5,6 +5,7 @@ import 'package:wow/bottom_navigation.dart';
 import 'package:wow/screen/send_private_message.dart';
 
 class StoryScreen extends StatefulWidget {
+  static const String id = 'story_screen';
   @override
   _StoryScreenState createState() => _StoryScreenState();
 }
@@ -14,6 +15,9 @@ class _StoryScreenState extends State<StoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('W.O.W Stories'),
+      ),
       body: MoreStories(),
     );
   }
@@ -56,9 +60,10 @@ class _MoreStoriesState extends State<MoreStories> {
             controller: storyController,
           ),
           StoryItem.pageImage(
-              url: "https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif",
-              caption: "Working with gifs",
-              controller: storyController),
+            url: "https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif",
+            caption: "Working with gifs",
+            controller: storyController,
+          ),
           StoryItem.pageImage(
             url: "https://media.giphy.com/media/XcA8krYsrEAYXKf4UQ/giphy.gif",
             caption: "Hello, from the other side",

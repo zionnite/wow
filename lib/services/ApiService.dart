@@ -231,15 +231,18 @@ Future<List<Forum>> postReportProblem(
   String id,
   String report_type,
   BuildContext context,
+  String user,
 ) async {
   final response = await http
-      .get(Uri.parse('$mainUrl/post_report_problem/$id/$report_type'));
+      .get(Uri.parse('$mainUrl/post_report_problem/$id/$report_type/$user'));
   var body = response.body;
   Forum forum = Forum();
 
+  // print(body);
+
   Map<String, dynamic> j = json.decode(body);
-  bool status = j['status'];
-  var body_forum = j['forum'];
+  String status = j['status'];
+  String status_msg = j['status_msg'];
 
   // String qid = j['forum'][0]['id'];
   // String title = j['forum'][0]['title'];
@@ -256,15 +259,15 @@ Future<List<Forum>> postReportProblem(
   //List<String> forum_list = new List<String>.from(body_quote[0]);
   //print('Forum List ${forum_list}');
 
-  if (status == true) {
+  if (status == 'true') {
+    var body_forum = j['forum'];
+
     final snacksBar = SnackBar(
       content: Text('Report Submitted!'),
       //action: SnackBarAction(),
     );
     ScaffoldMessenger.of(context).showSnackBar(snacksBar);
     for (var bf in body_forum) {
-      print('Forum id ${bf['id']}');
-
       String qid = bf['id'];
       String title = bf['title'];
       String desc = bf['desc'];
@@ -278,7 +281,7 @@ Future<List<Forum>> postReportProblem(
 
       Forum(
         id: qid,
-        title: 'Make MOney ooooo',
+        title: title,
         desc: desc,
         image: image,
         author: author,
@@ -290,9 +293,23 @@ Future<List<Forum>> postReportProblem(
       );
     }
     // return forumFromJson(body_forum);
-  } else {
+  } else if (status == 'fail_01') {
     final snacksBar = SnackBar(
-      content: Text('Could not Submit, Try Later!'),
+      content: Text(status_msg),
+      //action: SnackBarAction(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    //return forumFromJson(response.body[0]);
+  } else if (status == 'fail_02') {
+    final snacksBar = SnackBar(
+      content: Text(status_msg),
+      //action: SnackBarAction(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    //return forumFromJson(response.body[0]);
+  } else if (status == 'fail_03') {
+    final snacksBar = SnackBar(
+      content: Text(status_msg),
       //action: SnackBarAction(),
     );
     ScaffoldMessenger.of(context).showSnackBar(snacksBar);
@@ -310,11 +327,12 @@ Future<bool> postBlockUser({
   var body = response.body;
 
   Map<String, dynamic> j = json.decode(body);
-  bool status = j['status'];
+  String status = j['status'];
 
-  print('Status ${status}');
+  // print(body);
+  // print('Status ${status}');
 
-  if (status == true) {
+  if (status == 'true') {
     final snacksBar = SnackBar(
       content: Text('You won\'t seen this user post anymore'),
       //action: SnackBarAction(),
@@ -322,9 +340,16 @@ Future<bool> postBlockUser({
 
     ScaffoldMessenger.of(context).showSnackBar(snacksBar);
     return true;
-  } else {
+  } else if (status == 'false') {
     final snacksBar = SnackBar(
       content: Text('Could not perform operation, Try Later!'),
+      //action: SnackBarAction(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    return false;
+  } else if (status == 'already') {
+    final snacksBar = SnackBar(
+      content: Text('Already blocked User!'),
       //action: SnackBarAction(),
     );
     ScaffoldMessenger.of(context).showSnackBar(snacksBar);
@@ -341,18 +366,25 @@ Future<bool> deletePost({
   var body = response.body;
 
   Map<String, dynamic> j = json.decode(body);
-  bool status = j['status'];
+  String status = j['status'];
 
-  if (status == true) {
+  if (status == 'true') {
     final snacksBar = SnackBar(
       content: Text('You won\'t seen this post anymore'),
       //action: SnackBarAction(),
     );
     ScaffoldMessenger.of(context).showSnackBar(snacksBar);
     return true;
-  } else {
+  } else if (status == 'false') {
     final snacksBar = SnackBar(
       content: Text('Could not perform operation, Try Later!'),
+      //action: SnackBarAction(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    return false;
+  } else if (status == 'already') {
+    final snacksBar = SnackBar(
+      content: Text('Post already deleted!'),
       //action: SnackBarAction(),
     );
     ScaffoldMessenger.of(context).showSnackBar(snacksBar);
@@ -364,16 +396,20 @@ Future<List<ForumComment>> commentReportProblem(
   String id,
   String report_type,
   BuildContext context,
-  forum_id,
+  String forum_id,
+  String user,
 ) async {
-  final response = await http.get(
-      Uri.parse('$mainUrl/comment_report_problem/$forum_id/$id/$report_type'));
+  final response = await http.get(Uri.parse(
+      '$mainUrl/comment_report_problem/$forum_id/$id/$report_type/$user'));
   var body = response.body;
 
+  // print(forum_id);
+  // print(id);
   Map<String, dynamic> j = json.decode(body);
-  bool status = j['status'];
+  String status = j['status'];
+  String status_msg = j['status_msg'];
 
-  if (status == true) {
+  if (status == 'true') {
     final snacksBar = SnackBar(
       content: Text('Comment has been Submitted for Review!'),
       //action: SnackBarAction(),
@@ -381,9 +417,12 @@ Future<List<ForumComment>> commentReportProblem(
     ScaffoldMessenger.of(context).showSnackBar(snacksBar);
 
     // return forumFromJson(body_forum);
-  } else {
+  } else if (status == 'fail_01' ||
+      status == 'fail_02' ||
+      status == 'fail_03' ||
+      status == 'fail_04') {
     final snacksBar = SnackBar(
-      content: Text('Could not Submit, Try Later!'),
+      content: Text(status_msg),
       //action: SnackBarAction(),
     );
     ScaffoldMessenger.of(context).showSnackBar(snacksBar);
@@ -397,13 +436,13 @@ Future<bool> commentBlockUser({
   BuildContext context,
 }) async {
   final response =
-      await http.get(Uri.parse('$mainUrl/post_block_user/$id/$user'));
+      await http.get(Uri.parse('$mainUrl/comment_block_user/$id/$user'));
   var body = response.body;
 
   Map<String, dynamic> j = json.decode(body);
-  bool status = j['status'];
+  String status = j['status'];
 
-  if (status == true) {
+  if (status == 'true') {
     final snacksBar = SnackBar(
       content: Text('You won\'t seen this user post anymore'),
       //action: SnackBarAction(),
@@ -411,9 +450,16 @@ Future<bool> commentBlockUser({
 
     ScaffoldMessenger.of(context).showSnackBar(snacksBar);
     return true;
-  } else {
+  } else if (status == 'false') {
     final snacksBar = SnackBar(
       content: Text('Could not perform operation, Try Later!'),
+      //action: SnackBarAction(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    return false;
+  } else if (status == 'already') {
+    final snacksBar = SnackBar(
+      content: Text('Comment already deleted!'),
       //action: SnackBarAction(),
     );
     ScaffoldMessenger.of(context).showSnackBar(snacksBar);
@@ -428,22 +474,25 @@ Future<bool> deleteComment({
   BuildContext context,
 }) async {
   final response =
-      await http.get(Uri.parse('$mainUrl/delete_comment/$id/$user'));
+      await http.get(Uri.parse('$mainUrl/delete_comment/$forum_id/$id/$user'));
   var body = response.body;
 
   Map<String, dynamic> j = json.decode(body);
-  bool status = j['status'];
+  String status = j['status'];
+  String status_msg = j['status_msg'];
 
-  if (status == true) {
+  if (status == "true") {
     final snacksBar = SnackBar(
       content: Text('You won\'t seen this comment anymore'),
       //action: SnackBarAction(),
     );
     ScaffoldMessenger.of(context).showSnackBar(snacksBar);
     return true;
-  } else {
+  } else if (status == "fail_01" ||
+      status == 'fail_02' ||
+      status == 'fail_03') {
     final snacksBar = SnackBar(
-      content: Text('Could not perform operation, Try Later!'),
+      content: Text(status_msg),
       //action: SnackBarAction(),
     );
     ScaffoldMessenger.of(context).showSnackBar(snacksBar);
@@ -463,16 +512,35 @@ Future<String> toggle_follow_user({
   Map<String, dynamic> j = json.decode(body);
   String status = j['status'];
 
-  if (status == 'following') {
+  //following_true
+  //following_false
+  //unfollowing_true
+  //unfollowing_false
+
+  if (status == 'following_true') {
     final snacksBar = SnackBar(
       content: Text('You are Following User'),
       //action: SnackBarAction(),
     );
     ScaffoldMessenger.of(context).showSnackBar(snacksBar);
     return status;
-  } else {
+  } else if (status == 'following_false') {
+    final snacksBar = SnackBar(
+      content: Text('Could not perform operation, please try later!'),
+      //action: SnackBarAction(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    return status;
+  } else if (status == 'unfollowing_true') {
     final snacksBar = SnackBar(
       content: Text('User unfollow'),
+      //action: SnackBarAction(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+    return status;
+  } else if (status == 'unfollowing_false') {
+    final snacksBar = SnackBar(
+      content: Text('Could not perform operation, please try later!'),
       //action: SnackBarAction(),
     );
     ScaffoldMessenger.of(context).showSnackBar(snacksBar);

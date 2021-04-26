@@ -8,16 +8,17 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:wow/widget/bio_detail_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
+  static const String id = 'profile_screen';
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
   // var center_val = media / 50;
+  //TODO://DONT FORGET HERE ALSO
   final String user_id = '1';
-
   final String user_name = 'zionnite';
-  final String full_name = 'Nosakhare Atekha Endurance';
+  final String full_name = 'Nosakhare ';
   final String age = '50';
   final String user_img =
       'https://static0.srcdn.com/wordpress/wp-content/uploads/2016/11/Hercules-Dwayne-Johnson.jpg';
@@ -33,19 +34,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   count_followers(String user_id) async {
     new Future.delayed(new Duration(seconds: 4), () {
-      setState(() {
-        follow_status = false;
-        follower_counter = '200';
-      });
+      if (mounted) {
+        setState(() {
+          follow_status = false;
+          follower_counter = '200';
+        });
+      }
     });
   }
 
   count_following(String user_id) async {
     new Future.delayed(new Duration(seconds: 4), () {
-      setState(() {
-        follow_status = false;
-        following_counter = '12';
-      });
+      if (mounted) {
+        setState(() {
+          follow_status = false;
+          following_counter = '12';
+        });
+      }
     });
   }
 
@@ -220,7 +225,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Text(
                                 'Followers',
                                 style: TextStyle(
-                                  fontSize: 20.0,
+                                  fontSize: 15.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 textAlign: TextAlign.left,
@@ -243,11 +248,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                       ),
-                      Expanded(
-                        child: SizedBox(
-                          width: 10.0,
-                        ),
-                      ),
+                      // Expanded(
+                      //   child: SizedBox(
+                      //     width: 10.0,
+                      //   ),
+                      // ),
                       Expanded(
                         child: MaterialButton(
                           onPressed: () {
@@ -260,7 +265,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Text(
                                 'Following',
                                 style: TextStyle(
-                                  fontSize: 20.0,
+                                  fontSize: 15.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 textAlign: TextAlign.center,
@@ -275,7 +280,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           style: TextStyle(
                                             fontSize: 15.0,
                                           ),
-                                          textAlign: TextAlign.right,
+                                          textAlign: TextAlign.center,
                                         ),
                                 ),
                               ),
@@ -288,132 +293,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 15.0),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Your Bio',
-                  style: TextStyle(
-                    fontSize: 25,
-                    //fontWeight: FontWeight.w600,
-                    fontFamily: 'NerkoOne',
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ),
+            //Padding(
+            //   padding: const EdgeInsets.only(left: 15.0),
+            //   child: Align(
+            //     alignment: Alignment.topLeft,
+            //     child: Text(
+            //       'Your Bio',
+            //       style: TextStyle(
+            //         fontSize: 25,
+            //         //fontWeight: FontWeight.w600,
+            //         fontFamily: 'NerkoOne',
+            //       ),
+            //       textAlign: TextAlign.left,
+            //     ),
+            //   ),
+            // ),
             BioDetailWidget(
-                user_name: user_name, user_full_name: full_name, age: age),
+              user_name: user_name,
+              user_full_name: full_name,
+              age: age,
+            ),
+
             InkWell(
               onTap: null,
               child: Card(
                 elevation: 4.0,
-                color: Colors.blue,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      top: 5.0,
-                    ),
-                    height: 30.0,
-                    width: double.infinity,
-                    child: Text(
-                      'Login with FaceBook!',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                        fontFamily: 'Raleway',
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {},
-              child: Card(
-                elevation: 4.0,
-                color: Colors.redAccent,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      top: 5.0,
-                    ),
-                    height: 30.0,
-                    width: double.infinity,
-                    child: Text(
-                      'Login with Google!',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                        fontFamily: 'Raleway',
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {},
-              child: Card(
-                elevation: 4.0,
-                color: Colors.redAccent,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      top: 5.0,
-                    ),
-                    height: 30.0,
-                    width: double.infinity,
-                    child: Text(
-                      'SignOut Google!',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                        fontFamily: 'Raleway',
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: null,
-              child: Card(
-                elevation: 4.0,
-                color: Colors.grey,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      top: 5.0,
-                    ),
-                    height: 30.0,
-                    width: double.infinity,
-                    child: Text(
-                      'Login with Apple!',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                        fontFamily: 'Raleway',
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: null,
-              child: Card(
-                elevation: 4.0,
-                color: Colors.white,
+                color: Colors.red,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
@@ -426,7 +331,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       'Logout',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Colors.white,
                         fontSize: 20.0,
                         fontFamily: 'Raleway',
                       ),

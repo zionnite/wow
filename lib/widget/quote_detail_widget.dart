@@ -340,12 +340,12 @@ class _QuoteDetailWidgetState extends State<QuoteDetailWidget> {
                               SizedBox(
                                 width: 5.0,
                               ),
-                              Text(
-                                'Yes',
-                                style: TextStyle(
-                                  color: Colors.green,
-                                ),
-                              ),
+                              // Text(
+                              //   'Yes',
+                              //   style: TextStyle(
+                              //     color: Colors.green,
+                              //   ),
+                              // ),
                               SizedBox(
                                 width: 5.0,
                               ),
@@ -399,12 +399,12 @@ class _QuoteDetailWidgetState extends State<QuoteDetailWidget> {
                               SizedBox(
                                 width: 5.0,
                               ),
-                              Text(
-                                'No',
-                                style: TextStyle(
-                                  color: Colors.deepOrangeAccent,
-                                ),
-                              ),
+                              // Text(
+                              //   'No',
+                              //   style: TextStyle(
+                              //     color: Colors.deepOrangeAccent,
+                              //   ),
+                              // ),
                               SizedBox(
                                 width: 5.0,
                               ),

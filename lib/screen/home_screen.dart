@@ -9,14 +9,18 @@ import 'package:wow/model/Forum.dart';
 import 'package:wow/model/ForumComment.dart';
 import 'package:wow/model/Quote.dart';
 import 'package:wow/screen/forum_screen.dart';
+import 'package:wow/screen/profile_screen.dart';
 import 'package:wow/screen/quote_detail_screen.dart';
 import 'package:wow/screen/quote_screen.dart';
 import 'package:wow/screen/search_result_screen.dart';
 import 'package:wow/screen/send_private_message.dart';
+import 'package:wow/screen/story_screen.dart';
+import 'package:wow/screen/users_screen.dart';
 
 import 'package:wow/utils.dart';
 import 'package:wow/widget/quote_widget.dart';
 import '../CustomShapeClipper.dart';
+import '../bottom_navigation.dart';
 import '../widget/forum_list_widget.dart';
 import 'category_screen.dart';
 import 'forum_detail_screen.dart';
@@ -38,6 +42,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
   String _statusMsg;
   TextEditingController searchTermController = TextEditingController();
 
+  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   @override
   void initState() {
     appBloc = BlocProvider.of<AppBloc>(context);
@@ -59,6 +64,178 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      key: _drawerKey,
+      drawer: Drawer(
+        child: Container(
+          margin: EdgeInsets.only(top: 0.0),
+          color: secondColor,
+          child: ListView(
+            children: [
+              new UserAccountsDrawerHeader(
+                margin: EdgeInsets.only(top: 1),
+                decoration: BoxDecoration(
+                  color: secondColor,
+                ),
+                //TODO:// CHANGE DETAILS
+                accountName: new Text(
+                  'Zionnite',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'NerkoOne',
+                    fontSize: 25.0,
+                  ),
+                ),
+                accountEmail: new Text(
+                  'zionnite555@gmail.com',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'NerkoOne',
+                    fontSize: 20.0,
+                  ),
+                ),
+                currentAccountPicture: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  backgroundImage: AssetImage('assets/images/splash.png'),
+                ),
+                otherAccountsPictures: [
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: IconButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: Icon(
+                        Icons.close,
+                        size: 23,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Divider(
+                color: Colors.white,
+                height: 3.0,
+              ),
+              Container(
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: Text(
+                        'Home',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.home,
+                        size: 28,
+                        color: Colors.white,
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, Nav.id);
+                      },
+                    ),
+                    ListTile(
+                      title: Text(
+                        'Quote',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.menu_book_rounded,
+                        size: 28,
+                        color: Colors.white,
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, QuoteScreen.id);
+                      },
+                    ),
+                    ListTile(
+                      title: Text(
+                        'Forum',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.all_inbox_outlined,
+                        size: 28,
+                        color: Colors.white,
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, ForumScreen.id);
+                      },
+                    ),
+                    ListTile(
+                      title: Text(
+                        'Status',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.album_sharp,
+                        size: 28,
+                        color: Colors.white,
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, StoryScreen.id);
+                      },
+                    ),
+                    ListTile(
+                      title: Text(
+                        'Users',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.people_alt_rounded,
+                        size: 28,
+                        color: Colors.white,
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, UsersScreen.id);
+                      },
+                    ),
+                    ListTile(
+                      title: Text(
+                        'Contact Us',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.message,
+                        size: 28,
+                        color: Colors.white,
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, SendPrivateMessage.id);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -86,14 +263,14 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                             ),
                             Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 28.0),
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   IconButton(
                                     onPressed: () {
-                                      print('Drawer Navigation Clicked');
+                                      _drawerKey.currentState.openDrawer();
                                     },
                                     icon: Icon(
                                       Icons.menu,
@@ -101,11 +278,11 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                                       color: Colors.white,
                                     ),
                                   ),
-                                  // Icon(
-                                  //   Icons.settings,
-                                  //   color: Colors.white,
-                                  //   size: 30,
-                                  // ),
+                                  Icon(
+                                    Icons.error,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
                                 ],
                               ),
                             ),
@@ -661,17 +838,17 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
           ],
         ),
       ),
-      floatingActionButton: DraggableFab(
-        child: FloatingActionButton(
-          backgroundColor: firstColor,
-          onPressed: () {
-            Navigator.pushNamed(context, SendPrivateMessage.id);
-          },
-          child: Icon(
-            Icons.message,
-          ),
-        ),
-      ),
+      // floatingActionButton: DraggableFab(
+      //   child: FloatingActionButton(
+      //     backgroundColor: firstColor,
+      //     onPressed: () {
+      //       Navigator.pushNamed(context, SendPrivateMessage.id);
+      //     },
+      //     child: Icon(
+      //       Icons.message,
+      //     ),
+      //   ),
+      // ),
     );
   }
 

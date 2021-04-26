@@ -46,7 +46,7 @@ class _SendPrivateMessageState extends State<SendPrivateMessage> {
           child: Column(
             children: [
               appTitleWidget(
-                title: 'Send Private Message',
+                title: 'Contact Us',
                 toNav: Nav.id,
               ),
               (_showStatus == true)
@@ -64,6 +64,7 @@ class _SendPrivateMessageState extends State<SendPrivateMessage> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.0),
                 child: Material(
+                  color: Colors.white,
                   elevation: 5.0,
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   child: StreamBuilder<String>(
@@ -87,6 +88,7 @@ class _SendPrivateMessageState extends State<SendPrivateMessage> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
                 child: Material(
+                  color: Colors.white,
                   elevation: 5.0,
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   child: StreamBuilder<String>(
@@ -112,6 +114,7 @@ class _SendPrivateMessageState extends State<SendPrivateMessage> {
                 child: Container(
                   height: 300.0,
                   child: Material(
+                    color: Colors.white,
                     elevation: 5.0,
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     child: StreamBuilder<String>(

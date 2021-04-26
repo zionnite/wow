@@ -10,9 +10,13 @@ import 'package:wow/bottom_navigation.dart';
 import 'package:wow/screen/forum_detail_screen.dart';
 import 'package:wow/screen/forum_screen.dart';
 import 'package:wow/screen/home_screen.dart';
+import 'package:wow/screen/profile_screen.dart';
 import 'package:wow/screen/quote_detail_screen.dart';
 import 'package:wow/screen/quote_screen.dart';
 import 'package:wow/screen/send_private_message.dart';
+import 'package:wow/screen/story_screen.dart';
+import 'package:wow/screen/users_screen.dart';
+import 'package:wow/screen/view_user_profile_screen.dart';
 import 'package:wow/utils.dart';
 
 // Future<void> main() async {
@@ -69,6 +73,10 @@ class _MyAppState extends State<MyApp> {
         ForumDetailScreen.id: (context) => ForumDetailScreen(),
         QuoteDetailScreen.id: (context) => QuoteDetailScreen(),
         SendPrivateMessage.id: (context) => SendPrivateMessage(),
+        ProfileScreen.id: (context) => ProfileScreen(),
+        StoryScreen.id: (context) => StoryScreen(),
+        ViewUserProfileScreen.id: (context) => ViewUserProfileScreen(),
+        UsersScreen.id: (context) => UsersScreen(),
       },
       home: Nav(),
       theme: appTheme,

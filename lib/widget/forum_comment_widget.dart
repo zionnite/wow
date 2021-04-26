@@ -39,7 +39,7 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
 
   final forumBloc = ForumBloc();
   //TODO:// CHANGE USER NAME
-  final String user = 'zionnite';
+  final String user = '1';
 
   _showModalBottomSheetReport(context) {
     showModalBottomSheet(

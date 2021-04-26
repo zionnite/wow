@@ -164,17 +164,17 @@ class _QuoteScreenState extends State<QuoteScreen> {
           ),
         ),
       ),
-      floatingActionButton: DraggableFab(
-        child: FloatingActionButton(
-          backgroundColor: firstColor,
-          onPressed: () {
-            Navigator.pushNamed(context, SendPrivateMessage.id);
-          },
-          child: Icon(
-            Icons.message,
-          ),
-        ),
-      ),
+      // floatingActionButton: DraggableFab(
+      //   child: FloatingActionButton(
+      //     backgroundColor: firstColor,
+      //     onPressed: () {
+      //       Navigator.pushNamed(context, SendPrivateMessage.id);
+      //     },
+      //     child: Icon(
+      //       Icons.message,
+      //     ),
+      //   ),
+      // ),
     );
   }
 

@@ -333,98 +333,100 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
-          return Container(
-            height: 250.0,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
+          return SingleChildScrollView(
+            child: Container(
+              height: 250.0,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  topRight: Radius.circular(20.0),
+                ),
               ),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(
-                    top: 20.0,
-                  ),
-                  child: Column(
-                    children: [
-                      Text(
-                        'Are you sure you want to Block this User (${widget.author})?',
-                        style: TextStyle(
-                          fontSize: 23.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      Text(
-                        '(${widget.author})?',
-                        style: TextStyle(
-                          fontSize: 23.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: Text(
-                          'If you block this User, you won\'t be able to see this user post',
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: 20.0,
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Are you sure you want to Block this User',
                           style: TextStyle(
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.w500,
+                            fontSize: 23.0,
+                            fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.center,
                         ),
+                        Text(
+                          '(${widget.author})?',
+                          style: TextStyle(
+                            fontSize: 23.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Text(
+                            'If you block this User, you won\'t be able to see this user post',
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      MaterialButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        elevation: 4,
+                        color: Colors.redAccent,
+                        child: Text(
+                          'No, Cancel',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontFamily: 'Raleway',
+                          ),
+                        ),
+                      ),
+                      MaterialButton(
+                        onPressed: () async {
+                          await forumBloc.handleBlockUser(
+                            id: widget.pick_id,
+                            user: user,
+                            context: context,
+                          );
+                          Navigator.pop(context);
+                        },
+                        elevation: 4,
+                        color: Colors.green,
+                        child: Text(
+                          'Yes, Continue',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontFamily: 'Raleway',
+                          ),
+                        ),
                       ),
                     ],
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    MaterialButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      elevation: 4,
-                      color: Colors.redAccent,
-                      child: Text(
-                        'No, Cancel',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontFamily: 'Raleway',
-                        ),
-                      ),
-                    ),
-                    MaterialButton(
-                      onPressed: () async {
-                        await forumBloc.handleBlockUser(
-                          id: widget.pick_id,
-                          user: user,
-                          context: context,
-                        );
-                        Navigator.pop(context);
-                      },
-                      elevation: 4,
-                      color: Colors.green,
-                      child: Text(
-                        'Yes, Continue',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontFamily: 'Raleway',
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           );
         });
@@ -434,86 +436,88 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
-          return Container(
-            height: 200.0,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
+          return SingleChildScrollView(
+            child: Container(
+              height: 200.0,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  topRight: Radius.circular(20.0),
+                ),
               ),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(
-                    top: 20.0,
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: 20.0,
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Are you sure you want to Delete this Post?',
+                          style: TextStyle(
+                            fontSize: 23.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          'If you delete this post, you won\'t see it again',
+                          style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
                   ),
-                  child: Column(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        'Are you sure you want to Delete this Post?',
-                        style: TextStyle(
-                          fontSize: 23.0,
-                          fontWeight: FontWeight.bold,
+                      MaterialButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        elevation: 4,
+                        color: Colors.redAccent,
+                        child: Text(
+                          'No, Cancel',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontFamily: 'Raleway',
+                          ),
                         ),
-                        textAlign: TextAlign.center,
                       ),
-                      Text(
-                        'If you delete this post, you won\'t see it again',
-                        style: TextStyle(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w500,
+                      MaterialButton(
+                        onPressed: () async {
+                          await forumBloc.handlePostDelete(
+                            id: widget.pick_id,
+                            user: user,
+                            context: context,
+                          );
+                          Navigator.pop(context);
+                        },
+                        elevation: 4,
+                        color: Colors.green,
+                        child: Text(
+                          'Yes, Continue',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontFamily: 'Raleway',
+                          ),
                         ),
-                        textAlign: TextAlign.center,
                       ),
                     ],
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    MaterialButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      elevation: 4,
-                      color: Colors.redAccent,
-                      child: Text(
-                        'No, Cancel',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontFamily: 'Raleway',
-                        ),
-                      ),
-                    ),
-                    MaterialButton(
-                      onPressed: () async {
-                        await forumBloc.handlePostDelete(
-                          id: widget.pick_id,
-                          user: user,
-                          context: context,
-                        );
-                        Navigator.pop(context);
-                      },
-                      elevation: 4,
-                      color: Colors.green,
-                      child: Text(
-                        'Yes, Continue',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontFamily: 'Raleway',
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           );
         });
