@@ -8,6 +8,7 @@ import 'package:wow/model/Forum.dart';
 import 'package:wow/model/ForumComment.dart';
 import 'package:wow/model/Quote.dart';
 import 'package:http/http.dart' as http;
+import 'package:wow/model/StoriesStatus.dart';
 import 'package:wow/model/UserProfile.dart';
 
 // final String mainUrl = 'http://wow.esuku.xyz/Api';
@@ -568,4 +569,9 @@ Future<List<UserProfile>> searchUsersByPage(
 
   print(response.body);
   return userProfileFromJson(response.body);
+}
+
+Future<List<StoriesStatus>> getAllStories() async {
+  final response = await http.get(Uri.parse('$mainUrl/get_stories_status'));
+  return storiesStatusFromJson(response.body);
 }

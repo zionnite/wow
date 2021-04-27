@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:story_view/controller/story_controller.dart';
 import 'package:story_view/story_view.dart';
+import 'package:wow/blocs/StoryBloc.dart';
 import 'package:wow/bottom_navigation.dart';
+import 'package:wow/model/StoriesStatus.dart';
 import 'package:wow/screen/send_private_message.dart';
 
 class StoryScreen extends StatefulWidget {
@@ -29,8 +31,10 @@ class MoreStories extends StatefulWidget {
 }
 
 class _MoreStoriesState extends State<MoreStories> {
+  final storyBloc = StoryBloc();
   final storyController = StoryController();
 
+  List<StoryItem> storyViews = [];
   @override
   void dispose() {
     storyController.dispose();
@@ -39,64 +43,82 @@ class _MoreStoriesState extends State<MoreStories> {
 
   @override
   Widget build(BuildContext context) {
-    return StoryView(
-        storyItems: [
-          StoryItem.text(
-            title: "I guess you'd love to see more of our food. That's great.",
-            backgroundColor: Colors.blue,
-          ),
-          StoryItem.text(
-            title: "Nice!\n\nTap to continue.",
-            backgroundColor: Colors.red,
-            textStyle: TextStyle(
-              fontFamily: 'Dancing',
-              fontSize: 40,
-            ),
-          ),
-          StoryItem.pageImage(
-            url:
-                "https://image.ibb.co/cU4WGx/Omotuo-Groundnut-Soup-braperucci-com-1.jpg",
-            caption: "Still sampling",
-            controller: storyController,
-          ),
-          StoryItem.pageImage(
-            url: "https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif",
-            caption: "Working with gifs",
-            controller: storyController,
-          ),
-          StoryItem.pageImage(
-            url: "https://media.giphy.com/media/XcA8krYsrEAYXKf4UQ/giphy.gif",
-            caption: "Hello, from the other side",
-            controller: storyController,
-          ),
-          StoryItem.pageImage(
-            url: "https://media.giphy.com/media/XcA8krYsrEAYXKf4UQ/giphy.gif",
-            caption:
-                "Hello, from the other side2 \r\n Swipe up to send how you feel",
-            controller: storyController,
-          ),
-          StoryItem.pageVideo(
-            "https://www.youtube.com/watch?v=ilX5hnH8XoI",
-            controller: storyController,
-          ),
-        ],
-        onStoryShow: (s) {
-          print("Showing a story");
-        },
-        onComplete: () {
-          Navigator.popAndPushNamed(context, SendPrivateMessage.id);
-        },
-        progressPosition: ProgressPosition.top,
-        repeat: false,
-        controller: storyController,
-        onVerticalSwipeComplete: (direction) {
-          if (direction == Direction.up) {
-            if (Navigator.canPop(context)) {
-              Navigator.pop(context);
-            } else {
-              Navigator.popAndPushNamed(context, SendPrivateMessage.id);
+    return StreamBuilder<List<StoriesStatus>>(
+      stream: storyBloc.storyStream,
+      builder: (context, AsyncSnapshot<List<StoriesStatus>> snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.error != null && snapshot.data.length > 0) {
+            return _buildErrorWidget(snapshot.error);
+          }
+          for (var story in snapshot.data) {
+            var type = story.type;
+            var title = story.title;
+            var caption = story.caption;
+            var url = story.url;
+            var bgColor = story.bgColor;
+            var time = story.title;
+            var date = story.date;
+
+            if (type == 'text') {
+              storyViews.add(
+                  StoryItem.text(title: title, backgroundColor: Colors.red));
+            } else if (type == 'image') {
+              storyViews.add(StoryItem.pageImage(
+                  url: url, controller: storyController, caption: caption));
             }
           }
-        });
+
+          return StoryView(
+              storyItems: storyViews,
+              onStoryShow: (s) {
+                //print("Showing a story");
+              },
+              onComplete: () {
+                Navigator.popAndPushNamed(context, SendPrivateMessage.id);
+              },
+              progressPosition: ProgressPosition.top,
+              repeat: false,
+              controller: storyController,
+              onVerticalSwipeComplete: (direction) {
+                if (direction == Direction.up) {
+                  if (Navigator.canPop(context)) {
+                    Navigator.pop(context);
+                  } else {
+                    Navigator.popAndPushNamed(context, SendPrivateMessage.id);
+                  }
+                }
+              });
+        } else if (snapshot.hasError) {
+          return _buildErrorWidget(snapshot.error);
+        } else {
+          return _buildLoadingWidget();
+        }
+      },
+    );
+  }
+
+  Widget _buildErrorWidget(String error) {
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("Error occurred: $error"),
+      ],
+    ));
+  }
+
+  Widget _buildLoadingWidget() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 25.0,
+            width: 25.0,
+            child: CircularProgressIndicator(),
+          ),
+        ],
+      ),
+    );
   }
 }

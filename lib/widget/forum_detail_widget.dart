@@ -63,7 +63,7 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
 
   final forumBloc = ForumBloc();
   //TODO:// CHANGE USER NAME
-  final String user = 'zionnite';
+  final String user = '1';
 
   _showModalBottomSheetReport(context) {
     showModalBottomSheet(
