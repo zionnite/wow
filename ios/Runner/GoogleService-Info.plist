@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>534615827485-o7rng5iegn70n8cb9s62hbplvef4vm3h.apps.googleusercontent.com</string>
+	<string>1002021069486-u724eueumfg5hirc5psekais9nju76if.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.534615827485-o7rng5iegn70n8cb9s62hbplvef4vm3h</string>
+	<string>com.googleusercontent.apps.1002021069486-u724eueumfg5hirc5psekais9nju76if</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1002021069486-46gbk0d9gofij99fb19qhmk5riet7ndr.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyA5hNqyYvRq9YPOjcs2mW7ZcihaiVIgU8o</string>
+	<string>AIzaSyAZ11mplsNbk4ZmQ-PpKBM_z-fu5SppZlA</string>
 	<key>GCM_SENDER_ID</key>
-	<string>534615827485</string>
+	<string>1002021069486</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.greatwayfoundation.wow</string>
 	<key>PROJECT_ID</key>
-	<string>wowapp-c2867</string>
+	<string>wowapp-97505</string>
 	<key>STORAGE_BUCKET</key>
-	<string>wowapp-c2867.appspot.com</string>
+	<string>wowapp-97505.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:534615827485:ios:3d40534b11f2befbf412f4</string>
+	<string>1:1002021069486:ios:8c60d961b5cab6f6c2833f</string>
 </dict>
 </plist>

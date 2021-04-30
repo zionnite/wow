@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wow/blocs/UserBloc.dart';
 import 'package:wow/model/UserProfile.dart';
 import 'package:wow/services/ApiService.dart';
@@ -24,23 +25,39 @@ class _SearchUsersState extends State<SearchUsers> {
   bool _showStatus = false;
   String _statusMsg;
 
-  //TODO : CHANGE my_id HERE
-  final String my_id = '1';
-
   final userBloc = UserBloc();
 
   ScrollController _controller;
   int current_page = 1;
   bool isLoading = false;
 
-  @override
-  void initState() {
+  String my_id, my_full_name, my_email, my_image, user;
+
+  _initUserDetail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var isUserLogin = prefs.getBool('isUserLogin');
+    var user_id = prefs.getString('user_id');
+    var user_full_name = prefs.getString('full_name');
+    var user_email = prefs.getString('email');
+    var user_img = prefs.getString('user_img');
+
+    setState(() {
+      my_id = user_id;
+      my_full_name = user_full_name;
+      my_email = user_email;
+      my_image = user_img;
+    });
+
     userBloc.searchUsers(widget.searchTerm, current_page, my_id);
     _controller = ScrollController()..addListener(_scrollListener);
   }
 
+  @override
+  void initState() {
+    _initUserDetail();
+  }
+
   void searchUsers() {
-    print(searchTerm);
     userBloc.searchUsers(searchTerm, 1, my_id);
     _controller = ScrollController()..addListener(_scrollListener);
   }

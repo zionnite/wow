@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:popup_menu/popup_menu.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wow/blocs/bloc_provider.dart';
 import 'package:wow/blocs/forum_bloc.dart';
 import 'package:wow/model/ForumComment.dart';
@@ -65,14 +66,29 @@ class _ForumDetailScreenState extends State<ForumDetailScreen> {
   int current_page = 1;
   bool isLoading = false;
 
-  //TODO: // change my_id
+  String my_id, my_full_name, my_email, my_image;
 
-  final String my_id = '1';
+  _initUserDetail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var isUserLogin = prefs.getBool('isUserLogin');
+    var user_id = prefs.getString('user_id');
+    var user_full_name = prefs.getString('full_name');
+    var user_email = prefs.getString('email');
+    var user_img = prefs.getString('user_img');
+
+    setState(() {
+      my_id = user_id;
+      my_full_name = user_full_name;
+      my_email = user_email;
+      my_image = user_img;
+    });
+  }
 
   @override
   void initState() {
     forumBloc.getCommentByIdnPage(widget.pick_id, current_page, my_id);
     _controller = ScrollController()..addListener(_scrollListener);
+    _initUserDetail();
   }
 
   void _scrollListener() {

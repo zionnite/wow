@@ -3,17 +3,22 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wow/model/Category.dart';
 import 'package:wow/model/Forum.dart';
 import 'package:wow/model/ForumComment.dart';
+import 'package:wow/model/Profile.dart';
 import 'package:wow/model/Quote.dart';
 import 'package:http/http.dart' as http;
 import 'package:wow/model/StoriesStatus.dart';
 import 'package:wow/model/UserProfile.dart';
+import 'package:wow/model/authModel.dart';
+import 'package:wow/services/login_presenter.dart';
 
 // final String mainUrl = 'http://wow.esuku.xyz/Api';
 final String mainUrl = 'https://api.osherwomen.com/Api';
 final String fakemainUrl = 'http://localhost/wow_php/Api';
+LoginPresenter loginPresenter;
 
 Future<List<Quote>> getAllQuotes() async {
   final response = await http.get(Uri.parse('$mainUrl/get_quote'));
@@ -463,7 +468,7 @@ Future<bool> commentBlockUser({
     return false;
   } else if (status == 'already') {
     final snacksBar = SnackBar(
-      content: Text('Comment already deleted!'),
+      content: Text('User already Blocked!'),
       //action: SnackBarAction(),
     );
     ScaffoldMessenger.of(context).showSnackBar(snacksBar);
@@ -554,6 +559,7 @@ Future<String> toggle_follow_user({
 
 Future<List<UserProfile>> getAllUsersByPage(
     int current_page, String my_id) async {
+  print('my id is ${my_id}');
   final response = await http
       .get(Uri.parse('$mainUrl/get_users/$my_id/' + current_page.toString()));
   return userProfileFromJson(response.body);
@@ -567,11 +573,120 @@ Future<List<UserProfile>> searchUsersByPage(
     'search_term': search_term,
   });
 
-  print(response.body);
   return userProfileFromJson(response.body);
 }
 
 Future<List<StoriesStatus>> getAllStories() async {
   final response = await http.get(Uri.parse('$mainUrl/get_stories_status'));
   return storiesStatusFromJson(response.body);
+}
+
+Future<String> userAuthLogin(String email, String pass) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final uri = Uri.parse('$mainUrl/login_authorization');
+
+  var response = await http.post(uri, body: {
+    'email': email,
+    'password': pass,
+  });
+
+  Map<String, dynamic> j = json.decode(response.body);
+  String status = j['status'];
+  String status_msg = j['status_msg'];
+
+  if (status == 'success') {
+    String system_id = j['system_id'];
+    String user_id = j['user_id'];
+    String full_name = j['full_name'];
+    String age = j['age'];
+    String sex = j['sex'];
+    String emailAddres = j['email'];
+    String phone_no = j['phone_no'];
+    String user_img = j['user_img'];
+    int following = j['following'];
+    int followers = j['followers'];
+
+    prefs.setString('system_id', system_id);
+    prefs.setString('user_id', user_id);
+    prefs.setString('full_name', full_name);
+    prefs.setString('age', age);
+    prefs.setString('sex', sex);
+    prefs.setString('email', emailAddres);
+    prefs.setString('phone_no', phone_no);
+    prefs.setString('user_img', user_img);
+    prefs.setBool('isUserLogin', true);
+
+    return status;
+  } else if (status == 'fail_01' ||
+      status == 'fail_02' ||
+      status == 'fail_03' ||
+      status == 'fail_04') {
+    return status;
+  }
+}
+
+Future<String> userAuthSignup(String email, String pass) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final uri = Uri.parse('$mainUrl/signup_authorization');
+
+  var response = await http.post(uri, body: {
+    'email': email,
+    'password': pass,
+  });
+
+  Map<String, dynamic> j = json.decode(response.body);
+  String status = j['status'];
+  String status_msg = j['status_msg'];
+
+  if (status == 'success') {
+    String system_id = j['system_id'];
+    String user_id = j['user_id'];
+    String full_name = j['full_name'];
+    String age = j['age'];
+    String sex = j['sex'];
+    String emailAddres = j['email'];
+    String phone_no = j['phone_no'];
+    String user_img = j['user_img'];
+    int following = j['following'];
+    int followers = j['followers'];
+
+    prefs.setString('system_id', system_id);
+    prefs.setString('user_id', user_id);
+    prefs.setString('full_name', full_name);
+    prefs.setString('age', age);
+    prefs.setString('sex', sex);
+    prefs.setString('email', emailAddres);
+    prefs.setString('phone_no', phone_no);
+    prefs.setString('user_img', user_img);
+    prefs.setBool('isUserLogin', true);
+
+    return status;
+  } else if (status == 'fail_01' ||
+      status == 'fail_02' ||
+      status == 'fail_03' ||
+      status == 'fail_04') {
+    return status;
+  }
+}
+
+Future<bool> updateUserProfile(String name, String age, String phone,
+    File profileImg, String my_id) async {
+  //return forumCommentFromJson(response.body);
+
+  final uri = Uri.parse('$mainUrl/make_post/$my_id');
+  var request = http.MultipartRequest('POST', uri);
+  request.fields['full_nme'] = name;
+  request.fields['age'] = age;
+  request.fields['phone'] = phone;
+
+  var profileImage =
+      await http.MultipartFile.fromPath('profile_image', profileImg.path);
+  request.files.add(profileImage);
+
+  var respond = await request.send();
+  if (respond.statusCode == 200) {
+    return true;
+  } else {
+    return false;
+  }
 }

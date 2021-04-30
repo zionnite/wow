@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:popup_menu/popup_menu.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wow/blocs/forum_bloc.dart';
 import 'package:wow/screen/view_user_profile_screen.dart';
@@ -62,8 +63,30 @@ class _ForumDetailWidgetState extends State<ForumDetailWidget> {
   var selected_menu;
 
   final forumBloc = ForumBloc();
-  //TODO:// CHANGE USER NAME
-  final String user = '1';
+
+  String my_id, my_full_name, my_email, my_image, user;
+
+  _initUserDetail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var isUserLogin = prefs.getBool('isUserLogin');
+    var user_id = prefs.getString('user_id');
+    var user_full_name = prefs.getString('full_name');
+    var user_email = prefs.getString('email');
+    var user_img = prefs.getString('user_img');
+
+    setState(() {
+      user = user_id;
+      my_full_name = user_full_name;
+      my_email = user_email;
+      my_image = user_img;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initUserDetail();
+  }
 
   _showModalBottomSheetReport(context) {
     showModalBottomSheet(

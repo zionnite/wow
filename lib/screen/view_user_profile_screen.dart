@@ -43,7 +43,6 @@ class ViewUserProfileScreen extends StatefulWidget {
 
 class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
   final followBloc = FollowBloc();
-  // TODO: WORK ON THIS PLACE
 
   int follower_counter;
   int following_counter;

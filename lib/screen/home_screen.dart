@@ -1,5 +1,6 @@
 import 'package:draggable_fab/draggable_fab.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wow/blocs/QouteBloc.dart';
 import 'package:wow/blocs/app_bloc.dart';
 import 'package:wow/blocs/bloc_provider.dart';
@@ -16,6 +17,7 @@ import 'package:wow/screen/search_result_screen.dart';
 import 'package:wow/screen/send_private_message.dart';
 import 'package:wow/screen/story_screen.dart';
 import 'package:wow/screen/users_screen.dart';
+import 'package:wow/services/user_details.dart';
 
 import 'package:wow/utils.dart';
 import 'package:wow/widget/quote_widget.dart';
@@ -43,12 +45,32 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
   TextEditingController searchTermController = TextEditingController();
 
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+
+  String my_id, my_full_name, my_email, my_image;
+
+  _initUserDetail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var isUserLogin = prefs.getBool('isUserLogin');
+    var user_id = prefs.getString('user_id');
+    var user_full_name = prefs.getString('full_name');
+    var user_email = prefs.getString('email');
+    var user_img = prefs.getString('user_img') ?? null;
+
+    setState(() {
+      my_id = user_id;
+      my_full_name = user_full_name;
+      my_email = user_email;
+      my_image = user_img;
+    });
+  }
+
   @override
   void initState() {
     appBloc = BlocProvider.of<AppBloc>(context);
     quoteBloc = BlocProvider.of<QuoteBloc>(context);
     forumBloc = BlocProvider.of<ForumBloc>(context);
     super.initState();
+    _initUserDetail();
   }
 
   @override
@@ -77,18 +99,19 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                 decoration: BoxDecoration(
                   color: secondColor,
                 ),
-                //TODO:// CHANGE DETAILS
-                accountName: new Text(
-                  'Zionnite',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'NerkoOne',
-                    fontSize: 25.0,
-                  ),
-                ),
+                accountName: (my_full_name != null)
+                    ? Text(
+                        '${my_full_name}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'NerkoOne',
+                          fontSize: 25.0,
+                        ),
+                      )
+                    : Text(''),
                 accountEmail: new Text(
-                  'zionnite555@gmail.com',
+                  '${my_email}',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
@@ -98,7 +121,9 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                 ),
                 currentAccountPicture: CircleAvatar(
                   backgroundColor: Colors.white,
-                  backgroundImage: AssetImage('assets/images/splash.png'),
+                  backgroundImage: (my_image == null)
+                      ? AssetImage('assets/images/splash.png')
+                      : NetworkImage(my_image),
                 ),
                 otherAccountsPictures: [
                   CircleAvatar(

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:rxdart/rxdart.dart';
 import 'package:wow/blocs/bloc_provider.dart';
@@ -15,6 +16,26 @@ class UserBloc implements BlocBase {
       BehaviorSubject<List<UserProfile>>();
   Stream<List<UserProfile>> get searchStream => searchController.stream;
   /*Search Users */
+
+  final updateFullnameController = BehaviorSubject<String>();
+  StreamSink<String> get uFullnameSink => updateFullnameController.sink;
+  Stream<String> get uFullnameStream => updateFullnameController.stream;
+
+  final updateEmailController = BehaviorSubject<String>();
+  StreamSink<String> get uEmailSink => updateEmailController.sink;
+  Stream<String> get uEmailStream => updateEmailController.stream;
+
+  final updateAgeController = BehaviorSubject<String>();
+  StreamSink<String> get uAgeSink => updateAgeController.sink;
+  Stream<String> get uAgeStream => updateAgeController.stream;
+
+  final updateSexController = BehaviorSubject<String>();
+  StreamSink<String> get uSexSink => updateSexController.sink;
+  Stream<String> get uSexStream => updateSexController.stream;
+
+  final updatePhoneController = BehaviorSubject<String>();
+  StreamSink<String> get uPhoneSink => updatePhoneController.sink;
+  Stream<String> get uPhoneStream => updatePhoneController.stream;
 
   List<UserProfile> page_data, search_data;
 
@@ -50,9 +71,20 @@ class UserBloc implements BlocBase {
     searchController.sink.add(search_data);
   }
 
+  handleProfileUpdate(File file) {
+    print(updateFullnameController.value);
+    print(updateAgeController.value);
+    print(updatePhoneController.value);
+  }
+
   @override
   void dispose() {
     userController.close();
     searchController.close();
+    updateFullnameController.close();
+    updateEmailController.close();
+    updateAgeController.close();
+    updateSexController.close();
+    updatePhoneController.close();
   }
 }

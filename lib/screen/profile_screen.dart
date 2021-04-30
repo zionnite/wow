@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wow/CustomShapeClipper.dart';
 import 'package:wow/bottom_navigation.dart';
+import 'package:wow/screen/login_screen.dart';
+import 'package:wow/screen/update_user_profile.dart';
+import 'package:wow/services/auth_services.dart';
 import 'package:wow/utils.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:wow/widget/bio_detail_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -14,22 +16,44 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  // var center_val = media / 50;
-  //TODO://DONT FORGET HERE ALSO
-  final String user_id = '1';
-  final String user_name = 'zionnite';
-  final String full_name = 'Nosakhare ';
-  final String age = '50';
-  final String user_img =
-      'https://static0.srcdn.com/wordpress/wp-content/uploads/2016/11/Hercules-Dwayne-Johnson.jpg';
   String follower_counter;
   String following_counter;
   bool follow_status = true;
+
+  String my_id,
+      my_full_name,
+      my_email,
+      my_image,
+      user_id,
+      user_img,
+      full_name,
+      user_name,
+      age;
+
+  _initUserDetail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var isUserLogin = prefs.getBool('isUserLogin');
+    var user_id1 = prefs.getString('user_id');
+    var user_full_name = prefs.getString('full_name');
+    var user_email = prefs.getString('email');
+    var user_img1 = prefs.getString('user_img');
+    var user_age = prefs.getString('age');
+
+    setState(() {
+      user_id = user_id1;
+      user_name = user_id1;
+      full_name = user_full_name;
+      my_email = user_email;
+      user_img = user_img1;
+      age = user_age;
+    });
+  }
 
   @override
   void initState() {
     count_followers(user_id);
     count_following(user_id);
+    _initUserDetail();
   }
 
   count_followers(String user_id) async {
@@ -56,67 +80,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-    final GoogleSignIn googleSignIn = GoogleSignIn(
-        // scopes: <String>[
-        //   'profile',
-        //   'email',
-        //   'https://www.googleapis.com/auth/contacts.readonly',
-        // ],
-        );
-
-    Future<UserCredential> _signInWithGoogle() async {
-      print('Google Clicked');
-      GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-      GoogleSignInAuthentication gSA = await googleSignInAccount.authentication;
-
-      print(gSA.idToken);
-      print(gSA.accessToken);
-      if (googleSignInAccount != null) {
-        if (gSA.idToken != null) {
-          final AuthCredential credential = GoogleAuthProvider.credential(
-            accessToken: gSA.accessToken,
-            idToken: gSA.idToken,
-          );
-
-          final UserCredential user =
-              await _auth.signInWithCredential(credential);
-
-          print("signed in " + user.user.displayName);
-          return user;
-        }
-      } else {
-        throw FirebaseAuthException(
-            code: "ERROR_ABORTED_BY_USER", message: "SignIn Aborted by User");
-      }
-
-      // final User user = (await _auth.signInWithCredential(credential)) as User;
-    }
-
-    Future<String> refreshToken() async {
-      print("Token Refresh");
-      final GoogleSignInAccount googleSignInAccount =
-          await googleSignIn.signInSilently();
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
-
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
-      final UserCredential authResult =
-          await _auth.signInWithCredential(credential);
-
-      return googleSignInAuthentication.accessToken; // New refreshed token
-    }
-
-    void _googleSignOut() {
-      final Future<bool> isGoogleSigIN = googleSignIn.isSignedIn();
-
-      googleSignIn.signOut();
-      print('signOut');
-    }
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -135,22 +98,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fit: BoxFit.cover,
                         colorFilter: new ColorFilter.mode(
                             Colors.black.withOpacity(0.5), BlendMode.darken),
-                        image: new NetworkImage(
-                          user_img,
-                        ),
+                        image: (user_img == null)
+                            ? AssetImage('assets/images/splash.png')
+                            : new NetworkImage(
+                                '${user_img}',
+                              ),
                       ),
                     ),
-                    // child: CachedNetworkImage(
-                    //   imageUrl:
-                    //       'https://static0.srcdn.com/wordpress/wp-content/uploads/2016/11/Hercules-Dwayne-Johnson.jpg',
-                    //   fit: BoxFit.cover,
-                    //   height: 200,
-                    //   fadeInDuration: Duration(milliseconds: 500),
-                    //   fadeInCurve: Curves.easeIn,
-                    //   placeholder: (context, progressText) => Center(
-                    //     child: CircularProgressIndicator(),
-                    //   ),
-                    // ),
                   ),
                 ),
                 Positioned(
@@ -178,6 +132,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 25.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  top: 45,
+                  right: 10.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.popAndPushNamed(
+                              context, UpdateUserProfile.id);
+                        },
+                        child: Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                          size: 40,
                         ),
                       ),
                     ],
@@ -309,13 +283,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             //   ),
             // ),
             BioDetailWidget(
-              user_name: user_name,
-              user_full_name: full_name,
-              age: age,
+              user_name: '${user_name}',
+              user_full_name: '${full_name}',
+              age: '${age}',
             ),
 
             InkWell(
-              onTap: null,
+              onTap: () {
+                logoutUser();
+              },
               child: Card(
                 elevation: 4.0,
                 color: Colors.red,
@@ -370,5 +346,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  void logoutUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs?.clear();
+    Navigator.pushNamed(context, LoginScreen.id);
   }
 }

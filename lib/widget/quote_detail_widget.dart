@@ -7,6 +7,7 @@ import 'package:http/http.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share/share.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wow/blocs/QouteBloc.dart';
 import 'package:wow/services/ApiService.dart';
@@ -50,13 +51,30 @@ class _QuoteDetailWidgetState extends State<QuoteDetailWidget> {
 
   bool _isLoading = false;
 
-  //TODO:// CHANGE USER NAME
-  final String user = 'zionnite';
+  String my_id, my_full_name, my_email, my_image, user;
+
+  _initUserDetail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var isUserLogin = prefs.getBool('isUserLogin');
+    var user_id = prefs.getString('user_id');
+    var user_full_name = prefs.getString('full_name');
+    var user_email = prefs.getString('email');
+    var user_img = prefs.getString('user_img');
+
+    setState(() {
+      user = user_id;
+      my_full_name = user_full_name;
+      my_email = user_email;
+      my_image = user_img;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     currentYesCounter();
     currentNoCounter();
+    _initUserDetail();
     //callYesCounter();
   }
 

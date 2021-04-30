@@ -1,8 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:story_view/controller/story_controller.dart';
 import 'package:story_view/story_view.dart';
 import 'package:wow/blocs/StoryBloc.dart';
-import 'package:wow/bottom_navigation.dart';
 import 'package:wow/model/StoriesStatus.dart';
 import 'package:wow/screen/send_private_message.dart';
 
@@ -14,6 +15,22 @@ class StoryScreen extends StatefulWidget {
 
 class _StoryScreenState extends State<StoryScreen> {
   final StoryController controller = StoryController();
+
+  Color colorCode = Colors.deepPurpleAccent;
+  final Random random = Random();
+  generateRandomColor() {
+    Color tempColor = Color.fromARGB(
+      random.nextInt(256),
+      random.nextInt(256),
+      random.nextInt(256),
+      random.nextInt(256),
+    );
+
+    setState(() {
+      colorCode = tempColor;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,8 +77,8 @@ class _MoreStoriesState extends State<MoreStories> {
             var date = story.date;
 
             if (type == 'text') {
-              storyViews.add(
-                  StoryItem.text(title: title, backgroundColor: Colors.red));
+              storyViews.add(StoryItem.text(
+                  title: title, backgroundColor: Colors.deepPurple));
             } else if (type == 'image') {
               storyViews.add(StoryItem.pageImage(
                   url: url, controller: storyController, caption: caption));
@@ -72,6 +89,7 @@ class _MoreStoriesState extends State<MoreStories> {
               storyItems: storyViews,
               onStoryShow: (s) {
                 //print("Showing a story");
+                //generateRandomColor();
               },
               onComplete: () {
                 Navigator.popAndPushNamed(context, SendPrivateMessage.id);
