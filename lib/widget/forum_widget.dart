@@ -736,16 +736,16 @@ class _ForumWidgetState extends State<ForumWidget> {
       });
     }
     //print('Quote Id => $selected_id');
-    print('Quote Name => $selected_menu');
+    // print('Quote Name => $selected_menu');
     //perform Operation to QuoteBloc
   }
 
   void onDismiss() {
-    print('Menu is dismiss');
+    //print('Menu is dismiss');
   }
 
   stateChanged(bool isShow) {
-    print('menu is ${isShow ? 'showing' : 'closed'}');
+    //print('menu is ${isShow ? 'showing' : 'closed'}');
   }
 
   void checkState(BuildContext context) {

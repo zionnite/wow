@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:draggable_fab/draggable_fab.dart';
 // import 'package:fancy_dialog/fancy_dialog.dart';
 // import 'package:fancy_dialog/fancy_dialog.dart';
@@ -27,6 +29,7 @@ import 'package:wow/widget/quote_widget.dart';
 import '../CustomShapeClipper.dart';
 import '../bottom_navigation.dart';
 import '../widget/forum_list_widget.dart';
+import 'about_screen.dart';
 import 'category_screen.dart';
 import 'forum_detail_screen.dart';
 
@@ -79,25 +82,71 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
   }
 
   Widget showPop() {
+    final int UPDATED_WOW_APP_VERSION = 2;
+    if (UPDATED_WOW_APP_VERSION > CURRENT_WOW_APP_VERSION) {
+      //if (3 > 3) {
+      //print(CURRENT_WOW_APP_VERSION);
+      // showDialog(
+      //   context: context,
+      //   builder: (_) => NetworkGiffyDialog(
+      //     key: fancyDialog,
+      //     image: Image.network(
+      //       "https://raw.githubusercontent.com/Shashank02051997/FancyGifDialog-Android/master/GIF's/gif14.gif",
+      //       fit: BoxFit.cover,
+      //     ),
+      //     entryAnimation: EntryAnimation.TOP_LEFT,
+      //     title: Text(
+      //       'New App Update!',
+      //       textAlign: TextAlign.center,
+      //       style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w600),
+      //     ),
+      //     description: Text(
+      //       'New App Update is available on the Store, click on the Button to update to the new version',
+      //       textAlign: TextAlign.center,
+      //     ),
+      //     buttonOkText: Text(
+      //       'Update Now',
+      //       style: TextStyle(
+      //         color: Colors.white,
+      //       ),
+      //     ),
+      //     onOkButtonPressed: () {},
+      //   ),
+      // );
+    }
+
     showDialog(
       context: context,
-      builder: (_) => NetworkGiffyDialog(
+      builder: (_) => AssetGiffyDialog(
         key: fancyDialog,
-        image: Image.network(
-          "https://raw.githubusercontent.com/Shashank02051997/FancyGifDialog-Android/master/GIF's/gif14.gif",
+        image: Image.asset(
+          'assets/images/updates.gif',
           fit: BoxFit.cover,
         ),
-        entryAnimation: EntryAnimation.TOP_LEFT,
         title: Text(
-          'Granny Eating Chocolate',
+          'New App Update!',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w600),
         ),
+        entryAnimation: EntryAnimation.BOTTOM_RIGHT,
         description: Text(
-          'This is a granny eating chocolate dialog box. This library helps you easily create fancy giffy dialog.',
+          'New App Update is available on the Store, click on the Button to update to the new version',
           textAlign: TextAlign.center,
         ),
-        onOkButtonPressed: () {},
+        buttonOkText: Text(
+          'Update Now',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        onOkButtonPressed: () {
+          if (Platform.isIOS) {
+            print('ios Clicked');
+          }
+          if (Platform.isAndroid) {
+            print('Android Clicked');
+          }
+        },
       ),
     );
   }
@@ -283,6 +332,24 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                         Navigator.pushNamed(context, SendPrivateMessage.id);
                       },
                     ),
+                    ListTile(
+                      title: Text(
+                        'About WOW',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.error,
+                        size: 28,
+                        color: Colors.white,
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, AboutScreen.id);
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -334,10 +401,16 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                                       color: Colors.white,
                                     ),
                                   ),
-                                  Icon(
-                                    Icons.error,
-                                    color: Colors.white,
-                                    size: 30,
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.error,
+                                      color: Colors.white,
+                                      size: 30,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, AboutScreen.id);
+                                    },
                                   ),
                                 ],
                               ),

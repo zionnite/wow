@@ -140,6 +140,16 @@ class _ForumMakeCommentState extends State<ForumMakeComment> {
                     ),
                   ),
                 ),
+                (my_full_name?.isEmpty ?? true)
+                    ? Text(
+                        'You need to update your Information before you can make Comment!',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 20.0,
+                        ),
+                        textAlign: TextAlign.center,
+                      )
+                    : Container(),
                 (_showStatus == true)
                     ? Padding(
                         padding: const EdgeInsets.symmetric(vertical: 14.0),
@@ -234,52 +244,54 @@ class _ForumMakeCommentState extends State<ForumMakeComment> {
                   margin: EdgeInsets.symmetric(vertical: 15.0),
                   child: InkWell(
                     onTap: () async {
-                      //submitComment();
+                      if (!my_full_name?.isEmpty ?? true) {
+                        //submitComment();
 
-                      setState(() {
-                        _isLoading = true;
-                      });
+                        setState(() {
+                          _isLoading = true;
+                        });
 
-                      if (commentController.text.length > 10) {
-                        _showCommentStatus = await foumBloc.postToComment(
-                          id: widget.pick_id,
-                          my_id: my_id,
-                          name: my_full_name,
-                          email: my_email,
-                        );
-                        if (_showCommentStatus) {
-                          setState(() {
-                            new Future.delayed(new Duration(seconds: 4), () {
-                              _showStatus = true;
-                              _statusMsg =
-                                  'Comment has been Added successfully!';
+                        if (commentController.text.length > 10) {
+                          _showCommentStatus = await foumBloc.postToComment(
+                            id: widget.pick_id,
+                            my_id: my_id,
+                            name: my_full_name,
+                            email: my_email,
+                          );
+                          if (_showCommentStatus) {
+                            setState(() {
+                              new Future.delayed(new Duration(seconds: 4), () {
+                                _showStatus = true;
+                                _statusMsg =
+                                    'Comment has been Added successfully!';
+                              });
+                            });
+                          } else {
+                            setState(() {
+                              new Future.delayed(new Duration(seconds: 4), () {
+                                _showStatus = true;
+                                _statusMsg =
+                                    'Could not add Comment, please try again later or contact admin if issue persist!';
+                              });
+                            });
+                          }
+
+                          new Future.delayed(new Duration(seconds: 4), () {
+                            setState(() {
+                              _isLoading = false;
+                              fullNameController.text = '';
+                              emailAddressController.text = '';
+                              commentController.text = '';
                             });
                           });
                         } else {
                           setState(() {
-                            new Future.delayed(new Duration(seconds: 4), () {
-                              _showStatus = true;
-                              _statusMsg =
-                                  'Could not add Comment, please try again later or contact admin if issue persist!';
-                            });
+                            _isLoading = false;
+                            _showStatus = true;
+                            _statusMsg =
+                                'All Information is needed, Please fill the form';
                           });
                         }
-
-                        new Future.delayed(new Duration(seconds: 4), () {
-                          setState(() {
-                            _isLoading = false;
-                            fullNameController.text = '';
-                            emailAddressController.text = '';
-                            commentController.text = '';
-                          });
-                        });
-                      } else {
-                        setState(() {
-                          _isLoading = false;
-                          _showStatus = true;
-                          _statusMsg =
-                              'All Information is needed, Please fill the form';
-                        });
                       }
                     },
                     child: Card(

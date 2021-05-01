@@ -89,11 +89,15 @@ class QuoteWidget extends StatelessWidget {
             ),
             InkWell(
                 onTap: null,
-                child: Text(
-                  'Read More',
-                  style: TextStyle(
-                    fontSize: 17.0,
-                    color: firstColor,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.only(left: 15, top: 8.0, bottom: 15),
+                  child: Text(
+                    'Read More',
+                    style: TextStyle(
+                      fontSize: 17.0,
+                      color: firstColor,
+                    ),
                   ),
                 ))
           ],

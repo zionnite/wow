@@ -181,7 +181,7 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                               Text(
                                 'Followers',
                                 style: TextStyle(
-                                  fontSize: 20.0,
+                                  fontSize: 13.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 textAlign: TextAlign.left,
@@ -190,7 +190,10 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(right: 25.0),
                                   child: (follow_status)
-                                      ? Text('Loading...')
+                                      ? Text(
+                                          'Loading...',
+                                          style: TextStyle(fontSize: 10),
+                                        )
                                       : Text(
                                           '${follower_counter}',
                                           style: TextStyle(
@@ -217,7 +220,7 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                               Text(
                                 'Following',
                                 style: TextStyle(
-                                  fontSize: 20.0,
+                                  fontSize: 13.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 textAlign: TextAlign.center,
@@ -226,7 +229,10 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 28.0),
                                   child: (follow_status)
-                                      ? Text('Loading...')
+                                      ? Text(
+                                          'Loading...',
+                                          style: TextStyle(fontSize: 10),
+                                        )
                                       : Text(
                                           '${following_counter}',
                                           style: TextStyle(

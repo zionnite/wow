@@ -735,10 +735,14 @@ Future<bool> updateUserProfile(
 
   var respond = await request.send();
   if (respond.statusCode == 200) {
+    var new_user_img = 'https://api.osherwomen.com/user_img/$my_id' +
+        '/' +
+        profileImage.filename;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('full_name', name);
     prefs.setString('age', age);
     prefs.setString('phone_no', phone);
+    prefs.setString('user_img', new_user_img);
     prefs.setBool('profile_updated', true);
     return true;
   } else {

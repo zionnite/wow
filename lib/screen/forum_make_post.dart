@@ -127,6 +127,16 @@ class _ForumMakePostState extends State<ForumMakePost> {
                     ),
                   ),
                 ),
+                (my_full_name?.isEmpty ?? true)
+                    ? Text(
+                        'You need to update your User Information before you can make a Post!',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 20.0,
+                        ),
+                        textAlign: TextAlign.center,
+                      )
+                    : Container(),
                 (_showStatus == true)
                     ? Padding(
                         padding: const EdgeInsets.symmetric(vertical: 14.0),
@@ -341,56 +351,60 @@ class _ForumMakePostState extends State<ForumMakePost> {
                   margin: EdgeInsets.only(top: 15.0, bottom: 80.0),
                   child: InkWell(
                     onTap: () async {
-                      setState(() {
-                        _isLoading = true;
-                      });
+                      if (!my_full_name?.isEmpty ?? true) {
+                        print('my name is ${my_full_name}');
+                        setState(() {
+                          _isLoading = true;
+                        });
 
-                      if (postImage != null &&
-                          titleController.text.length > 10 &&
-                          contentController.text.length > 50) {
-                        _showCommentStatus = await foumBloc.postToPost(
-                          postImage: postImage,
-                          profileImage: my_image,
-                          full_name: my_full_name,
-                          email: my_email,
-                          my_id: my_id,
-                        );
+                        if (postImage != null &&
+                            titleController.text.length > 10 &&
+                            contentController.text.length > 50) {
+                          _showCommentStatus = await foumBloc.postToPost(
+                            postImage: postImage,
+                            profileImage: my_image,
+                            full_name: my_full_name,
+                            email: my_email,
+                            my_id: my_id,
+                          );
 
-                        if (_showCommentStatus) {
-                          setState(() {
-                            new Future.delayed(new Duration(seconds: 4), () {
-                              _showStatus = true;
-                              _statusMsg = 'Post has been Added successfully!';
+                          if (_showCommentStatus) {
+                            setState(() {
+                              new Future.delayed(new Duration(seconds: 4), () {
+                                _showStatus = true;
+                                _statusMsg =
+                                    'Post has been Added successfully!';
+                              });
+                            });
+                          } else {
+                            setState(() {
+                              new Future.delayed(new Duration(seconds: 4), () {
+                                _showStatus = true;
+                                _statusMsg =
+                                    'Could not add Post, please try again later or contact admin if issue persist!';
+                              });
+                            });
+                          }
+
+                          new Future.delayed(new Duration(seconds: 4), () {
+                            setState(() {
+                              _isLoading = false;
+                              fullNameController.text = '';
+                              emailController.text = '';
+                              titleController.text = '';
+                              contentController.text = '';
+                              // profileImg = null;
+                              postImage = null;
                             });
                           });
                         } else {
                           setState(() {
-                            new Future.delayed(new Duration(seconds: 4), () {
-                              _showStatus = true;
-                              _statusMsg =
-                                  'Could not add Post, please try again later or contact admin if issue persist!';
-                            });
+                            _isLoading = false;
+                            _showStatus = true;
+                            _statusMsg =
+                                'All Information is needed, Please fill the form';
                           });
                         }
-
-                        new Future.delayed(new Duration(seconds: 4), () {
-                          setState(() {
-                            _isLoading = false;
-                            fullNameController.text = '';
-                            emailController.text = '';
-                            titleController.text = '';
-                            contentController.text = '';
-                            // profileImg = null;
-                            postImage = null;
-                          });
-                        });
-                      } else {
-                        setState(() {
-                          _isLoading = false;
-                          _showStatus = true;
-                          _statusMsg =
-                              'All Information is needed, Please fill the form';
-                        });
                       }
                     },
                     child: Card(

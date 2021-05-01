@@ -8,6 +8,7 @@ import 'package:wow/blocs/app_bloc.dart';
 import 'package:wow/blocs/bloc_provider.dart';
 import 'package:wow/blocs/forum_bloc.dart';
 import 'package:wow/bottom_navigation.dart';
+import 'package:wow/screen/about_screen.dart';
 import 'package:wow/screen/forum_detail_screen.dart';
 import 'package:wow/screen/forum_screen.dart';
 import 'package:wow/screen/home_screen.dart';
@@ -74,6 +75,7 @@ Future<void> main() async {
               RegistrationScreen.id: (context) => RegistrationScreen(),
               ResetPassword.id: (context) => ResetPassword(),
               UpdateUserProfile.id: (context) => UpdateUserProfile(),
+              AboutScreen.id: (context) => AboutScreen(),
             },
             home: isUserLogin == null ? LoginScreen() : Nav(),
           ),

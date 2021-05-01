@@ -33,3 +33,5 @@ double screenHeightExcludingToolbar(BuildContext context,
     {double dividedBy = 1}) {
   return screenHeight(context, dividedBy: dividedBy, reducedBy: kToolbarHeight);
 }
+
+final int CURRENT_WOW_APP_VERSION = 1;
