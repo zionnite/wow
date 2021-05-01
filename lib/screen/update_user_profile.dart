@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wow/blocs/UserBloc.dart';
 import 'package:wow/screen/profile_screen.dart';
 import 'package:wow/screen/reset_password.dart';
@@ -59,6 +60,40 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
       profileImg = File(pickedProfileImg.path);
     });
     //foumBloc.mkpPostImage.sink.add(profileImg);
+  }
+
+  String my_id,
+      my_full_name,
+      my_email,
+      my_image,
+      user_id,
+      user_img,
+      full_name,
+      user_name,
+      age;
+
+  _initUserDetail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var isUserLogin = prefs.getBool('isUserLogin');
+    var user_id = prefs.getString('user_id');
+    var user_full_name = prefs.getString('full_name');
+    var user_email = prefs.getString('email');
+    var user_img1 = prefs.getString('user_img');
+    var user_age = prefs.getString('age');
+
+    setState(() {
+      my_id = user_id;
+      full_name = user_full_name;
+      my_email = user_email;
+      user_img = user_img1;
+      age = user_age;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initUserDetail();
   }
 
   @override
@@ -285,7 +320,8 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
                   isLoading = true;
                 });
                 // var result = await userAuthLogin(this.email, this.password);
-                var result = await userBloc.handleProfileUpdate(profileImg);
+                var result =
+                    await userBloc.handleProfileUpdate(profileImg, my_id);
 
                 if (result) {
                   setState(() {

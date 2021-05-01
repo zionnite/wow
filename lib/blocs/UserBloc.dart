@@ -39,6 +39,8 @@ class UserBloc implements BlocBase {
 
   List<UserProfile> page_data, search_data;
 
+  bool result;
+
   userPerPage(int perPage, String my_id) async {
     page_data = await getAllUsersByPage(perPage, my_id);
     userController.sink.add(page_data);
@@ -71,10 +73,16 @@ class UserBloc implements BlocBase {
     searchController.sink.add(search_data);
   }
 
-  handleProfileUpdate(File file) {
-    print(updateFullnameController.value);
-    print(updateAgeController.value);
-    print(updatePhoneController.value);
+  handleProfileUpdate(File file, String my_id) async {
+    result = await updateUserProfile(
+      name: updateFullnameController.value,
+      age: updateAgeController.value,
+      phone: updatePhoneController.value,
+      my_id: my_id,
+      profileImg: file,
+    );
+
+    return result;
   }
 
   @override

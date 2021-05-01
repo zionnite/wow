@@ -16,7 +16,7 @@ class _ResetPasswordState extends State<ResetPassword> {
   Color greenColor = Color(0xFF00AF19);
 
   String status_msg = '';
-  bool status = true;
+  bool status = false;
   bool isLoading = false;
   String result;
 
@@ -159,16 +159,31 @@ class _ResetPasswordState extends State<ResetPassword> {
                 if (result == 'success') {
                   setState(() {
                     isLoading = false;
+                    status = true;
+                    status_msg =
+                        "Password Reset link has been sent to your email";
                   });
-                } else if (result == 'fail') {
+                } else if (result == 'fail_01') {
                   setState(() {
                     isLoading = false;
-                    status_msg = result;
+                    status = true;
+                    status_msg = 'This user don\'t not exist in our database';
+                  });
+                } else if (result == 'fail_2') {
+                  setState(() {
+                    isLoading = false;
+                    status = true;
+                    status_msg =
+                        'email not responding... \n could not send reset link to your email';
+                  });
+                } else if (result == 'fail_03') {
+                  setState(() {
+                    isLoading = false;
+                    status = true;
+                    status_msg =
+                        'you have already initiated a password request, please check your Email account for your our previous mail';
                   });
                 }
-                var b = userAuthBloc.restResultController.value;
-                print(b);
-                //AuthService().resetPasswordLink(email);
               }
             },
             child: Container(

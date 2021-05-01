@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wow/blocs/UserAuthBloc.dart';
+import 'package:wow/screen/reset_password.dart';
+import 'package:wow/screen/terms_n_condition.dart';
 import 'package:wow/services/ApiService.dart';
 import 'package:wow/services/auth_services.dart';
 import 'package:wow/services/error_handler.dart';
@@ -219,28 +221,57 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 }
               }
             },
-            child: Container(
-              height: 50.0,
-              child: Material(
-                borderRadius: BorderRadius.circular(25.0),
-                shadowColor: firstColor,
-                color: secondColor,
-                elevation: 7.0,
-                child: Center(
-                  child: (isLoading)
-                      ? CircularProgressIndicator(
-                          backgroundColor: Colors.white,
-                          strokeWidth: 3,
-                        )
-                      : Text(
-                          'SIGN UP',
-                          style: TextStyle(
-                            color: Colors.white,
+            child: Column(
+              children: [
+                SizedBox(height: 5.0),
+                GestureDetector(
+                  onTap: () {
+                    //TODO: //TERMS and CONDITION
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Terms_N_Conditions()));
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(left: 23.0),
+                    alignment: Alignment(1.0, 0.0),
+                    padding: EdgeInsets.only(top: 15.0, left: 50.0),
+                    child: InkWell(
+                      child: Text(
+                        'By clicking on the SignUp Button you agree to our Term & Condition',
+                        style: TextStyle(
+                            color: greenColor,
                             fontFamily: 'Trueno',
-                          ),
-                        ),
+                            fontSize: 11.0,
+                            decoration: TextDecoration.underline),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+                SizedBox(height: 50.0),
+                Container(
+                  height: 50.0,
+                  child: Material(
+                    borderRadius: BorderRadius.circular(25.0),
+                    shadowColor: firstColor,
+                    color: secondColor,
+                    elevation: 7.0,
+                    child: Center(
+                      child: (isLoading)
+                          ? CircularProgressIndicator(
+                              backgroundColor: Colors.white,
+                              strokeWidth: 3,
+                            )
+                          : Text(
+                              'SIGN UP',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Trueno',
+                              ),
+                            ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(height: 20.0),

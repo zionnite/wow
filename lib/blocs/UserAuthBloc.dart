@@ -55,8 +55,9 @@ class UserAuthBloc implements BlocBase {
   }
 
   Future<String> handleUserAuthenticationReset() async {
-    restResultSink.add('Result event sent');
-    result = restAuthController.value;
+    result = await userAuthRest(restAuthController.value);
+    profileController.sink.add(data);
+
     return result;
   }
 

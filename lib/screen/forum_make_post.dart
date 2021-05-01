@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wow/blocs/forum_bloc.dart';
 
 import '../utils.dart';
@@ -46,8 +47,39 @@ class _ForumMakePostState extends State<ForumMakePost> {
     foumBloc.mkpPostImage.sink.add(profileImg);
   }
 
+  String my_id,
+      my_full_name,
+      my_email,
+      my_image,
+      user_id,
+      user_img,
+      full_name,
+      user_name,
+      age;
+
+  _initUserDetail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var isUserLogin = prefs.getBool('isUserLogin');
+    var user_id = prefs.getString('user_id');
+    var user_full_name = prefs.getString('full_name');
+    var user_email = prefs.getString('email');
+    var user_img1 = prefs.getString('user_img');
+    var user_age = prefs.getString('age');
+
+    setState(() {
+      my_id = user_id;
+      my_full_name = user_full_name;
+      my_email = user_email;
+      my_image = user_img1;
+      age = user_age;
+    });
+  }
+
   @override
-  void initState() {}
+  void initState() {
+    super.initState();
+    _initUserDetail();
+  }
 
   @override
   void dispose() {
@@ -107,57 +139,57 @@ class _ForumMakePostState extends State<ForumMakePost> {
                         ),
                       )
                     : Container(),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Material(
-                    elevation: 5.0,
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    child: StreamBuilder<String>(
-                      stream: foumBloc.mkpNameSinkVal,
-                      builder: (context, snapshot) => TextField(
-                        controller: fullNameController,
-                        maxLines: 1,
-                        onChanged: foumBloc.mkpNameSink,
-                        style: dropDownMenuItemStyle,
-                        cursorColor: Colors.black,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 32.0, vertical: 14.0),
-                          border: InputBorder.none,
-                          hintText: 'Your Name',
-                          errorText: snapshot.error,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
-                  child: Material(
-                    elevation: 5.0,
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    child: StreamBuilder<String>(
-                      stream: foumBloc.mkpEmailSinkVal,
-                      builder: (context, snapshot) => TextField(
-                        keyboardType: TextInputType.emailAddress,
-                        controller: emailController,
-                        maxLines: 1,
-                        onChanged: foumBloc.mkpEmailSink,
-                        style: dropDownMenuItemStyle,
-                        cursorColor: Colors.black,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 32.0, vertical: 14.0),
-                          border: InputBorder.none,
-                          hintText: 'Your Email',
-                          errorText: snapshot.error,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(horizontal: 10.0),
+                //   child: Material(
+                //     elevation: 5.0,
+                //     color: Colors.white,
+                //     borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                //     child: StreamBuilder<String>(
+                //       stream: foumBloc.mkpNameSinkVal,
+                //       builder: (context, snapshot) => TextField(
+                //         controller: fullNameController,
+                //         maxLines: 1,
+                //         onChanged: foumBloc.mkpNameSink,
+                //         style: dropDownMenuItemStyle,
+                //         cursorColor: Colors.black,
+                //         decoration: InputDecoration(
+                //           contentPadding: EdgeInsets.symmetric(
+                //               horizontal: 32.0, vertical: 14.0),
+                //           border: InputBorder.none,
+                //           hintText: 'Your Name',
+                //           errorText: snapshot.error,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+                //   child: Material(
+                //     elevation: 5.0,
+                //     color: Colors.white,
+                //     borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                //     child: StreamBuilder<String>(
+                //       stream: foumBloc.mkpEmailSinkVal,
+                //       builder: (context, snapshot) => TextField(
+                //         keyboardType: TextInputType.emailAddress,
+                //         controller: emailController,
+                //         maxLines: 1,
+                //         onChanged: foumBloc.mkpEmailSink,
+                //         style: dropDownMenuItemStyle,
+                //         cursorColor: Colors.black,
+                //         decoration: InputDecoration(
+                //           contentPadding: EdgeInsets.symmetric(
+                //               horizontal: 32.0, vertical: 14.0),
+                //           border: InputBorder.none,
+                //           hintText: 'Your Email',
+                //           errorText: snapshot.error,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                   child: Material(
@@ -254,45 +286,45 @@ class _ForumMakePostState extends State<ForumMakePost> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 3.0),
-                  child: Card(
-                    elevation: 4.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            choiceProfileImg();
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 18.0,
-                              bottom: 18.0,
-                            ),
-                            child: Text(
-                              'Upload Profile Image',
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.deepOrangeAccent,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  child: (profileImg == null)
-                      ? Text('No Image Selected')
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0, vertical: 3.0),
-                          child: Image.file(profileImg),
-                        ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(
+                //       horizontal: 8.0, vertical: 3.0),
+                //   child: Card(
+                //     elevation: 4.0,
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //       children: [
+                //         InkWell(
+                //           onTap: () {
+                //             choiceProfileImg();
+                //           },
+                //           child: Padding(
+                //             padding: const EdgeInsets.only(
+                //               top: 18.0,
+                //               bottom: 18.0,
+                //             ),
+                //             child: Text(
+                //               'Upload Profile Image',
+                //               style: TextStyle(
+                //                 fontSize: 20.0,
+                //                 color: Colors.deepOrangeAccent,
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // Container(
+                //   child: (profileImg == null)
+                //       ? Text('No Image Selected')
+                //       : Padding(
+                //           padding: const EdgeInsets.symmetric(
+                //               horizontal: 8.0, vertical: 3.0),
+                //           child: Image.file(profileImg),
+                //         ),
+                // ),
                 (_showStatus == true)
                     ? Padding(
                         padding: const EdgeInsets.symmetric(vertical: 14.0),
@@ -314,13 +346,15 @@ class _ForumMakePostState extends State<ForumMakePost> {
                       });
 
                       if (postImage != null &&
-                          profileImg != null &&
-                          fullNameController.text.length > 5 &&
-                          emailController.text.contains("@") &&
                           titleController.text.length > 10 &&
                           contentController.text.length > 50) {
-                        _showCommentStatus =
-                            await foumBloc.postToPost(postImage, profileImg);
+                        _showCommentStatus = await foumBloc.postToPost(
+                          postImage: postImage,
+                          profileImage: my_image,
+                          full_name: my_full_name,
+                          email: my_email,
+                          my_id: my_id,
+                        );
 
                         if (_showCommentStatus) {
                           setState(() {
@@ -346,7 +380,7 @@ class _ForumMakePostState extends State<ForumMakePost> {
                             emailController.text = '';
                             titleController.text = '';
                             contentController.text = '';
-                            profileImg = null;
+                            // profileImg = null;
                             postImage = null;
                           });
                         });

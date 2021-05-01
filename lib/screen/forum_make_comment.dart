@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wow/blocs/forum_bloc.dart';
 import 'package:wow/utils.dart';
 import 'package:http/http.dart' as http;
@@ -22,8 +23,39 @@ class _ForumMakeCommentState extends State<ForumMakeComment> {
   bool _showCommentStatus;
   String _statusMsg;
 
+  String my_id,
+      my_full_name,
+      my_email,
+      my_image,
+      user_id,
+      user_img,
+      full_name,
+      user_name,
+      age;
+
+  _initUserDetail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var isUserLogin = prefs.getBool('isUserLogin');
+    var user_id = prefs.getString('user_id');
+    var user_full_name = prefs.getString('full_name');
+    var user_email = prefs.getString('email');
+    var user_img1 = prefs.getString('user_img');
+    var user_age = prefs.getString('age');
+
+    setState(() {
+      my_id = user_id;
+      my_full_name = user_full_name;
+      my_email = user_email;
+      my_image = user_img1;
+      age = user_age;
+    });
+  }
+
   @override
-  void initState() {}
+  void initState() {
+    super.initState();
+    _initUserDetail();
+  }
 
   @override
   void dispose() {
@@ -40,10 +72,11 @@ class _ForumMakeCommentState extends State<ForumMakeComment> {
     });
     final uri = Uri.parse('http://wow.joons-me.com/Api/make_comment');
     var request = http.MultipartRequest('POST', uri);
-    request.fields['name'] = fullNameController.text;
-    request.fields['email'] = emailAddressController.text;
+    request.fields['name'] = my_full_name;
+    request.fields['email'] = my_email;
     request.fields['comment'] = commentController.text;
     request.fields['forum_id'] = widget.pick_id;
+    request.fields['user_id'] = my_id;
 
     var respond = await request.send();
     if (respond.statusCode == 200) {
@@ -119,55 +152,55 @@ class _ForumMakeCommentState extends State<ForumMakeComment> {
                         ),
                       )
                     : Container(),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Material(
-                    elevation: 5.0,
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    child: StreamBuilder<String>(
-                      stream: foumBloc.mkcNameSinkVal,
-                      builder: (context, snapshot) => TextField(
-                        controller: fullNameController,
-                        onChanged: foumBloc.mkcNameSink,
-                        style: dropDownMenuItemStyle,
-                        cursorColor: Colors.black,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 32.0, vertical: 14.0),
-                          border: InputBorder.none,
-                          hintText: 'Your Name',
-                          errorText: snapshot.error,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
-                  child: Material(
-                    elevation: 5.0,
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    child: StreamBuilder<String>(
-                      stream: foumBloc.mkcEmailSinkVal,
-                      builder: (context, snapshot) => TextField(
-                        keyboardType: TextInputType.emailAddress,
-                        controller: emailAddressController,
-                        onChanged: foumBloc.mkcEmailSink,
-                        style: dropDownMenuItemStyle,
-                        cursorColor: Colors.black,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 32.0, vertical: 14.0),
-                          border: InputBorder.none,
-                          hintText: 'Your Email',
-                          errorText: snapshot.error,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(horizontal: 10.0),
+                //   child: Material(
+                //     elevation: 5.0,
+                //     color: Colors.white,
+                //     borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                //     child: StreamBuilder<String>(
+                //       stream: foumBloc.mkcNameSinkVal,
+                //       builder: (context, snapshot) => TextField(
+                //         controller: fullNameController,
+                //         onChanged: foumBloc.mkcNameSink,
+                //         style: dropDownMenuItemStyle,
+                //         cursorColor: Colors.black,
+                //         decoration: InputDecoration(
+                //           contentPadding: EdgeInsets.symmetric(
+                //               horizontal: 32.0, vertical: 14.0),
+                //           border: InputBorder.none,
+                //           hintText: 'Your Name',
+                //           errorText: snapshot.error,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
+                //   child: Material(
+                //     elevation: 5.0,
+                //     color: Colors.white,
+                //     borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                //     child: StreamBuilder<String>(
+                //       stream: foumBloc.mkcEmailSinkVal,
+                //       builder: (context, snapshot) => TextField(
+                //         keyboardType: TextInputType.emailAddress,
+                //         controller: emailAddressController,
+                //         onChanged: foumBloc.mkcEmailSink,
+                //         style: dropDownMenuItemStyle,
+                //         cursorColor: Colors.black,
+                //         decoration: InputDecoration(
+                //           contentPadding: EdgeInsets.symmetric(
+                //               horizontal: 32.0, vertical: 14.0),
+                //           border: InputBorder.none,
+                //           hintText: 'Your Email',
+                //           errorText: snapshot.error,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
@@ -207,11 +240,13 @@ class _ForumMakeCommentState extends State<ForumMakeComment> {
                         _isLoading = true;
                       });
 
-                      if (fullNameController.text.length > 5 &&
-                          emailAddressController.text.contains("@") &&
-                          commentController.text.length > 10) {
-                        _showCommentStatus =
-                            await foumBloc.postToComment(widget.pick_id);
+                      if (commentController.text.length > 10) {
+                        _showCommentStatus = await foumBloc.postToComment(
+                          id: widget.pick_id,
+                          my_id: my_id,
+                          name: my_full_name,
+                          email: my_email,
+                        );
                         if (_showCommentStatus) {
                           setState(() {
                             new Future.delayed(new Duration(seconds: 4), () {

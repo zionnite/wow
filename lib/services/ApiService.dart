@@ -79,7 +79,7 @@ Future<List<ForumComment>> getForumCommentByIdnPerPage(
 }
 
 Future<bool> makeCommentPost(
-    String id, String name, String email, String comment) async {
+    String id, String name, String email, String comment, String my_id) async {
   //return forumCommentFromJson(response.body);
 
   final uri = Uri.parse('$mainUrl/make_comment');
@@ -88,6 +88,12 @@ Future<bool> makeCommentPost(
   request.fields['email'] = email;
   request.fields['comment'] = comment;
   request.fields['forum_id'] = id;
+  request.fields['user_id'] = my_id;
+
+  print('name ${name}');
+  print('email ${email}');
+  print('comment ${comment}');
+  print('my_id ${my_id}');
 
   var respond = await request.send();
   if (respond.statusCode == 200) {
@@ -97,9 +103,22 @@ Future<bool> makeCommentPost(
   }
 }
 
-Future<bool> makePost(String name, String email, String title, String comment,
-    File postImg, File profileImg) async {
+Future<bool> makePost({
+  String name,
+  String email,
+  String title,
+  String comment,
+  File postImg,
+  String profileImg,
+  String my_id,
+}) async {
   //return forumCommentFromJson(response.body);
+  print(name);
+  print(email);
+  print(title);
+  print(comment);
+  print(postImg);
+  print(profileImg);
 
   final uri = Uri.parse('$mainUrl/make_post');
   var request = http.MultipartRequest('POST', uri);
@@ -107,13 +126,15 @@ Future<bool> makePost(String name, String email, String title, String comment,
   request.fields['body'] = comment;
   request.fields['author'] = name;
   request.fields['email'] = email;
+  request.fields['user_id'] = my_id;
+  request.fields['user_img'] = profileImg;
 
   var postImage = await http.MultipartFile.fromPath('post_image', postImg.path);
   request.files.add(postImage);
 
-  var profileImage =
-      await http.MultipartFile.fromPath('profile_image', profileImg.path);
-  request.files.add(profileImage);
+  // var profileImage =
+  //     await http.MultipartFile.fromPath('profile_image', profileImg.path);
+  // request.files.add(profileImage);
 
   var respond = await request.send();
   if (respond.statusCode == 200) {
@@ -615,6 +636,7 @@ Future<String> userAuthLogin(String email, String pass) async {
     prefs.setString('phone_no', phone_no);
     prefs.setString('user_img', user_img);
     prefs.setBool('isUserLogin', true);
+    prefs.setBool('profile_updated', false);
 
     return status;
   } else if (status == 'fail_01' ||
@@ -659,6 +681,7 @@ Future<String> userAuthSignup(String email, String pass) async {
     prefs.setString('phone_no', phone_no);
     prefs.setString('user_img', user_img);
     prefs.setBool('isUserLogin', true);
+    prefs.setBool('profile_updated', false);
 
     return status;
   } else if (status == 'fail_01' ||
@@ -669,13 +692,40 @@ Future<String> userAuthSignup(String email, String pass) async {
   }
 }
 
-Future<bool> updateUserProfile(String name, String age, String phone,
-    File profileImg, String my_id) async {
+Future<String> userAuthRest(String email) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final uri = Uri.parse('$mainUrl/reset_password');
+
+  // print(email);
+  var response = await http.post(uri, body: {
+    'email': email,
+  });
+
+  // print(response.body);
+  Map<String, dynamic> j = json.decode(response.body);
+  String status = j['status'];
+
+  if (status == 'success') {
+    return status;
+  } else if (status == 'fail_01' ||
+      status == 'fail_02' ||
+      status == 'fail_03' ||
+      status == 'fail_04') {
+    return status;
+  }
+}
+
+Future<bool> updateUserProfile(
+    {String name,
+    String age,
+    String phone,
+    File profileImg,
+    String my_id}) async {
   //return forumCommentFromJson(response.body);
 
-  final uri = Uri.parse('$mainUrl/make_post/$my_id');
+  final uri = Uri.parse('$mainUrl/update_profile/$my_id');
   var request = http.MultipartRequest('POST', uri);
-  request.fields['full_nme'] = name;
+  request.fields['full_name'] = name;
   request.fields['age'] = age;
   request.fields['phone'] = phone;
 
@@ -685,6 +735,11 @@ Future<bool> updateUserProfile(String name, String age, String phone,
 
   var respond = await request.send();
   if (respond.statusCode == 200) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('full_name', name);
+    prefs.setString('age', age);
+    prefs.setString('phone_no', phone);
+    prefs.setBool('profile_updated', true);
     return true;
   } else {
     return false;

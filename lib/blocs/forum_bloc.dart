@@ -175,21 +175,28 @@ class ForumBloc extends Object with Validator implements BlocBase {
     forumCommentStreamController.sink.add(comment_data);
   }
 
-  postToComment(String id) async {
-    commentStatus = await makeCommentPost(
-        id, _mkcName.value, _mkcEmail.value, _mkcComment.value);
+  postToComment({String id, String my_id, String name, String email}) async {
+    commentStatus =
+        await makeCommentPost(id, name, email, _mkcComment.value, my_id);
 
     return commentStatus;
   }
 
-  postToPost(File postImage, File profileImage) async {
+  postToPost({
+    File postImage,
+    String my_id,
+    String full_name,
+    String email,
+    String profileImage,
+  }) async {
     commentStatus = await makePost(
-      _mkpName.value,
-      _mkpEmail.value,
-      _mkpTitle.value,
-      _mkpContent.value,
-      postImage,
-      profileImage,
+      postImg: postImage,
+      profileImg: profileImage,
+      name: full_name,
+      email: email,
+      title: _mkpTitle.value,
+      comment: _mkpContent.value,
+      my_id: my_id,
     );
 
     return commentStatus;

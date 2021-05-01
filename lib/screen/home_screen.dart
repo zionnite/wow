@@ -1,5 +1,8 @@
 import 'package:draggable_fab/draggable_fab.dart';
+// import 'package:fancy_dialog/fancy_dialog.dart';
+// import 'package:fancy_dialog/fancy_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wow/blocs/QouteBloc.dart';
 import 'package:wow/blocs/app_bloc.dart';
@@ -39,12 +42,14 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
   QuoteBloc quoteBloc;
   ForumBloc forumBloc;
   //final QuoteBloc allQuoteBloc = QuoteBloc();
+  bool isNewUpdate = true;
 
   bool _showStatus = false;
   String _statusMsg;
   TextEditingController searchTermController = TextEditingController();
 
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+  GlobalKey<ScaffoldState> fancyDialog = GlobalKey();
 
   String my_id, my_full_name, my_email, my_image;
 
@@ -71,6 +76,30 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
     forumBloc = BlocProvider.of<ForumBloc>(context);
     super.initState();
     _initUserDetail();
+  }
+
+  Widget showPop() {
+    showDialog(
+      context: context,
+      builder: (_) => NetworkGiffyDialog(
+        key: fancyDialog,
+        image: Image.network(
+          "https://raw.githubusercontent.com/Shashank02051997/FancyGifDialog-Android/master/GIF's/gif14.gif",
+          fit: BoxFit.cover,
+        ),
+        entryAnimation: EntryAnimation.TOP_LEFT,
+        title: Text(
+          'Granny Eating Chocolate',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w600),
+        ),
+        description: Text(
+          'This is a granny eating chocolate dialog box. This library helps you easily create fancy giffy dialog.',
+          textAlign: TextAlign.center,
+        ),
+        onOkButtonPressed: () {},
+      ),
+    );
   }
 
   @override
@@ -264,6 +293,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            //showPop(),
             Stack(
               children: [
                 ClipPath(
@@ -295,6 +325,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                                 children: [
                                   IconButton(
                                     onPressed: () {
+                                      showPop();
                                       _drawerKey.currentState.openDrawer();
                                     },
                                     icon: Icon(
@@ -860,6 +891,8 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                 ),
               ],
             ),
+
+            (isNewUpdate) ? Text('Hello') : Container(),
           ],
         ),
       ),
