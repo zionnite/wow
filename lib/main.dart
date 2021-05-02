@@ -22,6 +22,10 @@ import 'package:wow/screen/signup_screen.dart';
 import 'package:wow/screen/story_screen.dart';
 import 'package:wow/screen/update_user_profile.dart';
 import 'package:wow/screen/users_screen.dart';
+import 'package:wow/screen/view_dis_user_follower.dart';
+import 'package:wow/screen/view_dis_user_following.dart';
+import 'package:wow/screen/view_followers.dart';
+import 'package:wow/screen/view_following.dart';
 import 'package:wow/screen/view_user_profile_screen.dart';
 import 'package:wow/services/LoginChecker.dart';
 import 'package:wow/services/auth_services.dart';
@@ -43,10 +47,12 @@ import 'screen/login_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //prefs.remove("isUserLogin");
   var isUserLogin = prefs.getBool('isUserLogin');
+
+  // SystemChrome.setSystemUIOverlayStyle(
+  //   SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent),
+  // );
 
   runApp(BlocProvider(
     bloc: AppBloc(),
@@ -76,6 +82,10 @@ Future<void> main() async {
               ResetPassword.id: (context) => ResetPassword(),
               UpdateUserProfile.id: (context) => UpdateUserProfile(),
               AboutScreen.id: (context) => AboutScreen(),
+              ViewFollowers.id: (context) => ViewFollowers(),
+              ViewFollowing.id: (context) => ViewFollowing(),
+              ViewDisUserFollowers.id: (context) => ViewDisUserFollowers(),
+              ViewDisUserFollowing.id: (context) => ViewDisUserFollowing(),
             },
             home: isUserLogin == null ? LoginScreen() : Nav(),
           ),
@@ -100,7 +110,6 @@ class _MyAppState extends State<MyApp> {
     // ]);
 
     return MaterialApp(
-      // home: AuthService().handleAuth(),
       home: Nav(),
     );
   }

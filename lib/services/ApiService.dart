@@ -580,7 +580,6 @@ Future<String> toggle_follow_user({
 
 Future<List<UserProfile>> getAllUsersByPage(
     int current_page, String my_id) async {
-  print('my id is ${my_id}');
   final response = await http
       .get(Uri.parse('$mainUrl/get_users/$my_id/' + current_page.toString()));
   return userProfileFromJson(response.body);
@@ -748,4 +747,92 @@ Future<bool> updateUserProfile(
   } else {
     return false;
   }
+}
+
+//get App Current Version
+//get Android Store Link
+//get iOS Store Link
+//count my Follower
+//count my following
+//get all my followers
+//get all my following
+Future<int> count_my_followers(String my_id) async {
+  final response =
+      await http.get(Uri.parse('$mainUrl/count_my_followers/$my_id'));
+
+  Map<String, dynamic> j = json.decode(response.body);
+  int counter = j['counter'];
+  return counter;
+}
+
+Future<int> count_my_following(String my_id) async {
+  final response =
+      await http.get(Uri.parse('$mainUrl/count_my_following/$my_id'));
+
+  Map<String, dynamic> j = json.decode(response.body);
+  int counter = j['counter'];
+  return counter;
+}
+
+Future<List<UserProfile>> getAllUserFollowersByPage(
+    int current_page, String my_id) async {
+  print('my id is ${my_id}');
+  final response = await http.get(Uri.parse(
+      '$mainUrl/get_users_followers/$my_id/' + current_page.toString()));
+  return userProfileFromJson(response.body);
+}
+
+Future<List<UserProfile>> getAllUserFollowingByPage(
+    int current_page, String my_id) async {
+  final response = await http.get(Uri.parse(
+      '$mainUrl/get_users_following/$my_id/' + current_page.toString()));
+  return userProfileFromJson(response.body);
+}
+
+Future<List<UserProfile>> getAll_Dis_UserFollowersByPage(
+    int current_page, String my_id, String user_id) async {
+  final response = await http.get(Uri.parse(
+      '$mainUrl/get_dis_users_followers/$my_id/$user_id/' +
+          current_page.toString()));
+  print(user_id);
+  print(my_id);
+  return userProfileFromJson(response.body);
+}
+
+Future<List<UserProfile>> getAll_Dis_UserFollowingByPage(
+    int current_page, String my_id, String user_id) async {
+  final response = await http.get(Uri.parse(
+      '$mainUrl/get_dis_users_following/$my_id/$user_id/' +
+          current_page.toString()));
+  return userProfileFromJson(response.body);
+}
+
+// Future<List<Quote>> getMyFollowing(int current_page) async {
+//   final response = await http
+//       .get(Uri.parse('$mainUrl/get_my_following/' + current_page.toString()));
+//   return quoteFromJson(response.body);
+// }
+
+Future<int> isAppHasNewUpdate() async {
+  final response = await http.get(Uri.parse('$mainUrl/has_new_update/'));
+
+  Map<String, dynamic> j = json.decode(response.body);
+  int counter = j['counter'];
+  return counter;
+}
+
+Future<String> iosStoreLink() async {
+  final response = await http.get(Uri.parse('$mainUrl/ios_store_link/'));
+
+  Map<String, dynamic> j = json.decode(response.body);
+  String counter = j['link'];
+  return counter;
+}
+
+Future<String> androidStoreLink() async {
+  final response = await http.get(Uri.parse('$mainUrl/android_store_link/'));
+
+  Map<String, dynamic> j = json.decode(response.body);
+  String counter = j['link'];
+  return counter;
 }

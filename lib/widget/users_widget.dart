@@ -91,7 +91,8 @@ class _UsersWidgetState extends State<UsersWidget> {
                         backgroundColor: secondColor,
                         child: CircleAvatar(
                           radius: 49,
-                          backgroundImage: NetworkImage(widget.dis_user_img),
+                          backgroundImage:
+                              NetworkImage('${widget.dis_user_img}'),
                         ),
                       ),
                     ),
@@ -104,7 +105,7 @@ class _UsersWidgetState extends State<UsersWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.dis_user_full_name,
+                              '${widget.dis_user_full_name}',
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,

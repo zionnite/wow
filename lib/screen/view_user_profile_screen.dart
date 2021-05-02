@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wow/blocs/FollowBloc.dart';
+import 'package:wow/screen/view_dis_user_follower.dart';
+import 'package:wow/screen/view_dis_user_following.dart';
 import 'package:wow/widget/bio_detail_widget.dart';
 
 class ViewUserProfileScreen extends StatefulWidget {
@@ -175,7 +177,19 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                     children: [
                       Expanded(
                         child: MaterialButton(
-                          onPressed: null,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return ViewDisUserFollowers(
+                                    dis_full_name: widget.full_name,
+                                    dis_user_id: widget.user_id,
+                                  );
+                                },
+                              ),
+                            );
+                          },
                           child: Column(
                             children: [
                               Text(
@@ -214,7 +228,19 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                       ),
                       Expanded(
                         child: MaterialButton(
-                          onPressed: null,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return ViewDisUserFollowing(
+                                    dis_full_name: widget.full_name,
+                                    dis_user_id: widget.user_id,
+                                  );
+                                },
+                              ),
+                            );
+                          },
                           child: Column(
                             children: [
                               Text(

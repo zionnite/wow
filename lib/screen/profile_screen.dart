@@ -2,9 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wow/CustomShapeClipper.dart';
+import 'package:wow/blocs/FollowBloc.dart';
 import 'package:wow/bottom_navigation.dart';
 import 'package:wow/screen/login_screen.dart';
 import 'package:wow/screen/update_user_profile.dart';
+import 'package:wow/screen/view_followers.dart';
+import 'package:wow/screen/view_following.dart';
 import 'package:wow/services/auth_services.dart';
 import 'package:wow/utils.dart';
 import 'package:wow/widget/bio_detail_widget.dart';
@@ -16,8 +19,10 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String follower_counter;
-  String following_counter;
+  final followBloc = FollowBloc();
+
+  var follower_counter;
+  var following_counter;
   bool follow_status = true;
 
   String my_id,
@@ -51,28 +56,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    count_followers(user_id);
-    count_following(user_id);
+    count_followers();
+    count_following();
     _initUserDetail();
   }
 
-  count_followers(String user_id) async {
+  count_followers() async {
+    var flo_counter = await followBloc.handleMyFollowerCounter(user_id);
     new Future.delayed(new Duration(seconds: 4), () {
       if (mounted) {
         setState(() {
           follow_status = false;
-          follower_counter = '200';
+          follower_counter = flo_counter;
         });
       }
     });
   }
 
-  count_following(String user_id) async {
+  count_following() async {
+    var fl_counter = await followBloc.handleMyFollowingCounter(user_id);
     new Future.delayed(new Duration(seconds: 4), () {
       if (mounted) {
         setState(() {
           follow_status = false;
-          following_counter = '12';
+          following_counter = fl_counter;
         });
       }
     });
@@ -191,7 +198,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: MaterialButton(
                           onPressed: () {
                             setState(() {
-                              var i = '2';
+                              Navigator.pushNamed(context, ViewFollowers.id);
                             });
                           },
                           child: Column(
@@ -230,9 +237,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Expanded(
                         child: MaterialButton(
                           onPressed: () {
-                            setState(() {
-                              var i = '2';
-                            });
+                            Navigator.pushNamed(context, ViewFollowing.id);
                           },
                           child: Column(
                             children: [

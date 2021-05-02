@@ -4,8 +4,10 @@ import 'package:draggable_fab/draggable_fab.dart';
 // import 'package:fancy_dialog/fancy_dialog.dart';
 // import 'package:fancy_dialog/fancy_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wow/blocs/QouteBloc.dart';
 import 'package:wow/blocs/app_bloc.dart';
 import 'package:wow/blocs/bloc_provider.dart';
@@ -22,6 +24,7 @@ import 'package:wow/screen/search_result_screen.dart';
 import 'package:wow/screen/send_private_message.dart';
 import 'package:wow/screen/story_screen.dart';
 import 'package:wow/screen/users_screen.dart';
+import 'package:wow/services/ApiService.dart';
 import 'package:wow/services/user_details.dart';
 
 import 'package:wow/utils.dart';
@@ -81,8 +84,10 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
     _initUserDetail();
   }
 
-  Widget showPop() {
-    final int UPDATED_WOW_APP_VERSION = 2;
+  Future<Widget> showPop() async {
+    final int UPDATED_WOW_APP_VERSION = await isAppHasNewUpdate();
+    var AndroidAppLink = await iosStoreLink();
+    var iosAppLink = await iosStoreLink();
     if (UPDATED_WOW_APP_VERSION > CURRENT_WOW_APP_VERSION) {
       //if (3 > 3) {
       //print(CURRENT_WOW_APP_VERSION);
@@ -113,42 +118,42 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
       //     onOkButtonPressed: () {},
       //   ),
       // );
-    }
 
-    showDialog(
-      context: context,
-      builder: (_) => AssetGiffyDialog(
-        key: fancyDialog,
-        image: Image.asset(
-          'assets/images/updates.gif',
-          fit: BoxFit.cover,
-        ),
-        title: Text(
-          'New App Update!',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w600),
-        ),
-        entryAnimation: EntryAnimation.BOTTOM_RIGHT,
-        description: Text(
-          'New App Update is available on the Store, click on the Button to update to the new version',
-          textAlign: TextAlign.center,
-        ),
-        buttonOkText: Text(
-          'Update Now',
-          style: TextStyle(
-            color: Colors.white,
+      showDialog(
+        context: context,
+        builder: (_) => AssetGiffyDialog(
+          key: fancyDialog,
+          image: Image.asset(
+            'assets/images/updates.gif',
+            fit: BoxFit.cover,
           ),
+          title: Text(
+            'New App Update!',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w600),
+          ),
+          entryAnimation: EntryAnimation.BOTTOM_RIGHT,
+          description: Text(
+            'New App Update is available on the Store, click on the Button to update to the new version',
+            textAlign: TextAlign.center,
+          ),
+          buttonOkText: Text(
+            'Update Now',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          onOkButtonPressed: () {
+            if (Platform.isIOS) {
+              _launchUniversalLinkIos(iosAppLink);
+            }
+            if (Platform.isAndroid) {
+              _launchUniversalLinkIos(AndroidAppLink);
+            }
+          },
         ),
-        onOkButtonPressed: () {
-          if (Platform.isIOS) {
-            print('ios Clicked');
-          }
-          if (Platform.isAndroid) {
-            print('Android Clicked');
-          }
-        },
-      ),
-    );
+      );
+    }
   }
 
   @override
@@ -1006,5 +1011,29 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
         ],
       ),
     );
+  }
+}
+
+Future<void> _onOpen(LinkableElement link) async {
+  if (await canLaunch(link.url)) {
+    await launch(link.url);
+  } else {
+    throw 'Could not launch $link';
+  }
+}
+
+Future<void> _launchUniversalLinkIos(String url) async {
+  if (await canLaunch(url)) {
+    final bool nativeAppLaunchSucceeded = await launch(
+      url,
+      forceSafariVC: false,
+      universalLinksOnly: true,
+    );
+    if (!nativeAppLaunchSucceeded) {
+      await launch(
+        url,
+        forceSafariVC: true,
+      );
+    }
   }
 }
