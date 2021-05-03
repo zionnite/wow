@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wow/screen/login_screen.dart';
 
 import '../CustomShapeClipper.dart';
 import '../bottom_navigation.dart';
@@ -28,7 +29,15 @@ class appTitleWidget extends StatelessWidget {
                         if (Navigator.canPop(context)) {
                           Navigator.pop(context);
                         } else {
+                          //Navigator.pop(context);
+                          //Navigator.pop(context);
                           Navigator.popAndPushNamed(context, toNav);
+                          // Navigator.pushAndRemoveUntil(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (BuildContext context) => Nav()),
+                          //   ModalRoute.withName(Nav.id),
+                          // );
                         }
                       },
                       child: Column(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wow/blocs/UserAuthBloc.dart';
 import 'package:wow/model/Profile.dart';
 import 'package:wow/model/authModel.dart';
@@ -232,12 +233,14 @@ class _LoginScreenState extends State<LoginScreen> implements LoginPresenter {
 
                 var result = await userAuthLogin(this.email, this.password);
                 if (result == 'success') {
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.setBool('isUserLogin', true);
+
                   setState(() {
                     isLoading = false;
                   });
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => Nav()),
-                  );
+                  Navigator.pushReplacementNamed(context, Nav.id);
                 } else if (result == 'fail_01') {
                   setState(() {
                     isLoading = false;

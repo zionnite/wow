@@ -127,7 +127,8 @@ class _UsersScreenState extends State<UsersScreen> {
                         Icons.arrow_back_ios,
                         color: Colors.white,
                       ),
-                      onPressed: () => Navigator.pushNamed(context, Nav.id),
+                      onPressed: () =>
+                          Navigator.popAndPushNamed(context, Nav.id),
                     ),
                   ),
                   Container(
@@ -255,7 +256,7 @@ class _UsersScreenState extends State<UsersScreen> {
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Error occured: $error"),
+        Text("Error occurred: $error"),
       ],
     ));
   }

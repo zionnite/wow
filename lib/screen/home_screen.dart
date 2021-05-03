@@ -89,37 +89,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
     var AndroidAppLink = await iosStoreLink();
     var iosAppLink = await iosStoreLink();
     if (UPDATED_WOW_APP_VERSION > CURRENT_WOW_APP_VERSION) {
-      //if (3 > 3) {
-      //print(CURRENT_WOW_APP_VERSION);
-      // showDialog(
-      //   context: context,
-      //   builder: (_) => NetworkGiffyDialog(
-      //     key: fancyDialog,
-      //     image: Image.network(
-      //       "https://raw.githubusercontent.com/Shashank02051997/FancyGifDialog-Android/master/GIF's/gif14.gif",
-      //       fit: BoxFit.cover,
-      //     ),
-      //     entryAnimation: EntryAnimation.TOP_LEFT,
-      //     title: Text(
-      //       'New App Update!',
-      //       textAlign: TextAlign.center,
-      //       style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w600),
-      //     ),
-      //     description: Text(
-      //       'New App Update is available on the Store, click on the Button to update to the new version',
-      //       textAlign: TextAlign.center,
-      //     ),
-      //     buttonOkText: Text(
-      //       'Update Now',
-      //       style: TextStyle(
-      //         color: Colors.white,
-      //       ),
-      //     ),
-      //     onOkButtonPressed: () {},
-      //   ),
-      // );
-
-      showDialog(
+      return showDialog(
         context: context,
         builder: (_) => AssetGiffyDialog(
           key: fancyDialog,
@@ -365,7 +335,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            //showPop(),
+            // (mounted) ? showPop() : Container(),
             Stack(
               children: [
                 ClipPath(
@@ -969,7 +939,6 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                 ),
               ],
             ),
-
             (isNewUpdate) ? Text('Hello') : Container(),
           ],
         ),

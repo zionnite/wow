@@ -355,7 +355,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void logoutUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs?.clear();
-    Navigator.pushNamed(context, LoginScreen.id);
+    prefs.remove("isUserLogin");
+    //prefs?.clear();
+    // Navigator.pushNamed(context, LoginScreen.id);
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        LoginScreen.id, (Route<dynamic> route) => false);
   }
 }

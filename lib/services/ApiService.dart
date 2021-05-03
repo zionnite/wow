@@ -679,7 +679,7 @@ Future<String> userAuthSignup(String email, String pass) async {
     prefs.setString('email', emailAddres);
     prefs.setString('phone_no', phone_no);
     prefs.setString('user_img', user_img);
-    prefs.setBool('isUserLogin', true);
+    //prefs.setBool('isUserLogin', true);
     prefs.setBool('profile_updated', false);
 
     return status;

@@ -8,6 +8,7 @@ import 'package:wow/blocs/app_bloc.dart';
 import 'package:wow/blocs/bloc_provider.dart';
 import 'package:wow/blocs/forum_bloc.dart';
 import 'package:wow/bottom_navigation.dart';
+import 'package:wow/screen/OnBoardingScreen.dart';
 import 'package:wow/screen/about_screen.dart';
 import 'package:wow/screen/forum_detail_screen.dart';
 import 'package:wow/screen/forum_screen.dart';
@@ -49,7 +50,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var isUserLogin = prefs.getBool('isUserLogin');
+  var isFirstTime = prefs.getBool('isFirstTime');
 
+  // print('User Login ${isUserLogin}');
+  // print('User isFirstTime ${isFirstTime}');
   // SystemChrome.setSystemUIOverlayStyle(
   //   SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent),
   // );
@@ -87,13 +91,56 @@ Future<void> main() async {
               ViewDisUserFollowers.id: (context) => ViewDisUserFollowers(),
               ViewDisUserFollowing.id: (context) => ViewDisUserFollowing(),
             },
-            home: isUserLogin == null ? LoginScreen() : Nav(),
+            home:
+                isFirstTime == null ? OnBoardingScreen() : WowApp(isUserLogin),
+            // home: isUserLogin == null ? LoginScreen() : Nav(),
           ),
           // child: MyApp(),
         ),
       ),
     ),
   ));
+}
+
+class WowApp extends StatefulWidget {
+  var isUserLogin;
+
+  WowApp(this.isUserLogin);
+  @override
+  _WowAppState createState() => _WowAppState();
+}
+
+class _WowAppState extends State<WowApp> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: appTheme,
+      routes: {
+        HomeScreenTopPart.id: (context) => HomeScreenTopPart(),
+        QuoteScreen.id: (context) => QuoteScreen(),
+        ForumScreen.id: (context) => ForumScreen(),
+        Nav.id: (context) => Nav(),
+        ForumDetailScreen.id: (context) => ForumDetailScreen(),
+        QuoteDetailScreen.id: (context) => QuoteDetailScreen(),
+        SendPrivateMessage.id: (context) => SendPrivateMessage(),
+        ProfileScreen.id: (context) => ProfileScreen(),
+        StoryScreen.id: (context) => StoryScreen(),
+        ViewUserProfileScreen.id: (context) => ViewUserProfileScreen(),
+        UsersScreen.id: (context) => UsersScreen(),
+        LoginScreen.id: (context) => LoginScreen(),
+        RegistrationScreen.id: (context) => RegistrationScreen(),
+        ResetPassword.id: (context) => ResetPassword(),
+        UpdateUserProfile.id: (context) => UpdateUserProfile(),
+        AboutScreen.id: (context) => AboutScreen(),
+        ViewFollowers.id: (context) => ViewFollowers(),
+        ViewFollowing.id: (context) => ViewFollowing(),
+        ViewDisUserFollowers.id: (context) => ViewDisUserFollowers(),
+        ViewDisUserFollowing.id: (context) => ViewDisUserFollowing(),
+      },
+      home: widget.isUserLogin == null ? LoginScreen() : Nav(),
+    );
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -109,7 +156,39 @@ class _MyAppState extends State<MyApp> {
     //   DeviceOrientation.portraitDown,
     // ]);
 
+    Future<bool> _decideNav() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var isUserLogin = prefs.getBool('isUserLogin');
+
+      //print('UserStatus ${isUserLogin}');
+      return isUserLogin;
+    }
+
     return MaterialApp(
+      // debugShowCheckedModeBanner: false,
+      // theme: appTheme,
+      // routes: {
+      //   HomeScreenTopPart.id: (context) => HomeScreenTopPart(),
+      //   QuoteScreen.id: (context) => QuoteScreen(),
+      //   ForumScreen.id: (context) => ForumScreen(),
+      //   Nav.id: (context) => Nav(),
+      //   ForumDetailScreen.id: (context) => ForumDetailScreen(),
+      //   QuoteDetailScreen.id: (context) => QuoteDetailScreen(),
+      //   SendPrivateMessage.id: (context) => SendPrivateMessage(),
+      //   ProfileScreen.id: (context) => ProfileScreen(),
+      //   StoryScreen.id: (context) => StoryScreen(),
+      //   ViewUserProfileScreen.id: (context) => ViewUserProfileScreen(),
+      //   UsersScreen.id: (context) => UsersScreen(),
+      //   LoginScreen.id: (context) => LoginScreen(),
+      //   RegistrationScreen.id: (context) => RegistrationScreen(),
+      //   ResetPassword.id: (context) => ResetPassword(),
+      //   UpdateUserProfile.id: (context) => UpdateUserProfile(),
+      //   AboutScreen.id: (context) => AboutScreen(),
+      //   ViewFollowers.id: (context) => ViewFollowers(),
+      //   ViewFollowing.id: (context) => ViewFollowing(),
+      //   ViewDisUserFollowers.id: (context) => ViewDisUserFollowers(),
+      //   ViewDisUserFollowing.id: (context) => ViewDisUserFollowing(),
+      // },
       home: Nav(),
     );
   }
