@@ -126,94 +126,96 @@ class _UsersWidgetState extends State<UsersWidget> {
                   ],
                 ),
               ),
-              (widget.iFollow == false)
-                  ? InkWell(
-                      onTap: () async {
-                        // print('my id ${widget.my_id}');
-                        result = await followBloc.handleFollowUser(
-                          my_id: widget.my_id,
-                          user_id: widget.dis_user_id,
-                          context: context,
-                        );
-                        //print(result);
-                        if (result == 'following_true') {
-                          //print(result);
-                          setState(() {
-                            widget.iFollow = true;
-                            widget.dis_user_follower++;
-                            //print(_iFollow);
-                          });
-                        }
+              (widget.my_id != widget.dis_user_id)
+                  ? (widget.iFollow == false)
+                      ? InkWell(
+                          onTap: () async {
+                            // print('my id ${widget.my_id}');
+                            result = await followBloc.handleFollowUser(
+                              my_id: widget.my_id,
+                              user_id: widget.dis_user_id,
+                              context: context,
+                            );
+                            //print(result);
+                            if (result == 'following_true') {
+                              //print(result);
+                              setState(() {
+                                widget.iFollow = true;
+                                widget.dis_user_follower++;
+                                //print(_iFollow);
+                              });
+                            }
 
-                        if (result == 'unfollowing_true') {
-                          setState(() {
-                            widget.iFollow = false;
-                            widget.dis_user_follower--;
-                          });
-                        }
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(10),
-                            topLeft: Radius.circular(10),
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
+                            if (result == 'unfollowing_true') {
+                              setState(() {
+                                widget.iFollow = false;
+                                widget.dis_user_follower--;
+                              });
+                            }
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10.0),
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              'Follow',
+                              style: TextStyle(
+                                fontSize: 17.0,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
-                        ),
-                        child: Text(
-                          'Follow',
-                          style: TextStyle(
-                            fontSize: 17.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    )
-                  : InkWell(
-                      onTap: () async {
-                        result = await followBloc.handleFollowUser(
-                            my_id: widget.my_id,
-                            user_id: widget.dis_user_id,
-                            context: context);
+                        )
+                      : InkWell(
+                          onTap: () async {
+                            result = await followBloc.handleFollowUser(
+                                my_id: widget.my_id,
+                                user_id: widget.dis_user_id,
+                                context: context);
 
-                        //print(result);
-                        if (result == 'following_true') {
-                          setState(() {
-                            widget.iFollow = true;
-                            widget.dis_user_follower++;
-                          });
-                        }
+                            //print(result);
+                            if (result == 'following_true') {
+                              setState(() {
+                                widget.iFollow = true;
+                                widget.dis_user_follower++;
+                              });
+                            }
 
-                        if (result == 'unfollowing_true') {
-                          setState(() {
-                            widget.iFollow = false;
-                            widget.dis_user_follower--;
-                          });
-                        }
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(10),
-                            topLeft: Radius.circular(10),
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
+                            if (result == 'unfollowing_true') {
+                              setState(() {
+                                widget.iFollow = false;
+                                widget.dis_user_follower--;
+                              });
+                            }
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10.0),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              'Un Follow',
+                              style: TextStyle(
+                                fontSize: 17.0,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
-                        ),
-                        child: Text(
-                          'Un Follow',
-                          style: TextStyle(
-                            fontSize: 17.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
+                        )
+                  : Container(),
             ],
           ),
         ),

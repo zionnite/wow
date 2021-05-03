@@ -99,7 +99,7 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                         fit: BoxFit.cover,
                         colorFilter: new ColorFilter.mode(
                             Colors.black.withOpacity(0.5), BlendMode.darken),
-                        image: new NetworkImage(widget.user_img),
+                        image: new NetworkImage('${widget.user_img}'),
                       ),
                     ),
                     // child: CachedNetworkImage(
@@ -521,8 +521,8 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
             //TODO: // CHANGE USER NAME
             BioDetailWidget(
               user_name: 'wowApp${widget.user_id}',
-              user_full_name: widget.full_name,
-              age: widget.age,
+              user_full_name: '${widget.full_name}',
+              age: '${widget.age}',
             ),
           ],
         ),
