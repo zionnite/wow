@@ -5,6 +5,7 @@ import 'package:wow/blocs/bloc_provider.dart';
 import 'package:wow/blocs/forum_bloc.dart';
 import 'package:wow/model/Forum.dart';
 import 'package:wow/screen/forum_make_post.dart';
+import 'package:wow/screen/guide/ForumWidgetQuide.dart';
 import 'package:wow/screen/send_private_message.dart';
 import 'package:wow/services/ApiService.dart';
 import 'package:wow/utils.dart';
@@ -29,9 +30,11 @@ class _ForumScreenState extends State<ForumScreen> {
   bool isLoading = false;
 
   String my_id, my_full_name, my_email, my_image;
+  bool forum_quide;
 
   _initUserDetail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    var isForumQuide = prefs.getBool('forumQuide');
     var isUserLogin = prefs.getBool('isUserLogin');
     var user_id = prefs.getString('user_id');
     var user_full_name = prefs.getString('full_name');
@@ -43,6 +46,7 @@ class _ForumScreenState extends State<ForumScreen> {
       my_full_name = user_full_name;
       my_email = user_email;
       my_image = user_img;
+      forum_quide = isForumQuide;
     });
 
     forumBloc.forumPerPage(current_page, my_id);
@@ -231,6 +235,19 @@ class _ForumScreenState extends State<ForumScreen> {
                       }
                     }),
               ),
+              /*Display this when User is New and Needs a Quite*/
+              (forum_quide == null)
+                  ? ForumWidgetQuide(
+                      pick_id: '11',
+                      imageName:
+                          'https://osherwomen.com/gallary/images/fff95f1198b8ec1874d31b73c6bfa5ac.jpg',
+                      quoteTitle: 'How Forum Work',
+                      quoteDesc:
+                          'This Post is for you, as a guide to teach you how the forum works.\n\nYour Forum timeline is probably empty, All Posts that appear Here in your Timeline are post of USERS you FOLLOWED or the post you made but bear in mind that all post must conform to our privacy and Terms & Condition else your membership will be taken away from you.\n\nBy Registering on this App you agree to our Terms and Conditions',
+                      comment_counter: '0',
+                      author: 'wow App',
+                    )
+                  : Container(),
             ],
           ),
         ),

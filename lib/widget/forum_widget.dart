@@ -550,7 +550,7 @@ class _ForumWidgetState extends State<ForumWidget> {
         ),
       ),
       margin: EdgeInsets.symmetric(
-        horizontal: 9.0,
+        horizontal: 2.0,
         vertical: 9.0,
       ),
       height: 400.0,
