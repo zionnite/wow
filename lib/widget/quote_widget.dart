@@ -17,8 +17,8 @@ class QuoteWidget extends StatelessWidget {
         ),
       ),
       margin: EdgeInsets.symmetric(
-        horizontal: 9.0,
-        vertical: 9.0,
+        horizontal: 2.0,
+        vertical: 3.0,
       ),
       height: 500.0,
       width: double.infinity,

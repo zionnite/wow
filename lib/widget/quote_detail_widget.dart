@@ -136,7 +136,7 @@ class _QuoteDetailWidgetState extends State<QuoteDetailWidget> {
             ),
           ),
           margin: EdgeInsets.symmetric(
-            horizontal: 9.0,
+            horizontal: 2.0,
             vertical: 9.0,
           ),
           width: double.infinity,
