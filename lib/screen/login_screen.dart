@@ -294,29 +294,33 @@ class _LoginScreenState extends State<LoginScreen> implements LoginPresenter {
           ),
           SizedBox(height: 20.0),
           SizedBox(height: 25.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Not Register yet?'),
-              SizedBox(width: 5.0),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (context) => RegistrationScreen()),
-                  );
-                },
-                child: Text(
-                  'Register',
-                  style: TextStyle(
-                    color: greenColor,
-                    fontFamily: 'Trueno',
-                    decoration: TextDecoration.underline,
+          Padding(
+            padding: const EdgeInsets.only(bottom: 28.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Not Register yet?'),
+                SizedBox(width: 5.0),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => RegistrationScreen()),
+                    );
+                  },
+                  child: Text(
+                    'Register',
+                    style: TextStyle(
+                      color: greenColor,
+                      fontFamily: 'Trueno',
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
-                ),
-              )
-            ],
-          )
+                )
+              ],
+            ),
+          ),
+          SizedBox(height: 25.0),
         ],
       ),
     );

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wow/screen/login_screen.dart';
 
 import '../CustomShapeClipper.dart';
-import '../bottom_navigation.dart';
 import '../utils.dart';
 
 class appTitleWidget extends StatelessWidget {
@@ -29,15 +27,7 @@ class appTitleWidget extends StatelessWidget {
                         if (Navigator.canPop(context)) {
                           Navigator.pop(context);
                         } else {
-                          //Navigator.pop(context);
-                          //Navigator.pop(context);
                           Navigator.popAndPushNamed(context, toNav);
-                          // Navigator.pushAndRemoveUntil(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (BuildContext context) => Nav()),
-                          //   ModalRoute.withName(Nav.id),
-                          // );
                         }
                       },
                       child: Column(
@@ -48,13 +38,6 @@ class appTitleWidget extends StatelessWidget {
                             color: Colors.white,
                             size: 30.0,
                           ),
-                          // Text(
-                          //   'Go Back',
-                          //   style: TextStyle(
-                          //     fontSize: 22.0,
-                          //     fontWeight: FontWeight.bold,
-                          //   ),
-                          // ),
                         ],
                       ),
                     ),
@@ -63,13 +46,6 @@ class appTitleWidget extends StatelessWidget {
                 decoration: new BoxDecoration(
                   gradient:
                       new LinearGradient(colors: [firstColor, secondColor]),
-                  // boxShadow: [
-                  //   new BoxShadow(
-                  //     color: Colors.grey[500],
-                  //     blurRadius: 20.0,
-                  //     spreadRadius: 1.0,
-                  //   ),
-                  // ],
                 ),
               ),
               preferredSize: new Size(MediaQuery.of(context).size.width, 150.0),

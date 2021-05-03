@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wow/blocs/UserAuthBloc.dart';
 import 'package:wow/services/auth_services.dart';
+import 'package:wow/utils.dart';
 
 class ResetPassword extends StatefulWidget {
   static const String id = 'reset_screen';
@@ -70,7 +71,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                           height: 10.0,
                           width: 10.0,
                           decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: greenColor)))
+                              shape: BoxShape.circle, color: secondColor)))
                 ],
               )),
           (status)
@@ -190,8 +191,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                 height: 50.0,
                 child: Material(
                     borderRadius: BorderRadius.circular(25.0),
-                    shadowColor: Colors.greenAccent,
-                    color: greenColor,
+                    shadowColor: firstColor,
+                    color: secondColor,
                     elevation: 7.0,
                     child: Center(
                         child: (isLoading)

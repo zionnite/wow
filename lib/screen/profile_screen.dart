@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wow/CustomShapeClipper.dart';
 import 'package:wow/blocs/FollowBloc.dart';
 import 'package:wow/bottom_navigation.dart';
+import 'package:wow/screen/delete_my_account.dart';
 import 'package:wow/screen/login_screen.dart';
 import 'package:wow/screen/update_user_profile.dart';
 import 'package:wow/screen/view_followers.dart';
@@ -11,6 +12,7 @@ import 'package:wow/screen/view_following.dart';
 import 'package:wow/services/auth_services.dart';
 import 'package:wow/utils.dart';
 import 'package:wow/widget/bio_detail_widget.dart';
+import '../services/ApiService.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String id = 'profile_screen';
@@ -20,6 +22,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final followBloc = FollowBloc();
+  bool delete_status = false;
 
   var follower_counter;
   var following_counter;
@@ -45,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var user_age = prefs.getString('age');
 
     setState(() {
-      user_id = user_id1;
+      my_id = user_id1;
       user_name = user_id1;
       full_name = user_full_name;
       my_email = user_email;
@@ -322,28 +325,68 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             InkWell(
-              onTap: null,
+              onTap: () async {
+                setState(() {
+                  delete_status = true;
+                });
+                var result = await deleteMyAccount(my_id);
+                if (result) {
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.remove("isUserLogin");
+
+                  new Future.delayed(new Duration(seconds: 4), () {
+                    setState(() {
+                      delete_status = false;
+                    });
+
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        DeleteMyAccountScreen.id,
+                        (Route<dynamic> route) => false);
+                  });
+                } else {
+                  setState(() {
+                    delete_status = false;
+                  });
+
+                  final snacksBar = SnackBar(
+                    content: Text(
+                      'Could not perform operation, please try later!',
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                    ),
+                    //action: SnackBarAction(),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snacksBar);
+                }
+              },
               child: Card(
                 elevation: 4.0,
                 color: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      top: 5.0,
-                    ),
-                    height: 30.0,
-                    width: double.infinity,
-                    child: Text(
-                      'Delete Account',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 20.0,
-                        fontFamily: 'Raleway',
-                      ),
-                    ),
-                  ),
+                  child: (delete_status)
+                      ? CircularProgressIndicator(
+                          strokeWidth: 3,
+                          backgroundColor: Colors.red,
+                        )
+                      : Container(
+                          margin: EdgeInsets.only(
+                            top: 5.0,
+                          ),
+                          height: 30.0,
+                          width: double.infinity,
+                          child: Text(
+                            'Delete Account',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 20.0,
+                              fontFamily: 'Raleway',
+                            ),
+                          ),
+                        ),
                 ),
               ),
             ),
@@ -357,7 +400,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove("isUserLogin");
     //prefs?.clear();
-    // Navigator.pushNamed(context, LoginScreen.id);
     Navigator.of(context).pushNamedAndRemoveUntil(
         LoginScreen.id, (Route<dynamic> route) => false);
   }

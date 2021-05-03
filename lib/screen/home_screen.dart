@@ -86,7 +86,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
 
   Future<Widget> showPop() async {
     final int UPDATED_WOW_APP_VERSION = await isAppHasNewUpdate();
-    var AndroidAppLink = await iosStoreLink();
+    var AndroidAppLink = await androidStoreLink();
     var iosAppLink = await iosStoreLink();
     if (UPDATED_WOW_APP_VERSION > CURRENT_WOW_APP_VERSION) {
       return showDialog(
@@ -939,7 +939,6 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                 ),
               ],
             ),
-            (isNewUpdate) ? Text('Hello') : Container(),
           ],
         ),
       ),

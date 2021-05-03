@@ -836,3 +836,12 @@ Future<String> androidStoreLink() async {
   String counter = j['link'];
   return counter;
 }
+
+Future<bool> deleteMyAccount(my_id) async {
+  final response = await http.get(Uri.parse('$mainUrl/delete_account/$my_id'));
+
+  Map<String, dynamic> j = json.decode(response.body);
+  bool checker = j['status'];
+  // return true;
+  return checker;
+}

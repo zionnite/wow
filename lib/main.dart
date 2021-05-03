@@ -10,6 +10,7 @@ import 'package:wow/blocs/forum_bloc.dart';
 import 'package:wow/bottom_navigation.dart';
 import 'package:wow/screen/OnBoardingScreen.dart';
 import 'package:wow/screen/about_screen.dart';
+import 'package:wow/screen/delete_my_account.dart';
 import 'package:wow/screen/forum_detail_screen.dart';
 import 'package:wow/screen/forum_screen.dart';
 import 'package:wow/screen/home_screen.dart';
@@ -90,6 +91,7 @@ Future<void> main() async {
               ViewFollowing.id: (context) => ViewFollowing(),
               ViewDisUserFollowers.id: (context) => ViewDisUserFollowers(),
               ViewDisUserFollowing.id: (context) => ViewDisUserFollowing(),
+              DeleteMyAccountScreen.id: (context) => DeleteMyAccountScreen(),
             },
             home:
                 isFirstTime == null ? OnBoardingScreen() : WowApp(isUserLogin),
@@ -137,6 +139,7 @@ class _WowAppState extends State<WowApp> {
         ViewFollowing.id: (context) => ViewFollowing(),
         ViewDisUserFollowers.id: (context) => ViewDisUserFollowers(),
         ViewDisUserFollowing.id: (context) => ViewDisUserFollowing(),
+        DeleteMyAccountScreen.id: (context) => DeleteMyAccountScreen(),
       },
       home: widget.isUserLogin == null ? LoginScreen() : Nav(),
     );
