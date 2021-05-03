@@ -18,19 +18,27 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.201722520138-lbpg5bf80ip6u0ifim86sl8ptq0gv7d3</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Need Permission to function properly</string>
-
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Need Permission to function properly</string>
-
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app requires access to the photo library to in order to upload Profile Photo and Upload Your Forum Post Photos to your account, without allowing access to your photo library, App will not function properly </string>
-
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -50,16 +58,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.201722520138-lbpg5bf80ip6u0ifim86sl8ptq0gv7d3</string>
-			</array>
-		</dict>
-	</array>
 </dict>
 </plist>

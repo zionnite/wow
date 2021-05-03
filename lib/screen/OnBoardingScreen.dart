@@ -73,7 +73,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         PageViewModel(
           title: "Get Daily Inspiring Quote",
           body:
-              "We Know what it feel like to be depressed, rejected, lonely, & sad,that\'s why we are here to help give you comfort with our inspiring quote",
+              "We Know what it feels like to be depressed, rejected, lonely & sad - that's why we are here to help give you comfort with our inspiring quotes",
           image: _buildFullscrenImage(),
           decoration: pageDecoration.copyWith(
             contentMargin: const EdgeInsets.symmetric(horizontal: 16),
@@ -85,7 +85,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         PageViewModel(
           title: "Community",
           body:
-              "We are more concern about your well being and as a result we have a community of women you can express your grief, pains, and sadness to, We want you to talk to us ",
+              "We are more concerned about your well being and as a result we have a community of women to whom you can express your griefs, pains and sadness to. We want you to talk to us",
           image: Image.asset(
             'assets/images/forum.jpeg',
             fit: BoxFit.cover,
@@ -103,7 +103,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         PageViewModel(
           title: "Let There Be Happiness",
           body:
-              "Life is too short to be sad over, Come let\'s cheer you up, Login now and become part of the family",
+              "Life is too short to be sad over. Come let\'s cheer you up. Login now and become part of the family",
           image: Image.asset(
             'assets/images/joy.jpeg',
             fit: BoxFit.cover,
