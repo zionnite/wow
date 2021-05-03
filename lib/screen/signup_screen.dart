@@ -188,9 +188,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   setState(() {
                     isLoading = false;
                   });
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => Nav()),
-                  );
+
+                  Navigator.pushReplacementNamed(context, Nav.id);
                 } else if (result == 'fail_01') {
                   setState(() {
                     isLoading = false;
@@ -226,7 +225,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 SizedBox(height: 5.0),
                 GestureDetector(
                   onTap: () {
-                    //TODO: //TERMS and CONDITION
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => Terms_N_Conditions()));
                   },

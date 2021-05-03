@@ -88,6 +88,137 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
+  _showModalBottomSheetReport(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: 360.0,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0),
+              ),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 20.0,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: Text(
+                      'Are you sure you want to delete your account?',
+                      style: TextStyle(
+                        fontSize: 23.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 50.0,
+                          child: Material(
+                            borderRadius: BorderRadius.circular(25.0),
+                            shadowColor: Colors.green.shade300,
+                            color: Colors.green,
+                            elevation: 7.0,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Center(
+                                child: Text(
+                                  'No',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Trueno',
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            setState(() {
+                              delete_status = true;
+                            });
+
+                            var result = await deleteMyAccount(my_id);
+
+                            if (result) {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.remove("isUserLogin");
+
+                              new Future.delayed(new Duration(seconds: 4), () {
+                                setState(() {
+                                  delete_status = false;
+                                });
+
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                    DeleteMyAccountScreen.id,
+                                    (Route<dynamic> route) => false);
+                              });
+                            } else {
+                              setState(() {
+                                delete_status = false;
+                              });
+
+                              final snacksBar = SnackBar(
+                                content: Text(
+                                  'Could not perform operation, please try later!',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                //action: SnackBarAction(),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snacksBar);
+                            }
+                          },
+                          child: Container(
+                            height: 50.0,
+                            child: Material(
+                              borderRadius: BorderRadius.circular(25.0),
+                              shadowColor: Colors.redAccent.shade400,
+                              color: Colors.red,
+                              elevation: 7.0,
+                              child: Center(
+                                child: Text(
+                                  'Yes',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Trueno',
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -326,58 +457,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             InkWell(
               onTap: () async {
-                setState(() {
-                  delete_status = true;
-                });
-                var result = await deleteMyAccount(my_id);
-                if (result) {
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  prefs.remove("isUserLogin");
-
-                  new Future.delayed(new Duration(seconds: 4), () {
-                    setState(() {
-                      delete_status = false;
-                    });
-
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        DeleteMyAccountScreen.id,
-                        (Route<dynamic> route) => false);
-                  });
-                } else {
-                  setState(() {
-                    delete_status = false;
-                  });
-
-                  final snacksBar = SnackBar(
-                    content: Text(
-                      'Could not perform operation, please try later!',
-                      style: TextStyle(
-                        color: Colors.red,
-                      ),
-                    ),
-                    //action: SnackBarAction(),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snacksBar);
-                }
+                _showModalBottomSheetReport(context);
               },
               child: Card(
                 elevation: 4.0,
                 color: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: (delete_status)
-                      ? CircularProgressIndicator(
-                          strokeWidth: 3,
-                          backgroundColor: Colors.red,
-                        )
-                      : Container(
-                          margin: EdgeInsets.only(
-                            top: 5.0,
-                          ),
-                          height: 30.0,
-                          width: double.infinity,
-                          child: Text(
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      top: 5.0,
+                    ),
+                    height: 30.0,
+                    width: double.infinity,
+                    child: (delete_status)
+                        ? CircularProgressIndicator(
+                            backgroundColor: Colors.white,
+                            strokeWidth: 3,
+                          )
+                        : Text(
                             'Delete Account',
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -386,7 +484,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               fontFamily: 'Raleway',
                             ),
                           ),
-                        ),
+                  ),
                 ),
               ),
             ),
