@@ -99,30 +99,55 @@ class _UsersWidgetState extends State<UsersWidget> {
                     SizedBox(
                       width: 10,
                     ),
-                    Expanded(
-                      child: Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${widget.dis_user_full_name}',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Raleway',
+                    (widget.dis_user_full_name?.isEmpty ?? true)
+                        ? Expanded(
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'New User',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Raleway',
+                                    ),
+                                  ),
+                                  Text(
+                                    'new user',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontFamily: 'Raleway',
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            Text(
-                              '${widget.dis_user_age}yrs',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontFamily: 'Raleway',
+                          )
+                        : Expanded(
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${widget.dis_user_full_name}',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Raleway',
+                                    ),
+                                  ),
+                                  Text(
+                                    '${widget.dis_user_age}yrs',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontFamily: 'Raleway',
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
+                          ),
                   ],
                 ),
               ),

@@ -90,10 +90,10 @@ Future<bool> makeCommentPost(
   request.fields['forum_id'] = id;
   request.fields['user_id'] = my_id;
 
-  print('name ${name}');
-  print('email ${email}');
-  print('comment ${comment}');
-  print('my_id ${my_id}');
+  // print('name ${name}');
+  // print('email ${email}');
+  // print('comment ${comment}');
+  // print('my_id ${my_id}');
 
   var respond = await request.send();
   if (respond.statusCode == 200) {
@@ -113,12 +113,12 @@ Future<bool> makePost({
   String my_id,
 }) async {
   //return forumCommentFromJson(response.body);
-  print(name);
-  print(email);
-  print(title);
-  print(comment);
-  print(postImg);
-  print(profileImg);
+  // print(name);
+  // print(email);
+  // print(title);
+  // print(comment);
+  // print(postImg);
+  // print(profileImg);
 
   final uri = Uri.parse('$mainUrl/make_post');
   var request = http.MultipartRequest('POST', uri);
@@ -776,7 +776,7 @@ Future<int> count_my_following(String my_id) async {
 
 Future<List<UserProfile>> getAllUserFollowersByPage(
     int current_page, String my_id) async {
-  print('my id is ${my_id}');
+  // print('my id is ${my_id}');
   final response = await http.get(Uri.parse(
       '$mainUrl/get_users_followers/$my_id/' + current_page.toString()));
   return userProfileFromJson(response.body);
@@ -794,8 +794,8 @@ Future<List<UserProfile>> getAll_Dis_UserFollowersByPage(
   final response = await http.get(Uri.parse(
       '$mainUrl/get_dis_users_followers/$my_id/$user_id/' +
           current_page.toString()));
-  print(user_id);
-  print(my_id);
+  // print(user_id);
+  // print(my_id);
   return userProfileFromJson(response.body);
 }
 

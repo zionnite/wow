@@ -53,19 +53,23 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
 
   countUserFollower(String user_id) async {
     new Future.delayed(new Duration(seconds: 4), () {
-      setState(() {
-        follower_counter = widget.follower_count;
-        follow_status = false;
-      });
+      if (mounted) {
+        setState(() {
+          follower_counter = widget.follower_count;
+          follow_status = false;
+        });
+      }
     });
   }
 
   countUserFollowing(String user_id) async {
     new Future.delayed(new Duration(seconds: 4), () {
-      setState(() {
-        following_counter = widget.following_count;
-        follow_status = false;
-      });
+      if (mounted) {
+        setState(() {
+          following_counter = widget.following_count;
+          follow_status = false;
+        });
+      }
     });
 
     //print('Following ${follow_status}');
@@ -277,232 +281,236 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                 ),
               ],
             ),
-            (widget.iFollow == false)
-                ? InkWell(
-                    onTap: () async {
-                      result = await followBloc.handleFollowUser(
-                          my_id: widget.my_id,
-                          user_id: widget.user_id,
-                          context: context);
-                      //print(result);
-                      if (result == 'following_true') {
-                        //print(result);
-                        setState(() {
-                          widget.iFollow = true;
-                          follower_counter++;
-                          //print(_iFollow);
-                        });
-                      }
+            (widget.user_id != widget.my_id)
+                ? (widget.iFollow == false)
+                    ? InkWell(
+                        onTap: () async {
+                          result = await followBloc.handleFollowUser(
+                              my_id: widget.my_id,
+                              user_id: widget.user_id,
+                              context: context);
+                          //print(result);
+                          if (result == 'following_true') {
+                            //print(result);
+                            setState(() {
+                              widget.iFollow = true;
+                              follower_counter++;
+                              //print(_iFollow);
+                            });
+                          }
 
-                      if (result == 'unfollowing_true') {
-                        setState(() {
-                          widget.iFollow = false;
-                          follower_counter--;
-                        });
-                      }
-                    },
-                    child: (follow_status)
-                        ? Container(
-                            width: double.infinity,
-                            margin: EdgeInsets.only(
-                              left: 10,
-                              right: 10,
-                              bottom: 15.0,
-                            ),
-                            padding: EdgeInsets.all(
-                              15.0,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(10),
-                                topLeft: Radius.circular(10),
-                                bottomLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey,
-                                  offset: Offset(0.0, 5.5), //(x,y)
-                                  blurRadius: 6.0,
+                          if (result == 'unfollowing_true') {
+                            setState(() {
+                              widget.iFollow = false;
+                              follower_counter--;
+                            });
+                          }
+                        },
+                        child: (follow_status)
+                            ? Container(
+                                width: double.infinity,
+                                margin: EdgeInsets.only(
+                                  left: 10,
+                                  right: 10,
+                                  bottom: 15.0,
                                 ),
-                              ],
-                            ),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Loading...',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'NerkoOne',
+                                padding: EdgeInsets.all(
+                                  15.0,
                                 ),
-                              ),
-                            ),
-                          )
-                        : Container(
-                            width: double.infinity,
-                            margin: EdgeInsets.only(
-                              left: 10,
-                              right: 10,
-                              bottom: 15.0,
-                            ),
-                            padding: EdgeInsets.all(
-                              15.0,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(10),
-                                topLeft: Radius.circular(10),
-                                bottomLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey,
-                                  offset: Offset(0.0, 5.5), //(x,y)
-                                  blurRadius: 6.0,
-                                ),
-                              ],
-                            ),
-                            child: Align(
-                              alignment: Alignment.topCenter,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.thumb_up,
-                                    color: Colors.white,
+                                decoration: BoxDecoration(
+                                  color: Colors.green,
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(10),
+                                    topLeft: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10),
                                   ),
-                                  SizedBox(
-                                    width: 5.0,
-                                  ),
-                                  Text(
-                                    'Follow User',
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey,
+                                      offset: Offset(0.0, 5.5), //(x,y)
+                                      blurRadius: 6.0,
+                                    ),
+                                  ],
+                                ),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'Loading...',
                                     style: TextStyle(
-                                      fontSize: 17.0,
                                       color: Colors.white,
-                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'NerkoOne',
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                          ),
-                  )
-                : InkWell(
-                    onTap: () async {
-                      result = await followBloc.handleFollowUser(
-                          my_id: widget.my_id,
-                          user_id: widget.user_id,
-                          context: context);
-
-                      //print(result);
-                      if (result == 'following_true') {
-                        setState(() {
-                          widget.iFollow = true;
-                          follower_counter++;
-                        });
-                      }
-
-                      if (result == 'unfollowing_true') {
-                        setState(() {
-                          widget.iFollow = false;
-                          follower_counter--;
-                        });
-                      }
-                    },
-                    child: (follow_status)
-                        ? Container(
-                            width: double.infinity,
-                            margin: EdgeInsets.only(
-                              left: 10,
-                              right: 10,
-                              bottom: 15.0,
-                            ),
-                            padding: EdgeInsets.all(
-                              15.0,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(10),
-                                topLeft: Radius.circular(10),
-                                bottomLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey,
-                                  offset: Offset(0.0, 5.5), //(x,y)
-                                  blurRadius: 6.0,
                                 ),
-                              ],
-                            ),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Loading...',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'NerkoOne',
+                              )
+                            : Container(
+                                width: double.infinity,
+                                margin: EdgeInsets.only(
+                                  left: 10,
+                                  right: 10,
+                                  bottom: 15.0,
                                 ),
-                              ),
-                            ),
-                          )
-                        : Container(
-                            width: double.infinity,
-                            margin: EdgeInsets.only(
-                              left: 10,
-                              right: 10,
-                              bottom: 15.0,
-                            ),
-                            padding: EdgeInsets.all(
-                              15.0,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(10),
-                                topLeft: Radius.circular(10),
-                                bottomLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey,
-                                  offset: Offset(0.0, 5.5), //(x,y)
-                                  blurRadius: 6.0,
+                                padding: EdgeInsets.all(
+                                  15.0,
                                 ),
-                              ],
-                            ),
-                            child: Align(
-                              alignment: Alignment.topCenter,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.thumb_down,
-                                    color: Colors.white,
+                                decoration: BoxDecoration(
+                                  color: Colors.green,
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(10),
+                                    topLeft: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10),
                                   ),
-                                  SizedBox(
-                                    width: 5.0,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey,
+                                      offset: Offset(0.0, 5.5), //(x,y)
+                                      blurRadius: 6.0,
+                                    ),
+                                  ],
+                                ),
+                                child: Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.thumb_up,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(
+                                        width: 5.0,
+                                      ),
+                                      Text(
+                                        'Follow User',
+                                        style: TextStyle(
+                                          fontSize: 17.0,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    'UnFollow User',
+                                ),
+                              ),
+                      )
+                    : InkWell(
+                        onTap: () async {
+                          result = await followBloc.handleFollowUser(
+                              my_id: widget.my_id,
+                              user_id: widget.user_id,
+                              context: context);
+
+                          //print(result);
+                          if (result == 'following_true') {
+                            setState(() {
+                              widget.iFollow = true;
+                              follower_counter++;
+                            });
+                          }
+
+                          if (result == 'unfollowing_true') {
+                            setState(() {
+                              widget.iFollow = false;
+                              follower_counter--;
+                            });
+                          }
+                        },
+                        child: (follow_status)
+                            ? Container(
+                                width: double.infinity,
+                                margin: EdgeInsets.only(
+                                  left: 10,
+                                  right: 10,
+                                  bottom: 15.0,
+                                ),
+                                padding: EdgeInsets.all(
+                                  15.0,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.green,
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(10),
+                                    topLeft: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10),
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey,
+                                      offset: Offset(0.0, 5.5), //(x,y)
+                                      blurRadius: 6.0,
+                                    ),
+                                  ],
+                                ),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'Loading...',
                                     style: TextStyle(
-                                      fontSize: 17.0,
                                       color: Colors.white,
-                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'NerkoOne',
                                     ),
                                   ),
-                                ],
+                                ),
+                              )
+                            : Container(
+                                width: double.infinity,
+                                margin: EdgeInsets.only(
+                                  left: 10,
+                                  right: 10,
+                                  bottom: 15.0,
+                                ),
+                                padding: EdgeInsets.all(
+                                  15.0,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(10),
+                                    topLeft: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10),
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey,
+                                      offset: Offset(0.0, 5.5), //(x,y)
+                                      blurRadius: 6.0,
+                                    ),
+                                  ],
+                                ),
+                                child: Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.thumb_down,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(
+                                        width: 5.0,
+                                      ),
+                                      Text(
+                                        'UnFollow User',
+                                        style: TextStyle(
+                                          fontSize: 17.0,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                  ),
+                      )
+                : Container(),
             Padding(
               padding: const EdgeInsets.only(left: 15.0),
               child: Align(

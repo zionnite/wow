@@ -54,6 +54,9 @@ class _UsersScreenState extends State<UsersScreen> {
   void initState() {
     _initUserDetail();
     super.initState();
+
+    // userBloc.userPerPage(current_page, '27');
+    // _controller = ScrollController()..addListener(_scrollListener);
   }
 
   void _scrollListener() {
@@ -204,7 +207,7 @@ class _UsersScreenState extends State<UsersScreen> {
                     )
                   : Container(),
               StreamBuilder<List<UserProfile>>(
-                  stream: userBloc.perPageStream,
+                  stream: userBloc.userController.stream,
                   builder:
                       (context, AsyncSnapshot<List<UserProfile>> snapshot) {
                     if (snapshot.hasData) {
@@ -217,8 +220,8 @@ class _UsersScreenState extends State<UsersScreen> {
                         shrinkWrap: true,
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
-                          if (snapshot.data[index].systemId == null ||
-                              snapshot.data[index].systemId == '') {
+                          if (snapshot.data[index].userId == null ||
+                              snapshot.data[index].userId == '') {
                             //isLoading = false;
                             return Container();
                           }

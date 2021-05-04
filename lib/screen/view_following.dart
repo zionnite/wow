@@ -142,8 +142,8 @@ class _ViewFollowingState extends State<ViewFollowing> {
                         shrinkWrap: true,
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
-                          if (snapshot.data[index].systemId == null ||
-                              snapshot.data[index].systemId == '') {
+                          if (snapshot.data[index].userId == null ||
+                              snapshot.data[index].userId == '') {
                             //isLoading = false;
                             return Container();
                           }
