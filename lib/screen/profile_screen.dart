@@ -323,7 +323,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding: EdgeInsets.all(
                     20.0,
                   ),
-                  height: 100,
+                  height: 110,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -337,6 +337,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                           child: Column(
                             children: [
+                              Text(
+                                'View',
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
                               Text(
                                 'Followers',
                                 style: TextStyle(
@@ -375,6 +383,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                           child: Column(
                             children: [
+                              Text(
+                                'View',
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                               Text(
                                 'Following',
                                 style: TextStyle(

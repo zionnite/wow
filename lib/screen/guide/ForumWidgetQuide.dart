@@ -145,45 +145,46 @@ class _ForumWidgetQuideState extends State<ForumWidgetQuide> {
             ),
             Row(
               children: [
-                InkWell(
-                  onTap: () async {
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    prefs.setBool('forumQuide', true);
-                    Navigator.popAndPushNamed(context, UsersScreen.id);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        top: 10.0, left: 10.0, bottom: 10),
-                    child: Text(
-                      'Ok, Understood',
-                      style: TextStyle(
-                        fontSize: 17.0,
-                        color: firstColor,
+                Expanded(
+                  child: InkWell(
+                    onTap: () async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.setBool('forumQuide', true);
+                      Navigator.popAndPushNamed(context, UsersScreen.id);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 10.0, left: 10.0, bottom: 10),
+                      child: Text(
+                        'Ok, Understood',
+                        style: TextStyle(
+                          fontSize: 17.0,
+                          color: firstColor,
+                        ),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 30.0,
-                ),
-                InkWell(
-                  onTap: () async {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => Terms_N_Conditions(),
-                      ),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        top: 10.0, left: 10.0, bottom: 10),
-                    child: Text(
-                      'See Terms & Condition',
-                      style: TextStyle(
-                        fontSize: 17.0,
-                        color: Colors.redAccent,
-                        fontWeight: FontWeight.bold,
+                Expanded(
+                  child: InkWell(
+                    onTap: () async {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => Terms_N_Conditions(),
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 10.0, left: 10.0, bottom: 10),
+                      child: Text(
+                        'See Terms & Condition',
+                        style: TextStyle(
+                          fontSize: 17.0,
+                          color: Colors.redAccent,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),

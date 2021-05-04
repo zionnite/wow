@@ -174,7 +174,7 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                   padding: EdgeInsets.all(
                     20.0,
                   ),
-                  height: 100,
+                  height: 110,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -196,6 +196,14 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                           },
                           child: Column(
                             children: [
+                              Text(
+                                'View',
+                                style: TextStyle(
+                                  fontSize: 13.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
                               Text(
                                 'Followers',
                                 style: TextStyle(
@@ -247,6 +255,14 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                           },
                           child: Column(
                             children: [
+                              Text(
+                                'View',
+                                style: TextStyle(
+                                  fontSize: 13.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                               Text(
                                 'Following',
                                 style: TextStyle(

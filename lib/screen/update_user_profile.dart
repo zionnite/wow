@@ -365,7 +365,7 @@ class _UpdateUserProfileState extends State<UpdateUserProfile> {
             ),
           ),
           SizedBox(height: 20.0),
-          SizedBox(height: 25.0),
+          SizedBox(height: 200.0),
         ],
       ),
     );

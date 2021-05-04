@@ -189,7 +189,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     isLoading = false;
                   });
 
-                  Navigator.pushReplacementNamed(context, Nav.id);
+                  //Navigator.pushReplacementNamed(context, Nav.id);
+
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      Nav.id, (Route<dynamic> route) => false);
                 } else if (result == 'fail_01') {
                   setState(() {
                     isLoading = false;

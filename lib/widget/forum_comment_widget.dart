@@ -378,7 +378,7 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
         context: context,
         builder: (BuildContext context) {
           return Container(
-            height: 250.0,
+            height: 350.0,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
@@ -425,48 +425,72 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    MaterialButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      elevation: 4,
-                      color: Colors.redAccent,
-                      child: Text(
-                        'No, Cancel',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontFamily: 'Raleway',
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          height: 50,
+                          child: Material(
+                            borderRadius: BorderRadius.circular(25.0),
+                            shadowColor: Colors.red.shade300,
+                            color: Colors.red,
+                            elevation: 7.0,
+                            child: Center(
+                              child: Text(
+                                'No, Cancel',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0,
+                                  fontFamily: 'Raleway',
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    MaterialButton(
-                      onPressed: () async {
-                        await forumBloc.handleCommentBlockUser(
-                          id: widget.com_id,
-                          user: user,
-                          context: context,
-                        );
-                        Navigator.pop(context);
-                      },
-                      elevation: 4,
-                      color: Colors.green,
-                      child: Text(
-                        'Yes, Continue',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontFamily: 'Raleway',
+                      SizedBox(
+                        height: 10,
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          await forumBloc.handleCommentBlockUser(
+                            id: widget.com_id,
+                            user: user,
+                            context: context,
+                          );
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          height: 50,
+                          child: Material(
+                            borderRadius: BorderRadius.circular(25.0),
+                            shadowColor: Colors.green.shade300,
+                            color: Colors.green,
+                            elevation: 7.0,
+                            child: Center(
+                              child: Text(
+                                'Yes, Continue',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0,
+                                  fontFamily: 'Raleway',
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 )
               ],
             ),
@@ -479,7 +503,7 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
         context: context,
         builder: (BuildContext context) {
           return Container(
-            height: 200.0,
+            height: 350.0,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
@@ -514,49 +538,73 @@ class _ForumCommentWidgetState extends State<ForumCommentWidget> {
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    MaterialButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      elevation: 4,
-                      color: Colors.redAccent,
-                      child: Text(
-                        'No, Cancel',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontFamily: 'Raleway',
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          height: 50,
+                          child: Material(
+                            borderRadius: BorderRadius.circular(25.0),
+                            shadowColor: Colors.red.shade300,
+                            color: Colors.red,
+                            elevation: 7.0,
+                            child: Center(
+                              child: Text(
+                                'No, Cancel',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0,
+                                  fontFamily: 'Raleway',
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    MaterialButton(
-                      onPressed: () async {
-                        await forumBloc.handleDeleteComment(
-                          id: widget.com_id,
-                          user: user,
-                          context: context,
-                          forum_id: widget.forum_id,
-                        );
-                        Navigator.pop(context);
-                      },
-                      elevation: 4,
-                      color: Colors.green,
-                      child: Text(
-                        'Yes, Continue',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontFamily: 'Raleway',
+                      SizedBox(
+                        height: 10,
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          await forumBloc.handleDeleteComment(
+                            id: widget.com_id,
+                            user: user,
+                            context: context,
+                            forum_id: widget.forum_id,
+                          );
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          height: 50,
+                          child: Material(
+                            borderRadius: BorderRadius.circular(25.0),
+                            shadowColor: Colors.green.shade300,
+                            color: Colors.green,
+                            elevation: 7.0,
+                            child: Center(
+                              child: Text(
+                                'Yes, Continue',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0,
+                                  fontFamily: 'Raleway',
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 )
               ],
             ),
