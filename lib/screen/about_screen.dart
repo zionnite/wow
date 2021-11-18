@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wow/utils.dart';
 
 class AboutScreen extends StatefulWidget {
   static const String id = 'about_screen';
@@ -15,6 +16,7 @@ class _AboutScreenState extends State<AboutScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: secondColor,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -67,7 +69,7 @@ class _AboutScreenState extends State<AboutScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                'wow App is Developed by Osher Women, in Partnership with Comic Relief, Greatway Foundation & Next Step Initiative',
+                'This application was pioneered by Greatway Foundation, in Partnership with Comic Relief, Next Step Initiative & Community Fund',
                 style: TextStyle(
                   fontSize: 18.0,
                 ),
@@ -81,9 +83,43 @@ class _AboutScreenState extends State<AboutScreen> {
             SizedBox(
               height: 20,
             ),
+            // Row(
+            //   children: [
+            //     Expanded(
+            //       child: Padding(
+            //         padding: const EdgeInsets.all(20.0),
+            //         child: Image.asset(
+            //           'assets/images/great_way.png',
+            //           fit: BoxFit.cover,
+            //         ),
+            //       ),
+            //     ),
+            //     Expanded(
+            //       child: Padding(
+            //         padding: const EdgeInsets.all(20.0),
+            //         child: Image.asset(
+            //           'assets/images/next_step.png',
+            //           fit: BoxFit.cover,
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Image.asset('assets/images/great_way.png'),
+              child: Image.asset(
+                'assets/images/great_way.png',
+                fit: BoxFit.cover,
+                width: 300,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Image.asset(
+                'assets/images/next_step.png',
+                fit: BoxFit.cover,
+                width: 200,
+              ),
             ),
             SizedBox(
               height: 20,
@@ -91,15 +127,21 @@ class _AboutScreenState extends State<AboutScreen> {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Image.asset(
-                'assets/images/next_step.png',
-                fit: BoxFit.fitWidth,
+                'assets/images/comic_relief.png',
+                fit: BoxFit.cover,
+                width: 200,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.only(
+                top: 20.0,
+                left: 40,
+                right: 40,
+                bottom: 20,
+              ),
               child: Image.asset(
-                'assets/images/comic_relief.png',
-                fit: BoxFit.fitWidth,
+                'assets/images/com.jpeg',
+                fit: BoxFit.cover,
               ),
             ),
 
